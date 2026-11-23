@@ -1,0 +1,16 @@
+[project]
+name = "trading-local"
+version = "0.1.0"
+description = "Local LLM-assisted trading research and paper-trading platform"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-q -m 'not network and not ollama'"
+markers = [
+    "network: needs internet access (deselected by default; run with -m network)",
+    "ollama: needs the local Ollama server and GPU (deselected by default; run with -m ollama)",
+]
+filterwarnings = ["error::RuntimeWarning:trading_local"]

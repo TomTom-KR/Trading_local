@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="22" viewBox="0 0 66 48" fill="none" stroke-linecap="round" role="img" aria-label="Trading">
+  <!-- Three candlesticks with a rising tendency: up, down, up. Wicks in the text colour, bodies in the
+       platform's long/short colours (light theme / dark theme via light-dark()). -->
+  <path d="M12 6V45M33 3.5V37M54 2V31" stroke="currentColor" stroke-width="3.5"/>
+  <rect x="3.5" y="15" width="17" height="21" rx="3" style="fill:light-dark(#0e8a69,#259b7b)"/>
+  <rect x="24.5" y="9" width="17" height="17" rx="3" style="fill:light-dark(#d0402f,#dc5a47)"/>
+  <rect x="45.5" y="5" width="17" height="16" rx="3" style="fill:light-dark(#0e8a69,#259b7b)"/>
+</svg>

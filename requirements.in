@@ -1,0 +1,44 @@
+# Loose top-level requirements for the local trading platform (CPython 3.15, Windows).
+# Pin:      uv pip compile requirements.in -o requirements.txt --python c:/Development/Trading_local/.venv/Scripts/python.exe
+# Install:  uv pip install --python c:/Development/Trading_local/.venv/Scripts/python.exe -r requirements.txt
+
+# --- web service ---
+fastapi
+uvicorn[standard]          # Windows: httptools, websockets, watchfiles, python-dotenv, pyyaml, colorama (no uvloop)
+httpx                      # outgoing HTTP (also required by the ollama client)
+websockets
+orjson
+
+# --- config / validation ---
+pydantic
+pydantic-settings
+python-dotenv
+
+# --- data ---
+pandas
+numpy
+tzdata                     # REQUIRED on Windows: zoneinfo has no system tz database there
+exchange_calendars
+
+# --- market data / news ---
+yfinance
+curl_cffi
+protobuf
+feedparser
+beautifulsoup4
+lxml
+
+# --- LLM ---
+ollama
+
+# --- server-side charts (PNG for e-mail / vision model) ---
+matplotlib
+pillow
+mplfinance                 # optional (chart_render.py needs only matplotlib); if kept, `six` is mandatory:
+six                        # undeclared runtime dependency of mplfinance 0.12.10b0 (`from six.moves import zip`)
+
+# --- tests / dev ---
+pytest
+pytest-asyncio
+aiosmtpd                   # in-process SMTP sink for tests (no real e-mail)
+httpx2                     # starlette >= 1.x TestClient prefers httpx2; with plain httpx it emits StarletteDeprecationWarning

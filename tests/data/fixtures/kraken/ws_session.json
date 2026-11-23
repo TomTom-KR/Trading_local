@@ -1,0 +1,974 @@
+[
+ {
+  "recv": 1795389977.0812452,
+  "msg": {
+   "channel": "status",
+   "type": "update",
+   "data": [
+    {
+     "version": "2.0.10",
+     "system": "online",
+     "api_version": "v2",
+     "connection_id": 3414914002330072625,
+     "emergency": []
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389977.100159,
+  "msg": {
+   "method": "subscribe",
+   "req_id": 1,
+   "result": {
+    "channel": "ohlc",
+    "interval": 1,
+    "snapshot": true,
+    "symbol": "BTC/EUR",
+    "warnings": [
+     "timestamp is deprecated, use interval_begin"
+    ]
+   },
+   "success": true,
+   "time_in": "2026-11-22T23:26:18.011184Z",
+   "time_out": "2026-11-22T23:26:18.011237Z"
+  }
+ },
+ {
+  "recv": 1795389977.10018,
+  "msg": {
+   "method": "subscribe",
+   "req_id": 1,
+   "result": {
+    "channel": "ohlc",
+    "interval": 1,
+    "snapshot": true,
+    "symbol": "LTC/EUR",
+    "warnings": [
+     "timestamp is deprecated, use interval_begin"
+    ]
+   },
+   "success": true,
+   "time_in": "2026-11-22T23:26:18.011184Z",
+   "time_out": "2026-11-22T23:26:18.011237Z"
+  }
+ },
+ {
+  "recv": 1795389977.1001909,
+  "msg": {
+   "method": "subscribe",
+   "req_id": 1,
+   "result": {
+    "channel": "ohlc",
+    "interval": 1,
+    "snapshot": true,
+    "symbol": "DOT/EUR",
+    "warnings": [
+     "timestamp is deprecated, use interval_begin"
+    ]
+   },
+   "success": true,
+   "time_in": "2026-11-22T23:26:18.011184Z",
+   "time_out": "2026-11-22T23:26:18.011237Z"
+  }
+ },
+ {
+  "recv": 1795389977.1006002,
+  "msg": {
+   "channel": "ohlc",
+   "type": "snapshot",
+   "timestamp": "2026-11-22T23:26:18.011289115Z",
+   "data": [
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.35,
+     "high": 36.36,
+     "low": 36.35,
+     "close": 36.36,
+     "trades": 2,
+     "volume": 1.26695605,
+     "vwap": 36.35,
+     "interval_begin": "2026-11-22T23:13:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:14:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.38,
+     "high": 36.38,
+     "low": 36.36,
+     "close": 36.36,
+     "trades": 2,
+     "volume": 2.85581689,
+     "vwap": 36.37,
+     "interval_begin": "2026-11-22T23:14:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:15:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.44,
+     "high": 36.44,
+     "low": 36.44,
+     "close": 36.44,
+     "trades": 1,
+     "volume": 0.77491798,
+     "vwap": 36.44,
+     "interval_begin": "2026-11-22T23:15:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:16:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.45,
+     "high": 36.45,
+     "low": 36.45,
+     "close": 36.45,
+     "trades": 1,
+     "volume": 5.47137955,
+     "vwap": 36.45,
+     "interval_begin": "2026-11-22T23:16:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:17:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.48,
+     "high": 36.48,
+     "low": 36.48,
+     "close": 36.48,
+     "trades": 2,
+     "volume": 0.60452414,
+     "vwap": 36.48,
+     "interval_begin": "2026-11-22T23:19:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:20:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.54,
+     "high": 36.54,
+     "low": 36.54,
+     "close": 36.54,
+     "trades": 1,
+     "volume": 0.16635843,
+     "vwap": 36.54,
+     "interval_begin": "2026-11-22T23:21:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:22:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.48,
+     "high": 36.48,
+     "low": 36.48,
+     "close": 36.48,
+     "trades": 1,
+     "volume": 0.18570015,
+     "vwap": 36.48,
+     "interval_begin": "2026-11-22T23:22:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:23:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.52,
+     "high": 36.52,
+     "low": 36.49,
+     "close": 36.49,
+     "trades": 2,
+     "volume": 13.94117428,
+     "vwap": 36.49,
+     "interval_begin": "2026-11-22T23:24:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:25:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.49,
+     "high": 36.49,
+     "low": 36.47,
+     "close": 36.47,
+     "trades": 3,
+     "volume": 0.71659061,
+     "vwap": 36.47,
+     "interval_begin": "2026-11-22T23:25:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:26:00.000000Z"
+    },
+    {
+     "symbol": "LTC/EUR",
+     "open": 36.48,
+     "high": 36.48,
+     "low": 36.48,
+     "close": 36.48,
+     "trades": 1,
+     "volume": 12.31967746,
+     "vwap": 36.48,
+     "interval_begin": "2026-11-22T23:26:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:27:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389977.1006503,
+  "msg": {
+   "channel": "ohlc",
+   "type": "snapshot",
+   "timestamp": "2026-11-22T23:26:18.011348245Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55543.6,
+     "high": 55647.4,
+     "low": 55540.4,
+     "close": 55647.4,
+     "trades": 14,
+     "volume": 0.42698516,
+     "vwap": 55629.2,
+     "interval_begin": "2026-11-22T23:17:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:18:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55612.3,
+     "high": 55652.1,
+     "low": 55581.9,
+     "close": 55601.7,
+     "trades": 23,
+     "volume": 0.37341653,
+     "vwap": 55605.9,
+     "interval_begin": "2026-11-22T23:18:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:19:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55598.8,
+     "high": 55620.5,
+     "low": 55588.1,
+     "close": 55601.8,
+     "trades": 14,
+     "volume": 0.18754553,
+     "vwap": 55600.4,
+     "interval_begin": "2026-11-22T23:19:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:20:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55613.9,
+     "high": 55658.7,
+     "low": 55611.2,
+     "close": 55611.2,
+     "trades": 21,
+     "volume": 0.39625491,
+     "vwap": 55636.7,
+     "interval_begin": "2026-11-22T23:20:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:21:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55647.1,
+     "high": 55647.1,
+     "low": 55600.0,
+     "close": 55600.0,
+     "trades": 5,
+     "volume": 0.04335793,
+     "vwap": 55604.4,
+     "interval_begin": "2026-11-22T23:21:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:22:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55581.6,
+     "high": 55632.7,
+     "low": 55558.3,
+     "close": 55632.7,
+     "trades": 16,
+     "volume": 0.17794233,
+     "vwap": 55581.9,
+     "interval_begin": "2026-11-22T23:22:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:23:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55619.3,
+     "high": 55635.4,
+     "low": 55619.2,
+     "close": 55631.4,
+     "trades": 8,
+     "volume": 0.04798127,
+     "vwap": 55624.3,
+     "interval_begin": "2026-11-22T23:23:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:24:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55604.5,
+     "high": 55604.5,
+     "low": 55597.4,
+     "close": 55600.0,
+     "trades": 8,
+     "volume": 0.13220311,
+     "vwap": 55602.5,
+     "interval_begin": "2026-11-22T23:24:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:25:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55566.4,
+     "high": 55587.3,
+     "low": 55566.4,
+     "close": 55568.5,
+     "trades": 7,
+     "volume": 0.00951218,
+     "vwap": 55568.8,
+     "interval_begin": "2026-11-22T23:25:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:26:00.000000Z"
+    },
+    {
+     "symbol": "BTC/EUR",
+     "open": 55567.3,
+     "high": 55567.3,
+     "low": 55567.3,
+     "close": 55567.3,
+     "trades": 2,
+     "volume": 0.00357203,
+     "vwap": 55567.3,
+     "interval_begin": "2026-11-22T23:26:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:27:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389977.1010842,
+  "msg": {
+   "channel": "ohlc",
+   "type": "snapshot",
+   "timestamp": "2026-11-22T23:26:18.011590383Z",
+   "data": [
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.6017,
+     "high": 0.6017,
+     "low": 0.6017,
+     "close": 0.6017,
+     "trades": 1,
+     "volume": 35.178392,
+     "vwap": 0.6017,
+     "interval_begin": "2026-11-22T22:10:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T22:11:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.6028,
+     "high": 0.6028,
+     "low": 0.6028,
+     "close": 0.6028,
+     "trades": 1,
+     "volume": 222.87097096,
+     "vwap": 0.6028,
+     "interval_begin": "2026-11-22T22:13:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T22:14:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.599,
+     "high": 0.599,
+     "low": 0.599,
+     "close": 0.599,
+     "trades": 1,
+     "volume": 100.0,
+     "vwap": 0.599,
+     "interval_begin": "2026-11-22T22:24:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T22:25:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.5983,
+     "high": 0.5983,
+     "low": 0.5983,
+     "close": 0.5983,
+     "trades": 1,
+     "volume": 25.0,
+     "vwap": 0.5983,
+     "interval_begin": "2026-11-22T22:26:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T22:27:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.5992,
+     "high": 0.5992,
+     "low": 0.5992,
+     "close": 0.5992,
+     "trades": 1,
+     "volume": 100.0,
+     "vwap": 0.5992,
+     "interval_begin": "2026-11-22T22:34:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T22:35:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.599,
+     "high": 0.599,
+     "low": 0.599,
+     "close": 0.599,
+     "trades": 1,
+     "volume": 100.0,
+     "vwap": 0.599,
+     "interval_begin": "2026-11-22T22:53:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T22:54:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.5994,
+     "high": 0.5994,
+     "low": 0.5994,
+     "close": 0.5994,
+     "trades": 1,
+     "volume": 130.0,
+     "vwap": 0.5994,
+     "interval_begin": "2026-11-22T22:54:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T22:55:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.6001,
+     "high": 0.6001,
+     "low": 0.5994,
+     "close": 0.5994,
+     "trades": 6,
+     "volume": 3603.553089,
+     "vwap": 0.5998,
+     "interval_begin": "2026-11-22T23:00:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:01:00.000000Z"
+    },
+    {
+     "symbol": "DOT/EUR",
+     "open": 0.5998,
+     "high": 0.5998,
+     "low": 0.5998,
+     "close": 0.5998,
+     "trades": 1,
+     "volume": 379.9,
+     "vwap": 0.5998,
+     "interval_begin": "2026-11-22T23:15:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:16:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389977.1051774,
+  "msg": {
+   "method": "subscribe",
+   "req_id": 2,
+   "result": {
+    "channel": "ticker",
+    "event_trigger": "trades",
+    "snapshot": true,
+    "symbol": "BTC/EUR"
+   },
+   "success": true,
+   "time_in": "2026-11-22T23:26:18.016090Z",
+   "time_out": "2026-11-22T23:26:18.016121Z"
+  }
+ },
+ {
+  "recv": 1795389977.105197,
+  "msg": {
+   "method": "subscribe",
+   "req_id": 2,
+   "result": {
+    "channel": "ticker",
+    "event_trigger": "trades",
+    "snapshot": true,
+    "symbol": "LTC/EUR"
+   },
+   "success": true,
+   "time_in": "2026-11-22T23:26:18.016090Z",
+   "time_out": "2026-11-22T23:26:18.016121Z"
+  }
+ },
+ {
+  "recv": 1795389977.1052074,
+  "msg": {
+   "method": "subscribe",
+   "req_id": 2,
+   "result": {
+    "channel": "ticker",
+    "event_trigger": "trades",
+    "snapshot": true,
+    "symbol": "DOT/EUR"
+   },
+   "success": true,
+   "time_in": "2026-11-22T23:26:18.016090Z",
+   "time_out": "2026-11-22T23:26:18.016121Z"
+  }
+ },
+ {
+  "recv": 1795389977.1052163,
+  "msg": {
+   "error": "Currency pair not supported NOPE/EUR",
+   "method": "subscribe",
+   "req_id": 3,
+   "success": false,
+   "symbol": "NOPE/EUR",
+   "time_in": "2026-11-22T23:26:18.016148Z",
+   "time_out": "2026-11-22T23:26:18.016160Z"
+  }
+ },
+ {
+  "recv": 1795389977.1056128,
+  "msg": {
+   "channel": "ticker",
+   "type": "snapshot",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55545.9,
+     "bid_qty": 0.02937,
+     "ask": 55553.9,
+     "ask_qty": 0.05073996,
+     "last": 55567.3,
+     "volume": 596.54210893,
+     "vwap": 55190.1,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 638.1,
+     "change_pct": 1.16,
+     "trades": 20999,
+     "timestamp": "2026-11-22T23:26:16.393564Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389977.1056323,
+  "msg": {
+   "channel": "ticker",
+   "type": "snapshot",
+   "data": [
+    {
+     "symbol": "DOT/EUR",
+     "bid": 0.6,
+     "bid_qty": 1893.1123988,
+     "ask": 0.6004,
+     "ask_qty": 10.32083437,
+     "last": 0.5998,
+     "volume": 172376.16243978,
+     "vwap": 0.5991,
+     "low": 0.585,
+     "high": 0.6081,
+     "change": 0.0043,
+     "change_pct": 0.72,
+     "trades": 466,
+     "timestamp": "2026-11-22T23:26:14.571605Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389977.105646,
+  "msg": {
+   "channel": "ticker",
+   "type": "snapshot",
+   "data": [
+    {
+     "symbol": "LTC/EUR",
+     "bid": 36.47,
+     "bid_qty": 21.83008914,
+     "ask": 36.49,
+     "ask_qty": 89.29821446,
+     "last": 36.48,
+     "volume": 21703.87831629,
+     "vwap": 36.26,
+     "low": 35.47,
+     "high": 36.67,
+     "change": 0.2,
+     "change_pct": 0.55,
+     "trades": 3196,
+     "timestamp": "2026-11-22T23:26:14.398012Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389977.5879076,
+  "msg": {
+   "channel": "heartbeat"
+  }
+ },
+ {
+  "recv": 1795389978.5868337,
+  "msg": {
+   "channel": "heartbeat"
+  }
+ },
+ {
+  "recv": 1795389985.111101,
+  "msg": {
+   "channel": "ticker",
+   "type": "update",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55556.3,
+     "bid_qty": 0.07192338,
+     "ask": 55565.8,
+     "ask_qty": 0.05073996,
+     "last": 55565.8,
+     "volume": 596.55011586,
+     "vwap": 55190.1,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 639.0,
+     "change_pct": 1.16,
+     "trades": 20999,
+     "timestamp": "2026-11-22T23:26:26.020093Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389985.1111395,
+  "msg": {
+   "channel": "ohlc",
+   "type": "update",
+   "timestamp": "2026-11-22T23:26:26.020093320Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55567.3,
+     "high": 55567.3,
+     "low": 55565.8,
+     "close": 55565.8,
+     "trades": 3,
+     "volume": 0.01248759,
+     "vwap": 55566.2,
+     "interval_begin": "2026-11-22T23:26:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:27:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795389987.6309512,
+  "msg": {
+   "method": "pong",
+   "req_id": 11,
+   "time_in": "2026-11-22T23:26:28.542455Z",
+   "time_out": "2026-11-22T23:26:28.542467Z"
+  }
+ },
+ {
+  "recv": 1795390006.8626924,
+  "msg": {
+   "channel": "ticker",
+   "type": "update",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55596.2,
+     "bid_qty": 0.0029,
+     "ask": 55605.3,
+     "ask_qty": 0.05073996,
+     "last": 55596.2,
+     "volume": 596.30175436,
+     "vwap": 55190.2,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 657.9,
+     "change_pct": 1.2,
+     "trades": 20999,
+     "timestamp": "2026-11-22T23:26:47.767740Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390006.8627253,
+  "msg": {
+   "channel": "ohlc",
+   "type": "update",
+   "timestamp": "2026-11-22T23:26:47.767740740Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55567.3,
+     "high": 55596.2,
+     "low": 55565.8,
+     "close": 55596.2,
+     "trades": 4,
+     "volume": 0.01322909,
+     "vwap": 55567.9,
+     "interval_begin": "2026-11-22T23:26:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:27:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390030.5094523,
+  "msg": {
+   "channel": "ticker",
+   "type": "update",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55545.8,
+     "bid_qty": 0.02937,
+     "ask": 55560.6,
+     "ask_qty": 0.05073996,
+     "last": 55545.7,
+     "volume": 596.33683455,
+     "vwap": 55190.2,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 608.7,
+     "change_pct": 1.11,
+     "trades": 21000,
+     "timestamp": "2026-11-22T23:27:11.320046Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390030.5095046,
+  "msg": {
+   "channel": "ohlc",
+   "type": "update",
+   "timestamp": "2026-11-22T23:27:11.320046968Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55545.8,
+     "high": 55545.8,
+     "low": 55545.7,
+     "close": 55545.7,
+     "trades": 2,
+     "volume": 0.03598737,
+     "vwap": 55545.7,
+     "interval_begin": "2026-11-22T23:27:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:28:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390037.9681573,
+  "msg": {
+   "channel": "ticker",
+   "type": "update",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55566.1,
+     "bid_qty": 0.1539,
+     "ask": 55573.0,
+     "ask_qty": 0.05073996,
+     "last": 55573.0,
+     "volume": 596.33835175,
+     "vwap": 55190.2,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 636.0,
+     "change_pct": 1.16,
+     "trades": 21001,
+     "timestamp": "2026-11-22T23:27:18.878521Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390037.9682038,
+  "msg": {
+   "channel": "ohlc",
+   "type": "update",
+   "timestamp": "2026-11-22T23:27:18.878521188Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55545.8,
+     "high": 55573.0,
+     "low": 55545.7,
+     "close": 55573.0,
+     "trades": 3,
+     "volume": 0.03750457,
+     "vwap": 55546.8,
+     "interval_begin": "2026-11-22T23:27:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:28:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390039.358169,
+  "msg": {
+   "channel": "ticker",
+   "type": "update",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55553.1,
+     "bid_qty": 0.30962157,
+     "ask": 55572.9,
+     "ask_qty": 0.03484576,
+     "last": 55572.9,
+     "volume": 596.35454669,
+     "vwap": 55190.2,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 635.9,
+     "change_pct": 1.16,
+     "trades": 21002,
+     "timestamp": "2026-11-22T23:27:20.268811Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390039.3582647,
+  "msg": {
+   "channel": "ohlc",
+   "type": "update",
+   "timestamp": "2026-11-22T23:27:20.268811322Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55545.8,
+     "high": 55573.0,
+     "low": 55545.7,
+     "close": 55572.9,
+     "trades": 4,
+     "volume": 0.05369951,
+     "vwap": 55554.7,
+     "interval_begin": "2026-11-22T23:27:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:28:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390043.4121642,
+  "msg": {
+   "channel": "ticker",
+   "type": "update",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55558.2,
+     "bid_qty": 0.02937,
+     "ask": 55568.3,
+     "ask_qty": 0.0085,
+     "last": 55558.1,
+     "volume": 596.38854911,
+     "vwap": 55190.3,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 621.1,
+     "change_pct": 1.13,
+     "trades": 21004,
+     "timestamp": "2026-11-22T23:27:24.319054Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390043.4121985,
+  "msg": {
+   "channel": "ohlc",
+   "type": "update",
+   "timestamp": "2026-11-22T23:27:24.319054974Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55545.8,
+     "high": 55573.0,
+     "low": 55545.7,
+     "close": 55558.1,
+     "trades": 6,
+     "volume": 0.08770193,
+     "vwap": 55556.0,
+     "interval_begin": "2026-11-22T23:27:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:28:00.000000Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390053.3970096,
+  "msg": {
+   "channel": "ticker",
+   "type": "update",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "bid": 55557.1,
+     "bid_qty": 0.02937,
+     "ask": 55572.7,
+     "ask_qty": 0.12721337,
+     "last": 55556.1,
+     "volume": 596.42654481,
+     "vwap": 55190.3,
+     "low": 53577.8,
+     "high": 56227.2,
+     "change": 619.1,
+     "change_pct": 1.13,
+     "trades": 21006,
+     "timestamp": "2026-11-22T23:27:34.305143Z"
+    }
+   ]
+  }
+ },
+ {
+  "recv": 1795390053.3970459,
+  "msg": {
+   "channel": "ohlc",
+   "type": "update",
+   "timestamp": "2026-11-22T23:27:34.305143798Z",
+   "data": [
+    {
+     "symbol": "BTC/EUR",
+     "open": 55545.8,
+     "high": 55573.0,
+     "low": 55545.7,
+     "close": 55556.1,
+     "trades": 8,
+     "volume": 0.12569763,
+     "vwap": 55556.3,
+     "interval_begin": "2026-11-22T23:27:00.000000000Z",
+     "interval": 1,
+     "timestamp": "2026-11-22T23:28:00.000000Z"
+    }
+   ]
+  }
+ }
+]

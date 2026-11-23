@@ -1,0 +1,2755 @@
+{
+"_note": "Hand-labelled real headline/symbol pairs of the news probe (tuning sample v1 and held-out sample). correct=false: the alias did not denote the instrument (fixed since). role: expected role with the current alias table. missed: headlines whose instrument the first alias table missed (fixed since).",
+"pairs": [
+{
+"title": "Shorting Chinese stocks seen as second-most crowded trade, survey of fund managers finds",
+"symbol": "000001.SS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Aktien: Chinas Börsen lockern Regeln für Wertpapierkredite",
+"symbol": "000001.SS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Chinese shares open lower Tuesday",
+"symbol": "000001.SS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SK hynix mulls converting Kioxia-related bonds into shares: sources",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "(LEAD) SK hynix to convert Kioxia-related bonds into shares",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Samsung, SK hynix tumble as analysts split on chip outlook",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Samsung names new memory, mobile chiefs as chips sweep promotions",
+"symbol": "005930.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Samsung, SK hynix tumble as analysts split on chip outlook",
+"symbol": "005930.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Top 10: Die beste Smartwatch im Test – Apple Watch schlägt Samsung, Xiaomi & Co.",
+"symbol": "005930.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "APEC 2026 Meets Tencent Cloud: A New Era for Global Media Centres",
+"symbol": "0700.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tencent says US chip curbs ‘unfortunate’ and may slow AI training in short run",
+"symbol": "0700.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tencent Q3 revenue growth slows, cloud unit benefits from AI demand",
+"symbol": "0700.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Xiaomi’s 1,548 hp electric supercar is going global, starting in the UAE",
+"symbol": "1810.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "India seeks back taxes from Xiaomi over undisclosed royalty payments",
+"symbol": "1810.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Xiaomi files trademarks for key EVs ahead of Korea debut",
+"symbol": "1810.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "TSMC reportedly tightens China AI chip curbs as new US rules close manufacturing loophole",
+"symbol": "2330.TW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "AMD unter Druck – TSMC, Alphabet & Alibaba im Check",
+"symbol": "2330.TW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Retail investors snatch up odd lot shares amid TSMC's plunge",
+"symbol": "2330.TW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "China’s battery giant CATL faces tough choices after epic US$130b sell-off",
+"symbol": "300750.SZ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Posco, CATL signs 3-year lithium supply deal",
+"symbol": "300750.SZ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "CATL founder seeks ‘AI Einstein’ to drive battery breakthroughs amid market headwinds",
+"symbol": "300750.SZ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Guizhou Moutai Chiew Import And Export Co., Ltd.: Ein Blick ins Moutai House Singapur: Mehr als nur Baijiu - eine kulturelle Begegnung",
+"symbol": "600519.SS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Der bessere Profiteur: GTA-6-Euphorie verpufft bei Take-Two: Ist die Sony-Aktie der bessere Play?",
+"symbol": "6758.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Fuchteln statt Grafikkrieg: Warum die Wii Sony und Microsoft abhängte",
+"symbol": "6758.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Honda and Toyota recall 1.6 million vehicles over Takata airbag rupture risk",
+"symbol": "7203.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Mobilität: Toyota zeigt Kofferraum-E-Bike als Konzept - Golem",
+"symbol": "7203.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Over 314,000 older Toyota and Lexus vehicles recalled for potentially dangerous airbag issue",
+"symbol": "7203.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Euro: Cross-border capital flows support the currency – MUFG",
+"symbol": "8306.T",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "SoftBank’s Son explored US$1 trillion buyout of SK Hynix: report",
+"symbol": "9984.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nach Anthropics Debüt: SoftBank crasht zweistellig – KI-Angst ist zurück: War OpenAI das falsche Pferd?",
+"symbol": "9984.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "British business bank OakNorth, whose shareholders include Jared Kushner’s Affinity Partners investment firm and the SoftBank Vision Fund, received a full-charter U.S. banking license",
+"symbol": "9984.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Alibaba announces plans to list T-Head, its Nvidia chip rival",
+"symbol": "9988.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Alibaba’s AI ambitions face steep challenge in US chip controls",
+"symbol": "9988.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Aktionäre ziehen vor Gericht: Klage gegen Alibaba: Haben die Chinesen Risiken beim Export verschwiegen?",
+"symbol": "9988.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Donald Trump’s investment portfolio: Latest stocks disclosure shows move in Home Depot, McDonald, Nvidia, Tesla, Apple - Livemint",
+"symbol": "AAPL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Apple’s CEO Calls Memory Pricing “Unprecedented.” Its Purchase Obligations Jumped $33 Billion in a Quarter",
+"symbol": "AAPL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Official 2026 Amazon Black Friday sale now live! Millions of deals: Apple, Google, TVs, home, more",
+"symbol": "AAPL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Virgin in talks with Boeing, Airbus as it looks to order more planes",
+"symbol": "AIR.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Could the Airbus €3 billion loan row reignite a US-EU trade dispute?",
+"symbol": "AIR.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Airbus Aktie: US-Ausschuss stört sich am China-Geschäft - Finanztrends",
+"symbol": "AIR.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Die wichtigsten Aktien-News der Woche: Anthropic, Allianz, SAP, BASF, Rheinmetall, Nvidia, Deutz - Börse Online",
+"symbol": "ALV.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Passives Einkommen: Diese Bank bietet fast doppelt so viel Rendite wie die Allianz",
+"symbol": "ALV.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Geht der Crash weiter?: AMD: Short-Attacke | Apple: Sicherer Hafen | SAP: Neue Panik-Welle",
+"symbol": "AMD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "KI-Sorgen: Taiwans Börse sackt ab, AMD verliert stark, Anthropic noch im Plus",
+"symbol": "AMD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Why Is AMD Stock Falling on Friday?",
+"symbol": "AMD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Amazon nearing $7.5B deal to buy AI start-up Decart: FT",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Amazon closes in on $7.5bn deal to buy AI start-up Decart - Financial Times",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Amazon is complaining about NYC Council on shipping labels, too - The Verge",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "ASML offers a safer bet than Nvidia amid strong AI chip demand and growth prospects. - Pluang",
+"symbol": "ASML.AS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Google’s 2027 chip plan is bad news for Broadcom",
+"symbol": "AVGO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Chip-Aktien: Nasdaq100, Micron Technology, Broadcom, AMD",
+"symbol": "AVGO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Broadcom Stock Is 27% Below Its June Record. Here's Where I Think It Will Be in 2030.",
+"symbol": "AVGO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "ROSEN, A GLOBALLY RESPECTED LAW FIRM, Encourages Bank of America Corporation Investors to Secure Counsel Before Important Deadline in Securities Class Action - BAC",
+"symbol": "BAC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bank of America sends strong signal to Microsoft stock investors",
+"symbol": "BAC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "8-K - BANK OF AMERICA CORP /DE/ (0000070858) (Filer)",
+"symbol": "BAC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Chemie: Nach dem BASF-Rückzug bei Evonik: IG BCE nimmt die RAG-Stiftung in die Pflicht",
+"symbol": "BAS.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Gespräche gescheitert: BASF sagt Evonik-Übernahme ab",
+"symbol": "BAS.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Die wichtigsten Aktien-News der Woche: Anthropic, Allianz, SAP, BASF, Rheinmetall, Nvidia, Deutz - Börse Online",
+"symbol": "BAS.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "ROUNDUP: Bayers Glyphosat-Sammelvergleich von Richter genehmigt",
+"symbol": "BAYN.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Aktie vor Befreiungsschlag?: Roundup-Vergleich durch: Bayer fällt ein milliardenschwerer Stein vom Herzen",
+"symbol": "BAYN.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bayers Glyphosat-Sammelvergleich von Richter genehmigt",
+"symbol": "BAYN.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Fierce competition sparks BMW lay-offs – and blowback for China’s rust belt",
+"symbol": "BMW.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "VW, Mercedes, BMW: Wie Chinas E-Autos von der Absatzkrise in Deutschland profitieren – SPIEGEL TV",
+"symbol": "BMW.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "BMW i3 2026: 566-mile range makes it a serious executive EV",
+"symbol": "BMW.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Berkshire Hathaway raised its stake in Delta in the third quarter. It also trimmed a key bank holding",
+"symbol": "BRK-B",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Intuit Selling Mailchimp for $3.68 Billion to Berkshire Hathaway-Backed Bending Spoons",
+"symbol": "BRK-B",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Berkshire Hathaway has been a popular 'anti-AI trade.' One firm says it’s too expensive now",
+"symbol": "BRK-B",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin nears USD 60,000: What traders should watch, according to WazirX",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Krypto-Reserve in Russland: Kommunistische Partei fordert Bitcoin-Integration",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin Sheds $25,000 in 7 Weeks, but Peter Schiff Says It ‘Hasn’t Gone Down Enough’",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "India's oil, gas import bill jumps 60% in Oct as Brent nearly doubles; cooking-gas usage falls",
+"symbol": "BZ=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Goldman is out with its 2027 forecast for Brent oil prices",
+"symbol": "BZ=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Brent seen at $75-85 in 2027 as oil surplus builds: Mirae Asset Sharekhan",
+"symbol": "BZ=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FPI, crude oil, global trends to to steer markets in holiday-shortened week",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Oil prices set for 3rd straight week of decline on West Asia export flows",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tankers Are Being Hit Daily. So Why Is Oil Falling?",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Costco sees panic buying surge after tech outages, report says",
+"symbol": "COST",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Walmart's Sam's Club adds a deal Costco can't copy",
+"symbol": "COST",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tech outages are causing people to panic-buy. Costco is benefiting, Mizuho says",
+"symbol": "COST",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Promis, Partys, Prunk: Die Deutsche Bank und die gestohlenen Milliarden",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Deutsche Bank-Leak: Wie sich das Bankhaus von den Biontech-Milliardären vorführen ließ",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Jahresendrally? Deutsche-Bank-Leaks? US-Zinsen sichern?",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Deutsche-Telekom-Anleihe: Telekom-Bonds bieten vier Prozent Rendite",
+"symbol": "DTE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Marktbericht: Deutsche Telekom steigt bei KI-Start-up Mistral ein",
+"symbol": "DTE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tech Update: News zu SAP, Lakestar, Anthropic, GTA6, Deutsche-Bank-Leak, Palantir, TPG, SAP, Holger Friedrich, D-App, Mistral, Telekom, Helsing",
+"symbol": "DTE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Börse: Siemens Energy Aktie mit Kursrallye, Dax nahe Rekordhoch an der Börse",
+"symbol": "ENR.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Vorsicht! Siemens Energy: Gute Nachrichten satt, doch der Chart hat noch eine offene Rechnung zu begleichen!",
+"symbol": "ENR.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Siemens-Energy-CEO Bruch: „Ich erwarte das erste kommerzielle Fusionskraftwerk weit nach 2040“",
+"symbol": "ENR.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "U.S. stock futures and bond yields drop on reports Putin has updated nuclear doctrine",
+"symbol": "ES=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "HKEX to Introduce 12 Stock Futures Contracts",
+"symbol": "ES=F",
+"correct": false,
+"role": null
+},
+{
+"title": "Fairmint plans tokenized stock venue on Canton, Ethereum under SEC experiment",
+"symbol": "ETH-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin Crashes to $59,000 as Ethereum, XRP Dump 8%: What Is Going On?",
+"symbol": "ETH-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Binance-Hacker bewegen Ether für 600 Millionen US-Dollar",
+"symbol": "ETH-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Australian Dollar: Softer jobs data fuel rate-cut speculation – Commerzbank",
+"symbol": "EURAUD=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Australian Dollar remains under pressure as Fed and RBA outlooks diverge",
+"symbol": "EURAUD=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Swiss franc, Japanese yen Rise as DeepSeek News Boosts Safe Havens",
+"symbol": "EURCHF=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Chinese Yuan: Brief dip against US Dollar prompts controls - Commerzbank",
+"symbol": "EURCNY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Offshore yuan dip looks like a liquidity blip, not a trend shift",
+"symbol": "EURCNY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Chinese yuan weakens to 6.8949 against USD Friday",
+"symbol": "EURCNY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "British Pound: More upside versus EUR than USD – BBH",
+"symbol": "EURGBP=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Sterling today: Pound edges up on UK retail beat, dollar caps gains",
+"symbol": "EURGBP=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "The British Pound goes into PMI week paying for softer inflation and slower pay",
+"symbol": "EURGBP=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Rupee rises above 93 against US dollar for first time in over seven months",
+"symbol": "EURINR=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Rupee soars to 7-month high against the dollar, strengthens below 93 level",
+"symbol": "EURINR=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Rupee strengthens 17 paise to 93.15 against US dollar in early trade",
+"symbol": "EURINR=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "UBS flags further euro downside as dollar strength keeps EUR/USD under pressure",
+"symbol": "EURUSD=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Gold, silver prices fall amid stronger dollar, hawkish Fed signals",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Anthropic-Euphorie verpufft: Asien stürzt ab, auch Wall Street, DAX und Gold im Crash-Modus!",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "AI strikes copper-gold where explorers gave up in 1969",
+"symbol": "GC=F",
+"correct": false,
+"role": null
+},
+{
+"title": "Google’s 2027 chip plan is bad news for Broadcom",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Waymo halts highway operation nationwide after CA DMV pause",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Cramer: My favorite chartist sees two major signs of a rally brewing in Alphabet stock",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Donald Trump’s investment portfolio: Latest stocks disclosure shows move in Home Depot, McDonald, Nvidia, Tesla, Apple - Livemint",
+"symbol": "HD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Why Home Depot shares are falling despite an earnings beat — and how to proceed",
+"symbol": "HD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Home Depot Just Delivered Great News to Investors",
+"symbol": "HD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "HSBC AM nomme Hans Georgeson directeur général pour l'Europe, le Royaume-Uni et les Amériques",
+"symbol": "HSBA.L",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "HSBC expands RedCoin use into wealth management with tokenised fund launch",
+"symbol": "HSBA.L",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Indian markets nearing end of consolidation phase, financials and consumption look attractive: HSBC",
+"symbol": "HSBA.L",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "Nvidia, Rheinmetall & Infineon: Drei potenzielle Comeback-Aktien, doch nur eine hat jetzt kurzfristig Potenzial",
+"symbol": "IFX.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "DAX bricht weiter ein - bald bei 20.000 Punkten? Infineon verspielt die letzte Chance auf ein rasches Comeback",
+"symbol": "IFX.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "KI-Boom: Deutscher Chipkonzern Infineon will weiter zweistellig wachsen",
+"symbol": "IFX.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Johnson & Johnson Is on Track for $101 Billion in 2026 Sales. Is This Dividend King Still a Buy?",
+"symbol": "JNJ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Johnson & Johnson vs. Pfizer: Which Healthcare Stock Is a Better Buy for 2027?",
+"symbol": "JNJ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dividend Roundup: Nvidia, Disney, Merck, Johnson & Johnson and more",
+"symbol": "JNJ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Hackers Leak Visa, Mastercard and JPMorgan Customer Data",
+"symbol": "JPM",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "JPMorgan says bitcoin price correction widens gap to estimated $86,000 production cost",
+"symbol": "JPM",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "SAP Aktie: JPMorgan hievt das Kursziel auf 275 Euro - Börse Express",
+"symbol": "JPM",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "$1,000 Invested in Eli Lilly 5 Years Ago Is Now Worth Over $5,000. Could It Soar That Much Again by 2031?",
+"symbol": "LLY",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves premarket: Alphabet, Caterpillar, Eli Lilly, DoorDash & more",
+"symbol": "LLY",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Eli Lilly to Buy Calytrix Bio for Up to $1.5 Billion",
+"symbol": "LLY",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "UK banks struggle to find top boss to spearhead Visa and Mastercard alternative",
+"symbol": "MA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Coinbase Global vs. Mastercard: Which Financial Stock Is a Better Buy for 2027?",
+"symbol": "MA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Hackers Leak Visa, Mastercard and JPMorgan Customer Data",
+"symbol": "MA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Automarke in der Krise: Das Ende der Bequemlichkeit bei Mercedes",
+"symbol": "MBG.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "VW, Mercedes, BMW: Wie Chinas E-Autos von der Absatzkrise in Deutschland profitieren – SPIEGEL TV",
+"symbol": "MBG.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Mercedes-Benz: Droht dem Autobauer ein Verkaufsverbot in den USA?",
+"symbol": "MBG.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "LVMH: Schmuckunternehmer Paolo Bulgari gestorben",
+"symbol": "MC.PA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Meta's India offices hit by opposition protests over account removals",
+"symbol": "META",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Meta Platforms bringt mit „Direct“ eigene Messenger-App nicht nur für Instagram",
+"symbol": "META",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "WhatsApp erhöht Gruppenlimit offenbar auf 1500 Teilnehmer",
+"symbol": "META",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Cerebras pops after beating on quarterly revenue and announcing Microsoft deal",
+"symbol": "MSFT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Microsoft is shutting down a popular app with no replacement",
+"symbol": "MSFT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Microsofts KI-Framework verteilt Malware: So bekamen Angreifer Zugang",
+"symbol": "MSFT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Münchener Rückversicherungs-Gesellschaft Neutral",
+"symbol": "MUV2.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "GOLDMAN SACHS stuft MUNICH RE auf 'Neutral'",
+"symbol": "MUV2.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nestle Eyes Autonomous Factory Lines and Looks to Google, Microsoft as Partners",
+"symbol": "NESN.SW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Ausblick bestätigt: Nestlé bleibt ein solider Dividendenwert",
+"symbol": "NESN.SW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nestle India Share Price Highlights: Nestle India Stock Price History",
+"symbol": "NESN.SW",
+"correct": false,
+"role": null
+},
+{
+"title": "Netflix’s ‘Steps’ Director Alyce Tzue On The Film’s True Villain",
+"symbol": "NFLX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Is Netflix a Buy in November? The Bull and Bear Cases.",
+"symbol": "NFLX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Here are Friday's biggest analyst calls: Anthropic, SpaceX, Tesla, Apple, Netflix, MSG Rangers, UnitedHealth & more",
+"symbol": "NFLX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Novartis hikes sales and profit guidance for the year",
+"symbol": "NOVN.SW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "UBS stuft NOVARTIS AG auf 'Neutral'",
+"symbol": "NOVN.SW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Novartis Sees Sales Growth Through Next Round of Patent Expirations",
+"symbol": "NOVN.SW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Novo Nordisk Aktie: EU-Kommission gibt grünes Licht für Frehemgo - Finanztrends",
+"symbol": "NOVO-B.CO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Eli Lilly beats Novo Nordisk to China approval for first oral GLP-1 weight-loss drug",
+"symbol": "NOVO-B.CO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Novo Nordisk Stock: The AI Case Wall Street May Be Missing",
+"symbol": "NOVO-B.CO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nasdaq 100 Tumbles Over 3% Amid Tech Bloodbath, Nvidia Sinks 7% on 7th Straight Weekly Loss: Stock Market Today",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Amazon eyes $7.5 billion Decart deal to boost AI chip efficiency, challenge Nvidia | 5 things to know",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks Often Prosper After an Abrupt C.E.O. Exit. Is Nvidia Different?",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "L'Oréal Paris rinde homenaje a las mujeres que marcan la diferencia en su gala anual Mujeres de Valor.",
+"symbol": "OR.PA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Musk Warns AI’s “Cash Shortage Is Also Going to Be Nuts Next Year.” Credit Markets Put SpaceX Beside Oracle",
+"symbol": "ORCL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Oracle says OpenAI infrastructure deal is fully funded after final capital raise",
+"symbol": "ORCL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves midday: Oracle, SpaceX, Tempus AI, Rivian & more",
+"symbol": "ORCL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Procter & Gamble to Increase Factory Shifts Without Humans to Cut Costs",
+"symbol": "PG",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Ihre wichtigsten Termine: Alle Analysten-Augen auf: Procter & Gamble, Anthropic, Sto und Rational",
+"symbol": "PG",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "P&G to Cut Up to 30% of Product-Supply Workers Amid Automation Push",
+"symbol": "PG",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves premarket: Pfizer, Apple, Palantir, Zebra Technologies & more",
+"symbol": "PLTR",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Trump bought Nvidia, Palantir, SpaceX in September as federal deals, White House ties grew",
+"symbol": "PLTR",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves midday: Apple, Palantir, Nvidia, Coinbase, Bloom Energy & more",
+"symbol": "PLTR",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Reliance Brands FY26 revenue up 3.8% to Rs 3,390.9 crore; loss narrows to Rs 137 crore",
+"symbol": "RELIANCE.NS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Absturz: Rheinmetall – Ausgebombte Aktie, gefährliche Rechnung",
+"symbol": "RHM.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Rheinmetall-Aktie: Wie viel tiefer denn noch? Die Antwort dürfte Anlegern nicht gefallen!",
+"symbol": "RHM.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Rheinmetall und Renk: Haben die Rüstungsaktien bereits Kaufniveaus erreicht?",
+"symbol": "RHM.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Potential Sanofi-Insmed Deal: Analysts Split on Financial Strain Versus Pipeline Gains",
+"symbol": "SAN.PA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Meilenstein für Sanofi: Sanofi mit Zulassungserfolg: Beginnt jetzt die nächste Wachstumsstory?",
+"symbol": "SAN.PA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SAP Aktie: JPMorgan hievt das Kursziel auf 275 Euro - Börse Express",
+"symbol": "SAP.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Aktie mit neuem Mehrjahrestief: SAP-Rivale Oracle: Das sieht jetzt ganz finster aus!",
+"symbol": "SAP.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SAP Aktie: Finanzchef sagt, KI kostet langfristig Jobs - Finanztrends",
+"symbol": "SAP.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Alle reden über Anthropic: Siemens macht mit Industrie-KI schon 350 Millionen Euro Umsatz",
+"symbol": "SIE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Siemens: Das KI-Risiko",
+"symbol": "SIE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Navigating new economic realities: Europe’s outlook in a changing global landscape | Keynote at the 79th Siemens Bankers Conference",
+"symbol": "SIE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Ark buys $90 million worth of Anthropic shares on debut, trims Ethereum and Solana staking ETF holdings",
+"symbol": "SOL-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bis 2031: Solana vor 1.450-%-Rallye? – Bitwise wagt Mega-Prognose",
+"symbol": "SOL-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Solana tokens see gains amidst weeklong crypto slump",
+"symbol": "SOL-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Musk pledges higher Tesla output at China plant, Chinese state media says",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tesla will Model Y ohne Pedale und Lenkrad bauen",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Elon Musk announces another Tesla vehicle no one asked for",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Here are Friday's biggest analyst calls: Anthropic, SpaceX, Tesla, Apple, Netflix, MSG Rangers, UnitedHealth & more",
+"symbol": "UNH",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "UnitedHealth has tumbled over the past three months. Why TD Cowen sees a recovery",
+"symbol": "UNH",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Japanese Yen outperforms as global stock sell-off lifts safe-haven demand",
+"symbol": "USDJPY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dollar set for 4-week win streak; yen jumps on safe-haven bid, hot inflation data",
+"symbol": "USDJPY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Swiss franc, Japanese yen Rise as DeepSeek News Boosts Safe Havens",
+"symbol": "USDJPY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves after hours: Visa, Robinhood, NXP, Seagate and more",
+"symbol": "V",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Visa, Mastercard and JPMorgan Customer Data Leaked by Hackers",
+"symbol": "V",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Hackers Leak Visa, Mastercard and JPMorgan Customer Data",
+"symbol": "V",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Volkswagen is delaying another EV based on the SSP",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "VW-Chef Blume: \"Komplett verändertes Umfeld\" zwingt zum Sparkurs",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Volkswagen is cooking up a ‘spicy’ new electric hot hatch",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Walmart has a set of 2 large heavy-duty shelves that collectively hold up to 2,400 pounds for only $69",
+"symbol": "WMT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Walmart's CEO shares big news for time-strapped grocery shoppers",
+"symbol": "WMT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Walmart is selling ‘very comfortable' $13 hard-bottom slippers for $5 in 5 colors",
+"symbol": "WMT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "US stocks: Wall Street ends sharply lower on AI selloff, S&P 500, Dow in correction",
+"symbol": "^DJI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nasdaq und Dow Jones: US-Börsen rutschen weiter ab",
+"symbol": "^DJI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dow, S&P 500 enter correction as Nasdaq suffers worst week since 2020",
+"symbol": "^DJI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FTSE 100 tumbles as Iran peace deal hopes rise",
+"symbol": "^FTSE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FTSE 100 tumbles amid bond market sell-off",
+"symbol": "^FTSE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FTSE 100 plunges as Burnham triggers bond markets turmoil",
+"symbol": "^FTSE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "XETRA-SCHLUSS/DAX-Ausverkauf gewinnt an Fahrt - 25.000er-Marke fällt",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Wall-Street-Schwäche zieht Dax unter 26.000 Punkte",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dax setzt Rückgang fort und testet psychologische Unterstützung",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "S&P 500 correction: Five forces behind the market sell-off",
+"symbol": "^GSPC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Droht dem S&P 500 eine verlorene Dekade? Warum Bewertungen, Zinsen und Index-Struktur Sorgen bereiten",
+"symbol": "^GSPC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dow, S&P 500 enter correction as Nasdaq suffers worst week since 2020",
+"symbol": "^GSPC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Hong Kong stocks fall near 19-month low as Anthropic’s debut fails to soothe AI jitters",
+"symbol": "^HSI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Seoul shares plunge over 5% as Anthropic debut fails to ease AI concerns",
+"symbol": "^KS11",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nikkei, Kospi & Co.: Ostasiens Börsen trotz Anthropics Börsengang im Minus – Nikkei sackt um 4,5 Prozent ab",
+"symbol": "^KS11",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "(LEAD) Seoul shares open sharply lower tracking U.S. losses after Anthropic debut",
+"symbol": "^KS11",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Asian stock markets plunge as Japan Nikkei, South Korea KOSPI and Taiwan stocks fall",
+"symbol": "^N225",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "S&P 500 and Dow close in correction; Nasdaq erases 2026 gain as AI rout picks up steam",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nasdaq-100® Inside the Index: Airbnb (ABNB)",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "AMD, Coreweave und Take-Two | Nasdaq stürzt ab!",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nifty opens lower as global tech selloff weighs; Max Healthcare, Apollo top gainers",
+"symbol": "^NSEI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nifty hits 10-month high; Apollo Hospitals, Axis Bank lead midday rally",
+"symbol": "^NSEI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nifty hit 9-month high as Rupee logs best weekly rally in 5 weeks; Bond yields ease",
+"symbol": "^NSEI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "CH-Schluss: Mit Tech- und Zinssorgen ins Wochenende - SMI fällt unter 14'600 Punkte",
+"symbol": "^SSMI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Eine Dividendenperle ist derzeit auch die günstige Aktie im Schweizer Leitindex SMI",
+"symbol": "^SSMI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SMI und ATX - resistent gegen internationale Crashs, Helvetia Baloise kennt keinen Crash",
+"symbol": "^SSMI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Aktien Europa Schluss: Erneut Tech-Ausverkauf - EuroStoxx-Tief seit Mai",
+"symbol": "^STOXX50E",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Europa-Schluss: Erneut Tech-Ausverkauf - EuroStoxx-Tief seit Mai",
+"symbol": "^STOXX50E",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Taiwan stocks suffer record weekly loss amid AI industry concerns",
+"symbol": "^TWII",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Asian stock markets plunge as Japan Nikkei, South Korea KOSPI and Taiwan stocks fall",
+"symbol": "^TWII",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Taiwan shares open lower",
+"symbol": "^TWII",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "India VIX up 9%, tops 17-mark; analysts say FII flows keep bulls in control",
+"symbol": "^VIX",
+"correct": false,
+"role": null
+},
+{
+"title": "India's oil, gas import bill jumps 60% in Oct as Brent nearly doubles; cooking-gas usage falls",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin Crashes to $59,000 as Ethereum, XRP Dump 8%: What Is Going On?",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Wall Street suffers historic losses as Dow, S&P 500 plunge into correction territory",
+"symbol": "^DJI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SK Hynix pitches memory-centric AI rack system at SC26 as rivals close in",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin reclaims $61,000 before giving back a third of the weekend rally",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Researchers Publish Security Analysis of Bitcoin’s Post-Quantum SHRINCS Proposal",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin, Ether & Co: So schlagen sich die Kryptowährungen am Sonntagnachmittag",
+"symbol": "ETH-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves premarket: Ultralife, SK Hynix, Robinhood, Enphase Energy & more",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Metas KI-Gadget für die Hosentasche soll 300 Dollar kosten",
+"symbol": "META",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "BASF bläst Evonik-Übernahme ab",
+"symbol": "BAS.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Android: Google verschärft Qualitätsanforderungen für Foldable-Apps ab April",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "investingLive Americas FX news wrap 20 Nov: Stocks get hammered as Nasdaq plunges 5.28%",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "How Mercedes-Benz Nearly Became Collateral Damage in a Chinese Car Ban",
+"symbol": "MBG.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nasdaq crashes 5% at close, erasing 2026 gains; S&P 500, Dow in correction: Stock Market Highlights",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Former Nvidia CEO Jensen Huang to appear before Congress in December",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Cathie Wood Just Sold $17 Million of Nvidia Across 2 ARK Funds - TIKR.com",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SAP Aktie: Finanzchef Asam benennt die Margenbremsen - Börse Express",
+"symbol": "SAP.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "AMD: Why I'm Buying This Correction",
+"symbol": "AMD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Oil prices surge to highest level since 2022",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia Has a New Problem, And It’s Not What You Think - Barchart.com",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "S&P 500 sinks 3.7% and the Nasdaq composite goes negative for the year",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Landwirtschaft: Bayer ist wichtige Rechtsrisiken um Glyphosat los, aber zu feiern gibt es nichts",
+"symbol": "BAYN.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "MÄRKTE EUROPA/DAX unter 25.000 Punkten - Ausverkauf bei Technologie",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "From robot pets to virtual livers: Apple Developer Academy showcases projects at Postech",
+"symbol": "AAPL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Honda, Toyota recall 1.6 million US vehicles over airbag rupture risk",
+"symbol": "7203.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "NVIDIA Corporation $NVDA Stake Boosted by JSF Financial LLC - MarketBeat",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin struggles below $60,000 as mining profits plunge, security risks grow",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "The new BMW i3 just proved how efficient an EV can be after a nearly 3,700-mile road trip",
+"symbol": "BMW.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia-Aktie: Das Imperium zerfällt?",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Public companies produce most U.S. crude oil and natural gas",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia (NVDA) Stock Looks Undervalued On SEC Probe And CEO Exit - Simply Wall St",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Deutsche Bank: Islamisten gesucht. Buddhisten und Dönerhersteller gefunden",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia Without Jensen Huang: 3 Things That Could Go Right and 3 That Could Go Wrong",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Seoul shares open higher ahead of Anthropic's market debut",
+"symbol": "^KS11",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia takes positive step forward with stronger sales outlook. Here’s our thoughts on the stock",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Billionaire Chase Coleman’s Tiger Global Cut Its Alphabet Stake by 42%",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dax verbucht größtes Tagesminus seit Monaten",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "China could tighten rare earths exports if US escalates chip curbs over Nvidia: analysts",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Fuchteln statt Grafikkrieg: Warum die Wii Sony und Microsoft abhängte",
+"symbol": "MSFT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia turmoil continues as Jensen Huang resigns over affairs scandal and company appoints interim CEO – as it happened",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "West Coast Customs turns a Tesla Model 3 into a 1955 Chevy Bel Air",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "The NVIDIA Shock – And Why Investors Need a New Playbook",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Deep Read: Zehn Wochen vom vertraulichen Brief bis zum Aus: So scheiterte der Milliarden-Plan von BASF",
+"symbol": "BAS.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tesla kills $41,990 Model Y AWD: all-wheel drive now costs $8,000 more",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "(LEAD) Seoul shares plunge over 5 pct as Anthropic debut fails to ease AI concerns",
+"symbol": "^KS11",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FinancialJuice: US Treasury Secretary Bessent: no answers yet on Nvidia chip sales to China, we need clarity",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Apple will angeblich Pläne für OLED-iMac verschieben",
+"symbol": "AAPL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Deutschland: Anstieg der Erzeugerpreise nimmt Fahrt auf - Ölpreise treiben",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Gold, Silver slide to 14-month lows as Dollar, Fed fears bite",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nasdaq Index: Nvidia Leads Tech Stock Rout as Nasdaq Nears Bear Market - FXEmpire",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tech stocks slump, leaving Nasdaq in red for the year",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Gold, silver, and India’s coming of age as a bullion market",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Probleme mit Takata-Airbag: Honda und Toyota rufen 1,6 Millionen Fahrzeuge in die Werkstatt",
+"symbol": "7203.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia Shock Puts MongoDB Stock And Cloud Software Names Back In Focus - Yahoo Finance",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Home Depot names Richard McPhail as new CEO, beats earnings expectations",
+"symbol": "HD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Can German auto manufacturing recover after Mercedes and VW cuts?",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia Without Jensen Huang: 3 Things That Could Go Right and 3 That Could Go Wrong - The Motley Fool",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Volkswagen prices its new ID. Cross for the UK, but the $35,000 version comes later",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Amazon is selling a plush wearable blanket for just $28",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nach Datenleak: Deutsche-Bank-Papiere weiter unter Druck",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Börse: Chinas Börsen lockern Regeln für Wertpapierkredite",
+"symbol": "000001.SS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Apple seeks to lock in memory supply as Samsung, SK hynix gain leverage",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SK Hynix reportedly plans to buy HBM bonding tools from Besi",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Samsung reshuffles top leadership for 2027, appoints new memory and smartphone business heads",
+"symbol": "005930.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Apple seeks to lock in memory supply as Samsung, SK hynix gain leverage",
+"symbol": "005930.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Baidu, Xiaomi CEOs warn of growing gap between AI hype and returns",
+"symbol": "1810.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "TSMC invests $500 million in Anthropic, acquires 0.03% stake at IPO price",
+"symbol": "2330.TW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "TSMC says it will comply with new US rule that strips Chinese chip designers of a key exemption",
+"symbol": "2330.TW",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "CATL’s China battery market share extends six-month slide amid carmaker diversification",
+"symbol": "300750.SZ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Toyota adds $1,000 off and 0% APR to its bigger, more powerful electric SUV",
+"symbol": "7203.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Toyota just built a tiny folding electric bike to fit in your trunk",
+"symbol": "7203.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Börse: Crash bei Tech-Aktien trifft Softbank, TSMC und Infineon",
+"symbol": "9984.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SoftBank suffers worst day in over two years as AI sell-off hits Asian tech stocks",
+"symbol": "9984.T",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Alibaba accelerates pivot to in-house chips after reporting jump in sales",
+"symbol": "9988.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "DeepSeek and Alibaba rescue China’s office landlords",
+"symbol": "9988.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Britische Regierung muss gestehen, dass sie Apple eine Hintertür befohlen hat",
+"symbol": "AAPL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Freitag: London muss Apple-Hintertür zugeben, Niederlande warnen vor KI-Brillen",
+"symbol": "AAPL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "US approved nearly 900,000 Nvidia and AMD AI chips for China. Raises more questions than answers.",
+"symbol": "AMD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Cathie Wood Doubles Down On ‘Highest Conviction Names’ Nvidia, Tesla and AMD As Cyclical Tech Stocks Get ‘Slaughtered’ Amid Market Pullback - Yahoo Finance",
+"symbol": "AMD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Amazon closes in on $7.5bn deal to buy AI start-up Decart",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Amazon warns NYC shoppers of potential $5 per-order increase over proposed delivery law",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Why Broadcom Stock Could Double by 2030",
+"symbol": "AVGO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia Stock Has Crashed 48% and Now Trades at 15 Times Earnings, Its Cheapest in More Than a Decade and Cheaper Than Microsoft and Broadcom - 24/7 Wall St.",
+"symbol": "AVGO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "The five best stocks to buy before year-end, according to Bank of America",
+"symbol": "BAC",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "Bofa sieht Silber bei 75 Dollar - Intel und Micron im Blick",
+"symbol": "BAC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Abgesagte Evonik-übernahme: Die Pommes-Pleite der BASF",
+"symbol": "BAS.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "PRESSESPIEGEL/Unternehmen: BASF/EVONIK, DEUTSCHE BANK, LUFTHANSA, MEYER WERFT, REVOLUT, VW/GOOGLE",
+"symbol": "BAS.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bayer reaches Roundup settlement that could cost the company billions - NPR",
+"symbol": "BAYN.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bayer: US-Richter genehmigt Milliarden-Vergleich zu Glyphosat",
+"symbol": "BAYN.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "BMW reports lower Q3 earnings as China woes mount",
+"symbol": "BMW.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "BMW’s first US-built EV promises 456 miles of range and ultra-fast charging",
+"symbol": "BMW.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "I'm Raising My Fair Value Estimate for Berkshire Hathaway Stock. Here's What I Think It's Worth.",
+"symbol": "BRK-B",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "41.6% of Berkshire Hathaway's $358 Billion Portfolio Is Parked in 3 Artificial Intelligence (AI) Stocks",
+"symbol": "BRK-B",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Meet SHRINCS: Bitcoin's Emerging Frontrunner for a Post-Quantum Signature",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin erholt sich von Zweijahrestief: Was der Rebound für Aktien bedeutet",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "U.S. Oil Drillers Pick Up the Pace Just as Oil Prices Fall",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Oil prices plunge on hopes of Iran war ‘resolution’",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "DEUTSCHE BANK RESEARCH stuft SIEMENS AG auf 'Hold'",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "Inside Deutsche Bank: Sollten wir reiche Firmenerben stärker besteuern, Herr Truger? | Capital+",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nur bis morgen: Telekom-Tarif mit 200 Gigabyte für nur 16,99 Euro - n-tv.de",
+"symbol": "DTE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Ungleiche Partner: Telekom steigt ins KI-Startup Mistral ein",
+"symbol": "DTE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Windkraft: Siemens-Energy-Chef sieht Standort Cuxhaven ohne Offshore-Aufträge in Gefahr",
+"symbol": "ENR.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin-Kurs fällt unter 56.000 Dollar, Ethereum und XRP stürzen ab",
+"symbol": "ETH-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "ETH derivatives reset and the next retail trade",
+"symbol": "ETH-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "PBOC Anchors Yuan With Stable Fix as Volatility Jumps After APEC",
+"symbol": "EURCNY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Chinese Yuan: Gradual appreciation under tight management – BNY",
+"symbol": "EURCNY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Gold rate today in India at 14-month low; will it hit ₹1 lakh? Experts list out 3 reasons for gold price drop in 2026",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FTSE hits record high as gold and oil tumble",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "26-year-old Google worker earns $323,000 a year—but lives on less than minimum wage",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Google in, but Nvidia out as US lines up Apec CEO Summit delegation: source",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Economics lessons from Home Depot",
+"symbol": "HD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Hong Kong firms count on supply chains and AI to offset rising costs, HSBC survey finds",
+"symbol": "HSBA.L",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "Stocks to buy: HSBC lists 19 Indian stocks that saw FY27 earnings upgrades, check target prices",
+"symbol": "HSBA.L",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Börse: Crash bei Tech-Aktien trifft Softbank, TSMC und Infineon",
+"symbol": "IFX.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Notable healthcare headlines for the week: Health insurers, Pfizer, and J&J in focus",
+"symbol": "JNJ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Johnson & Johnson to Buy Ollin Biosciences for $2.2 Billion",
+"symbol": "JNJ",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "JPMorgan Chase Names Bregje de Best to Succeed Jeremy Barnum as CFO",
+"symbol": "JPM",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "J.P. Morgan Says Tesla’s Robotaxi Fleet Could Match Waymo’s Miles by Late 2027 With 18,000 Cars. The Number That Matters Is How Much Each Car Earns.",
+"symbol": "JPM",
+"correct": true,
+"role": "broker"
+},
+{
+"title": "FDA warns of vision loss risk linked to popular GLP-1 drugs like Wegovy, Zepbound",
+"symbol": "LLY",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves midday: ADT, Alphabet, Caterpillar, Eli Lilly, Chipotle & more",
+"symbol": "LLY",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Mercedes noch vor Tesla – jetzt kommt der Autopilot nach Deutschland",
+"symbol": "MBG.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Sensationelle Auktion: Dieser Mercedes war 56 Jahre lang unverkäuflich – bis jetzt - BILD",
+"symbol": "MBG.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Meta is stuck in a trading range. The charts show where to buy",
+"symbol": "META",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SEC Charges Multiple Entities in Fraud Schemes Totaling at Least $15 Million That Used WhatsApp and Other Platforms to Lure Investors",
+"symbol": "META",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Microsoft to lay off 650 people from videogame business: WSJ",
+"symbol": "MSFT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SAP Aktie: Joule Work rückt an Microsoft heran - Börse Express",
+"symbol": "MSFT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Kampf um die Zuschauer: Streaming-Giganten rüsten auf: Netflix steht vor einem neuen Problem",
+"symbol": "NFLX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Netflix K-drama Sword & Silence: sweeping war epic cuts corners to mimic classic shows",
+"symbol": "NFLX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Stocks making the biggest moves premarket: Trump Media, Tesla, CoreWeave, Novo Nordisk and more",
+"symbol": "NOVO-B.CO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FDA warns of vision loss risk linked to popular GLP-1 drugs like Wegovy, Zepbound",
+"symbol": "NOVO-B.CO",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Should You Forget Nvidia and Buy These 2 AI Memory Stocks Instead? - Yahoo Finance",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "The close ties between Nvidia and Anthropic.",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FinancialJuice: Oracle still sees positive free cash flow in 2H FY2028. $ORCL",
+"symbol": "ORCL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FinancialJuice: Oracle: OpenAI contract fully funded. $ORCL",
+"symbol": "ORCL",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Procter & Gamble, le lessivier qui adoucit ses heurts",
+"symbol": "PG",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Russe soll Palantir-Mitarbeiter im Coffeeshop ausspioniert haben",
+"symbol": "PLTR",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Wer kann Palantir in Europa ersetzen?",
+"symbol": "PLTR",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "EQS-DD: Rheinmetall AG: Sara Georgi Stiftung, Kauf",
+"symbol": "RHM.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Renk- und Rheinmetall-Aktien starten Erholung: Doch darum sieht Hensoldt jetzt am besten aus!",
+"symbol": "RHM.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Anthropic-IPO belastet: SAP-Aktie mit hohen Verlusten: Die KI-Sorgen nehmen wieder überhand!",
+"symbol": "SAP.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Evonik Aktie mit Kurssturz im Dax nach Absage von BASF, Anthropic stützt Nasdaq, SAP im Minus",
+"symbol": "SAP.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "DEUTSCHE BANK RESEARCH stuft SIEMENS AG auf 'Hold'",
+"symbol": "SIE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Umgang mit neuen wirtschaftlichen Realitäten: Europas Aussichten in einem sich verändernden globalen Umfeld | Keynote-Rede auf der 79. Siemens-Bankenkonferenz",
+"symbol": "SIE.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "XRP und Solana: Vermögensverwalter streicht zwei Krypto-ETFs",
+"symbol": "SOL-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Blockworks launches investor relations platform with Solana",
+"symbol": "SOL-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tesla Cybertruck had its best month in over a year. It’s still going away",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "IONNA enables Plug & Charge for Tesla, opens 22 bay site in Westminster, CA",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Why is the yen still so weak?",
+"symbol": "USDJPY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dollar weaker as Fed-fueled rally stalls; lower US yields help yen",
+"symbol": "USDJPY=X",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "VW-Tarifkonflikt: Die VW-Mitarbeiter brauchen Aussichten – Oliver Blume muss sie liefern",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Volkswagen will Nullrunden für zwei Jahre",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Walmart hikes outlook as CEO tells CNBC retailer aims to keep prices low despite soaring fuel costs",
+"symbol": "WMT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Walmart's 2-door rattan shoe storage cabinet organizes up to 16 pairs for $90",
+"symbol": "WMT",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Wall Street selloff deepens as Dow, S&P 500 enter correction; Nasdaq plunges 5.28%",
+"symbol": "^DJI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dow Jones, Nasdaq: Nasdaq mit stärkstem Wochenverlust seit März 2020",
+"symbol": "^DJI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Zertifikate: Tech-Aktien und DAX prägen den Handel",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Börse: Dax gibt Gewinne nach Rekordhoch wieder ab, Nvidia stürzt nach CEO-Rücktritt",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Yardeni Cuts S&P 500 Target Again, Says Bear Market Is Unlikely",
+"symbol": "^GSPC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "HKEX Launches S&P 500 & HKEX Tech 100 Index in Partnership with S&P Dow Jones Indices",
+"symbol": "^GSPC",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "[Closing Market] KOSPI Plunges 5.21% with KOSDAQ Tumbling 5.71%",
+"symbol": "^KS11",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Seoul stocks rebound 2% after Nvidia earnings",
+"symbol": "^KS11",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Börse: Dax vor Nvidia-Zahlen nahe Rekordhoch, Dow und Nasdaq schwächer",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nasdaq rallies as chip stocks recover from brutal losses",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "GIFT Nifty open interest hits record $22.21 billion, surpasses previous peak",
+"symbol": "^NSEI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nifty eyes 26,200 as rally strengthens; 6 sectors signal outperformance",
+"symbol": "^NSEI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "European stocks hit two-week on weak miners, caution ahead of Anthropic IPO",
+"symbol": "^STOXX50E",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "European stocks subdued as tech offsets mining declines",
+"symbol": "^STOXX50E",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Taiwan shares close down 6.23%",
+"symbol": "^TWII",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "A tale of two Nvidias - Yahoo Finance",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia: Warum das stagnierende KI-Token-Wachstum für Anleger jetzt zum Risiko wird",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Volkswagen: Harte Einschnitte – das kommt in Tarifrunde auf Beschäftigte zu",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia in advanced talks to buy diffusion AI startup Inception for over $500M - report",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Is Nvidia a Buy at $125? Here's My Honest Take - The Motley Fool",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia: This Has Gone Too Far",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Samsung Electronics, SK hynix dividend payout ratios surge through Q3 amid AI boom",
+"symbol": "000660.KS",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia Didn’t Make Louis’ Top 25 – Even Before Jensen Huang Resigned",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Deutsche Bank und Lakestar: Geheimplan sollte Bank zur Techbank machen",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Semiconductor Stocks Heading for Worst 2-Month Slump Since 2001 as Nvidia, Anthropic and the AI Trade Crack: This Week on Wall Street",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Datenleak bringt Deutsche Bank ins Stolpern",
+"symbol": "DBK.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "New York plant neues Paketdienst-Gesetz, Amazon läuft dagegen Sturm",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "“Verkauft MicroStrategy, kauft Bitcoin”",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Was die Volkswagen-Forderungen für Beschäftigte bedeuten könnten",
+"symbol": "VOW3.DE",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "ROUNDUP/Aktien Frankfurt Schluss: Dax fällt unter 25.000 Punkte - Schwache Techs",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tesla FSD approved in Italy, the first big EU market to say yes",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Howard Lutnick has been Trump’s ally for decades. His ties to Nvidia may spell his downfall",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Beteiligung um 59 % erhöht: Peter Thiel setzt fast genauso viel auf diese Öl-Aktie wie auf Amazon",
+"symbol": "AMZN",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Michael Burry stichelt: 500 Milliarden versprochen, nichts geflossen: Was ist bei Nvidia los?",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin on track for longest weekly losing streak since May 2022 amid AI rout",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "What we know so far about Nvidia partner Megaspeed’s Asia footprint",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Goldpreis fällt auf Jahrestief – auch Silber verliert",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia Just Delivered Incredible Results. Buy This Artificial Intelligence (AI) Stock Instead If You’re Still Worried About the Semiconductor Giant’s Future - The Motley Fool",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Podcast: Tesla trims are falling like flies, Hyundai 2027 lineup, and BYD’s Rolls-Royce",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "DAX - wie lange geht der Crash auf Raten noch weiter? Eine überraschende Grafik!",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "FinancialJuice: Bitcoin rises 2.20% to $60,225.76",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Peterson: Nvidia’s leadership crisis tests the chipmaker’s role as the ‘central bank of AI’",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Ethereum’s Fusaka upgrade lands today",
+"symbol": "ETH-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "A $150 Billion Reason to Buy the Nvidia Stock Dip - Barchart.com",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Gold and silver rates today: Check latest updates",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia stops selling AI chips to China despite US approval",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Jensen Huang: US-Börsenaufsicht ermittelt laut Berichten gegen Nvidia",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Crude oil prices and refinery margins generally increased throughout the third quarter",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Plot Twist: As CFO, Nvidia’s Interim CEO Said “Over 99%” of Singapore Billings Were for U.S. Customers - TIKR.com",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Live news: Bitcoin slips to fresh lows below $59,000 as Anthropic slides after Nasdaq debut",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "SOXX and DRAM Are Down Between 35.6% and 51.9% From Their Highs. Here’s an Even Better Growth Stock ETF to Buy During the Nasdaq Correction.",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "UBS flags further gold weakness before Fed rate-cut expectations return",
+"symbol": "GC=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "US AI chip curbs force Alibaba to rethink overseas compute strategy",
+"symbol": "9988.HK",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "The Bull Market As We Know It Is Over Without Nvidia - Seeking Alpha",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Russia allows Bitcoin trading as sanctioned Moscow Exchange prepares December launch",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Is Tesla rushing out a half-baked Cybercab just to shave MKBHD’s head?",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Oil price soars as Iran war threatens energy exports",
+"symbol": "CL=F",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Trump administration signed off nearly 900,000 Nvidia, AMD AI chips for China in six months",
+"symbol": "AMD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Dax vor schwachem Start – Tech-Verkäufe belasten weltweit",
+"symbol": "^GDAXI",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Trump says Jensen Huang should apologize and return to Nvidia",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nvidia: Hold Your Horses (Double Downgrade)",
+"symbol": "NVDA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Tesla Rolls Out \"GTA-Style\" Reality View For Full Self-Driving",
+"symbol": "TSLA",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Bitcoin zurück an 60.000-US-Dollar-Marke: Kann der Rebound KI-Aktien und Co. stabilisieren? - Finanzen.net",
+"symbol": "BTC-USD",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Nasdaq-100® Inside the Index: Amazon.com, Inc. (AMZN)",
+"symbol": "^NDX",
+"correct": true,
+"role": "subject"
+},
+{
+"title": "Why has Waymo pulled all its driverless cars from US freeways?",
+"symbol": "GOOGL",
+"correct": true,
+"role": "subject"
+}
+],
+"missed": [
+{
+"title": "European shares on track for steepest weekly drop since March",
+"symbols": [
+"^STOXX50E"
+]
+},
+{
+"title": "Goldman favours gold over silver as central bank demand supports prices",
+"symbols": [
+"GC=F"
+]
+},
+{
+"title": "Sharp rupee appreciation may cut IT firms' FY27 earnings by up to 13%: Report",
+"symbols": [
+"EURINR=X"
+]
+},
+{
+"title": "2008 war ein Kindergeburtstag: Schiff: Goldpreisverfall könnte finanzielles Blutbad durch die Fed ankündigen",
+"symbols": [
+"GC=F"
+]
+},
+{
+"title": "Gold: Bull case shaken yet intact – TD Securities",
+"symbols": [
+"GC=F"
+]
+},
+{
+"title": "Rupee climbs past 93/USD as investors seek shelter in Indian stocks, shorts unwind",
+"symbols": [
+"EURINR=X"
+]
+}
+]
+}

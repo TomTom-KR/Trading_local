@@ -1,0 +1,28 @@
+# Secrets and local configuration (never commit)
+.env
+.env.*
+!.env.example
+
+# Runtime data: SQLite database, mail outbox, logs, rendered charts (only the folder in the project root -
+# trading_local/data/ and tests/data/ are source code)
+/data/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Node / browser tooling
+node_modules/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+
+# Original test script: contains SMTP credentials in plain text - do not publish.
+# Remove this line only after the password has been deleted from the file.
+NewsFeed_Charts.py

@@ -1,0 +1,100 @@
+# Pinned, verified working set for CPython 3.15.2 (win_amd64), resolved 2026-11-22 with uv 0.13.5.
+# This is exactly what is installed in c:/Development/Trading_local/.venv (71 distributions,
+# `uv pip check` => "All installed packages are compatible", `uv pip sync --dry-run` => no changes).
+# Everything installed from wheels, nothing was compiled:
+#   15 cp315-cp315-win_amd64, 3 abi3 (curl_cffi, protobuf, watchfiles), the rest pure-python.
+#
+#   uv venv --python C:/Python315/python.exe c:/Development/Trading_local/.venv
+#   uv pip install --python c:/Development/Trading_local/.venv/Scripts/python.exe -r requirements.txt
+#
+# Beyond the originally requested list:
+#   + six       : undeclared dependency of mplfinance 0.12.10b0 - without it `import mplfinance` fails
+#   + httpx2    : starlette 1.10 TestClient is built on httpx2; plain httpx is deprecated there
+#     (+ httpcore2, truststore as its dependencies)
+
+# ---- top-level: web service -------------------------------------------------
+fastapi==0.165.0
+uvicorn==0.54.0            # installed as uvicorn[standard]
+httpx==0.28.1
+websockets==17.4
+orjson==3.13.0
+
+# ---- top-level: config / validation -----------------------------------------
+pydantic==2.14.4
+pydantic-settings==2.16.3
+python-dotenv==1.2.4
+
+# ---- top-level: data --------------------------------------------------------
+pandas==3.1.1
+numpy==2.5.5
+tzdata==2026.6
+exchange-calendars==4.13.3
+
+# ---- top-level: market data / news ------------------------------------------
+yfinance==1.8.0
+curl-cffi==0.17.0
+protobuf==7.36.2
+feedparser==6.0.14
+beautifulsoup4==4.15.0
+lxml==6.1.3
+
+# ---- top-level: LLM ---------------------------------------------------------
+ollama==0.6.3
+
+# ---- top-level: server-side charts ------------------------------------------
+matplotlib==3.11.2
+pillow==13.0.0
+mplfinance==0.12.10b0
+six==1.17.0                # needed by mplfinance (undeclared)
+
+# ---- top-level: tests / dev -------------------------------------------------
+pytest==9.2.0
+pytest-asyncio==1.5.0
+aiosmtpd==1.4.6
+httpx2==2.16.2
+
+# ---- transitive (pinned for reproducibility) --------------------------------
+annotated-doc==0.0.7       # fastapi
+annotated-types==0.8.0     # pydantic
+anyio==4.16.0              # starlette, httpx, httpx2, watchfiles
+atpublic==9.0.0            # aiosmtpd
+attrs==26.1.0              # aiosmtpd
+certifi==2026.11.20        # httpx, requests, curl-cffi
+cffi==2.1.1                # curl-cffi
+charset-normalizer==3.5.2  # requests
+click==8.5.1               # uvicorn
+colorama==0.4.6            # uvicorn[standard], pytest (Windows)
+contourpy==1.4.0           # matplotlib
+cycler==0.12.1             # matplotlib
+feedparser-sgmllib==2.1.0  # feedparser
+fonttools==4.68.0          # matplotlib
+h11==0.16.0                # uvicorn, httpcore
+httpcore==1.0.9            # httpx
+httpcore2==2.16.2          # httpx2
+httptools==0.9.0           # uvicorn[standard]
+idna==3.20                 # anyio, httpx, httpx2, requests
+iniconfig==2.3.1           # pytest
+kiwisolver==1.5.1          # matplotlib
+korean-lunar-calendar==0.4.0  # exchange-calendars
+opentelemetry-api==1.45.2  # fastapi (built-in telemetry hooks; no exporter installed => nothing is sent)
+packaging==26.3            # matplotlib, pytest
+peewee==4.5.3              # yfinance
+platformdirs==4.14.8       # yfinance
+pluggy==1.7.0              # pytest
+pycparser==3.12            # cffi
+pydantic-core==2.50.5      # pydantic
+pygments==2.21.0           # pytest
+pyluach==2.3.0             # exchange-calendars
+pyparsing==3.3.3           # matplotlib
+python-dateutil==4.0.0     # pandas, matplotlib (4.x no longer pulls in `six`)
+pytz==2026.6               # yfinance
+pyyaml==6.0.4              # uvicorn[standard]
+requests==2.34.2           # yfinance
+soupsieve==4.1.3           # beautifulsoup4
+starlette==1.10.0          # fastapi
+toolz==1.2.0               # exchange-calendars
+truststore==0.10.5         # httpx2
+typing-extensions==4.16.0  # pydantic, fastapi, ...
+typing-inspection==0.4.5   # pydantic
+urllib3==2.8.0             # requests
+watchfiles==1.3.0          # uvicorn[standard] (--reload)

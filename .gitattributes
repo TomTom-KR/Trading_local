@@ -1,0 +1,10 @@
+# Keep LF line endings in the repository AND in working copies (test fixtures such as recorded feeds and
+# exchange answers must stay byte-identical; Python, JavaScript and the browser handle LF everywhere).
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
+*.woff2 binary
+*.woff binary
+*.ttf binary
+*.sqlite binary

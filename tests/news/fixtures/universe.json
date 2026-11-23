@@ -1,0 +1,547 @@
+[
+[
+"AAPL",
+"Apple Inc.",
+"equity"
+],
+[
+"MSFT",
+"Microsoft Corp.",
+"equity"
+],
+[
+"NVDA",
+"NVIDIA Corp.",
+"equity"
+],
+[
+"AMZN",
+"Amazon.com Inc.",
+"equity"
+],
+[
+"GOOGL",
+"Alphabet Inc. (Class A)",
+"equity"
+],
+[
+"META",
+"Meta Platforms Inc.",
+"equity"
+],
+[
+"TSLA",
+"Tesla Inc.",
+"equity"
+],
+[
+"AVGO",
+"Broadcom Inc.",
+"equity"
+],
+[
+"BRK-B",
+"Berkshire Hathaway Inc. (Class B)",
+"equity"
+],
+[
+"JPM",
+"JPMorgan Chase & Co.",
+"equity"
+],
+[
+"LLY",
+"Eli Lilly and Co.",
+"equity"
+],
+[
+"V",
+"Visa Inc.",
+"equity"
+],
+[
+"MA",
+"Mastercard Inc.",
+"equity"
+],
+[
+"XOM",
+"Exxon Mobil Corp.",
+"equity"
+],
+[
+"WMT",
+"Walmart Inc.",
+"equity"
+],
+[
+"UNH",
+"UnitedHealth Group Inc.",
+"equity"
+],
+[
+"COST",
+"Costco Wholesale Corp.",
+"equity"
+],
+[
+"NFLX",
+"Netflix Inc.",
+"equity"
+],
+[
+"AMD",
+"Advanced Micro Devices Inc.",
+"equity"
+],
+[
+"ORCL",
+"Oracle Corp.",
+"equity"
+],
+[
+"JNJ",
+"Johnson & Johnson",
+"equity"
+],
+[
+"PG",
+"Procter & Gamble Co.",
+"equity"
+],
+[
+"HD",
+"Home Depot Inc.",
+"equity"
+],
+[
+"BAC",
+"Bank of America Corp.",
+"equity"
+],
+[
+"PLTR",
+"Palantir Technologies Inc.",
+"equity"
+],
+[
+"SAP.DE",
+"SAP SE",
+"equity"
+],
+[
+"SIE.DE",
+"Siemens AG",
+"equity"
+],
+[
+"ALV.DE",
+"Allianz SE",
+"equity"
+],
+[
+"DTE.DE",
+"Deutsche Telekom AG",
+"equity"
+],
+[
+"AIR.DE",
+"Airbus SE",
+"equity"
+],
+[
+"MBG.DE",
+"Mercedes-Benz Group AG",
+"equity"
+],
+[
+"BMW.DE",
+"BMW AG",
+"equity"
+],
+[
+"VOW3.DE",
+"Volkswagen AG (Vz.)",
+"equity"
+],
+[
+"BAS.DE",
+"BASF SE",
+"equity"
+],
+[
+"IFX.DE",
+"Infineon Technologies AG",
+"equity"
+],
+[
+"RHM.DE",
+"Rheinmetall AG",
+"equity"
+],
+[
+"MUV2.DE",
+"Muenchener Rueckversicherungs-Gesellschaft AG",
+"equity"
+],
+[
+"DBK.DE",
+"Deutsche Bank AG",
+"equity"
+],
+[
+"ADS.DE",
+"adidas AG",
+"equity"
+],
+[
+"BAYN.DE",
+"Bayer AG",
+"equity"
+],
+[
+"ENR.DE",
+"Siemens Energy AG",
+"equity"
+],
+[
+"ASML.AS",
+"ASML Holding NV",
+"equity"
+],
+[
+"MC.PA",
+"LVMH Moet Hennessy Louis Vuitton SE",
+"equity"
+],
+[
+"OR.PA",
+"L'Oreal SA",
+"equity"
+],
+[
+"TTE.PA",
+"TotalEnergies SE",
+"equity"
+],
+[
+"SAN.PA",
+"Sanofi SA",
+"equity"
+],
+[
+"NESN.SW",
+"Nestle SA",
+"equity"
+],
+[
+"NOVN.SW",
+"Novartis AG",
+"equity"
+],
+[
+"ROG.SW",
+"Roche Holding AG",
+"equity"
+],
+[
+"ROP.SW",
+"Roche Holding AG",
+"equity"
+],
+[
+"NOVO-B.CO",
+"Novo Nordisk A/S (Class B)",
+"equity"
+],
+[
+"SHEL.L",
+"Shell plc",
+"equity"
+],
+[
+"AZN.L",
+"AstraZeneca PLC",
+"equity"
+],
+[
+"HSBA.L",
+"HSBC Holdings plc",
+"equity"
+],
+[
+"7203.T",
+"Toyota Motor Corp.",
+"equity"
+],
+[
+"6758.T",
+"Sony Group Corp.",
+"equity"
+],
+[
+"9984.T",
+"SoftBank Group Corp.",
+"equity"
+],
+[
+"8306.T",
+"Mitsubishi UFJ Financial Group",
+"equity"
+],
+[
+"6861.T",
+"Keyence Corp.",
+"equity"
+],
+[
+"8035.T",
+"Tokyo Electron Ltd.",
+"equity"
+],
+[
+"0700.HK",
+"Tencent Holdings Ltd.",
+"equity"
+],
+[
+"9988.HK",
+"Alibaba Group Holding Ltd.",
+"equity"
+],
+[
+"3690.HK",
+"Meituan",
+"equity"
+],
+[
+"1299.HK",
+"AIA Group Ltd.",
+"equity"
+],
+[
+"1810.HK",
+"Xiaomi Corp.",
+"equity"
+],
+[
+"005930.KS",
+"Samsung Electronics Co. Ltd.",
+"equity"
+],
+[
+"000660.KS",
+"SK hynix Inc.",
+"equity"
+],
+[
+"2330.TW",
+"Taiwan Semiconductor Manufacturing Co.",
+"equity"
+],
+[
+"600519.SS",
+"Kweichow Moutai Co. Ltd.",
+"equity"
+],
+[
+"300750.SZ",
+"Contemporary Amperex Technology (CATL)",
+"equity"
+],
+[
+"RELIANCE.NS",
+"Reliance Industries Ltd.",
+"equity"
+],
+[
+"BHP.AX",
+"BHP Group Ltd.",
+"equity"
+],
+[
+"^GSPC",
+"S&P 500",
+"index"
+],
+[
+"^NDX",
+"Nasdaq 100",
+"index"
+],
+[
+"^DJI",
+"Dow Jones Industrial Average",
+"index"
+],
+[
+"^RUT",
+"Russell 2000",
+"index"
+],
+[
+"^VIX",
+"CBOE Volatility Index",
+"index"
+],
+[
+"^GDAXI",
+"DAX 40",
+"index"
+],
+[
+"^STOXX50E",
+"EURO STOXX 50",
+"index"
+],
+[
+"^FTSE",
+"FTSE 100",
+"index"
+],
+[
+"^FCHI",
+"CAC 40",
+"index"
+],
+[
+"^SSMI",
+"Swiss Market Index",
+"index"
+],
+[
+"^N225",
+"Nikkei 225",
+"index"
+],
+[
+"^HSI",
+"Hang Seng Index",
+"index"
+],
+[
+"000001.SS",
+"SSE Composite Index",
+"index"
+],
+[
+"^KS11",
+"KOSPI",
+"index"
+],
+[
+"^TWII",
+"TAIEX",
+"index"
+],
+[
+"^NSEI",
+"Nifty 50",
+"index"
+],
+[
+"^AXJO",
+"S&P/ASX 200",
+"index"
+],
+[
+"BTC-USD",
+"Bitcoin",
+"crypto"
+],
+[
+"ETH-USD",
+"Ethereum",
+"crypto"
+],
+[
+"SOL-USD",
+"Solana",
+"crypto"
+],
+[
+"EURUSD=X",
+"EUR/USD",
+"fx"
+],
+[
+"EURJPY=X",
+"EUR/JPY",
+"fx"
+],
+[
+"EURGBP=X",
+"EUR/GBP",
+"fx"
+],
+[
+"EURCHF=X",
+"EUR/CHF",
+"fx"
+],
+[
+"EURHKD=X",
+"EUR/HKD",
+"fx"
+],
+[
+"EURKRW=X",
+"EUR/KRW",
+"fx"
+],
+[
+"EURTWD=X",
+"EUR/TWD",
+"fx"
+],
+[
+"EURCNY=X",
+"EUR/CNY",
+"fx"
+],
+[
+"EURDKK=X",
+"EUR/DKK",
+"fx"
+],
+[
+"EURINR=X",
+"EUR/INR",
+"fx"
+],
+[
+"EURAUD=X",
+"EUR/AUD",
+"fx"
+],
+[
+"USDJPY=X",
+"USD/JPY",
+"fx"
+],
+[
+"ES=F",
+"E-mini S&P 500 futures",
+"future"
+],
+[
+"NQ=F",
+"E-mini Nasdaq 100 futures",
+"future"
+],
+[
+"GC=F",
+"Gold futures",
+"future"
+],
+[
+"CL=F",
+"WTI crude oil futures",
+"future"
+],
+[
+"BZ=F",
+"Brent crude oil futures",
+"future"
+]
+]

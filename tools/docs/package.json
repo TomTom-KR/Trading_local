@@ -1,0 +1,17 @@
+{
+  "name": "trading-local-docs-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reproducible screenshots of every GUI view for the documentation (system Microsoft Edge via playwright-core, no browser download).",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "screenshots": "node screenshots.mjs",
+    "screenshots:demo": "node screenshots.mjs --base=http://127.0.0.1:8765"
+  },
+  "devDependencies": {
+    "playwright-core": "1.65.1"
+  }
+}

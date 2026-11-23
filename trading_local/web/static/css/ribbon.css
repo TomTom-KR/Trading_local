@@ -1,0 +1,283 @@
+/* Session ribbon - the hero of the overview. Full-bleed band, radius 0. */
+
+.ribbon {
+  position: relative;
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--line);
+  margin: 0 calc(-1 * var(--gutter)) var(--s-5);
+  padding: var(--s-4) 0 var(--s-3);
+}
+.rib-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-4);
+  flex-wrap: wrap;
+  padding: 0 var(--gutter) var(--s-2);
+}
+.rib-head h2 {
+  font-size: var(--fs-20);
+  font-stretch: 105%;
+}
+.rib-sub {
+  color: var(--ink-2);
+  font-size: var(--fs-13);
+}
+.rib-legend {
+  margin-left: auto;
+  display: flex;
+  gap: var(--s-4);
+  font-size: var(--fs-12);
+  color: var(--ink-2);
+  flex-wrap: wrap;
+}
+.rib-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.key {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+}
+.key-regular {
+  background: rgba(var(--session), 0.7);
+}
+.key-ext {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(var(--session), 0.35) 0 3px,
+    rgba(var(--session), 0.12) 3px 6px
+  );
+}
+.key-gap {
+  border-left: 6px solid rgba(var(--session), 0.7);
+  border-right: 6px solid rgba(var(--session), 0.7);
+}
+
+.rib-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.rib-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 228px minmax(0, 1fr);
+  min-width: 880px;
+  padding-right: var(--gutter);
+}
+.rib-corner,
+.rib-label {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  background: var(--surface-1);
+}
+.rib-label {
+  padding: var(--s-3) var(--s-4) var(--s-3) var(--gutter);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 60px;
+}
+.rib-region {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.rib-region-name {
+  font-weight: 600;
+  font-stretch: 105%;
+  font-size: var(--fs-16);
+}
+.rib-state {
+  font-size: var(--fs-12);
+  color: var(--ink-2);
+}
+.rib-count {
+  font-size: var(--fs-13);
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+  font-stretch: 94%;
+}
+
+.rib-toptrack {
+  position: relative;
+}
+.rib-nowpill {
+  position: absolute;
+  bottom: 4px;
+  transform: translateX(-50%);
+  background: var(--ink-1);
+  color: var(--bg);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  padding: 1px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+/* no stacking context of its own: the bars (z 1) stay above the hour ticks and below the dimmed past
+   (.rib-past, z 2), the labels (z 3) above it, so a label over the past part of its bar stays readable */
+.rib-track {
+  position: relative;
+  border-top: 1px solid var(--line);
+  padding: var(--s-3) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  min-height: 60px;
+}
+.rib-row {
+  position: relative;
+  height: 22px;
+}
+.rib-none {
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+  padding-left: var(--s-2);
+}
+.seg {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: rgba(var(--session), 0.7);
+}
+.seg-pre,
+.seg-post {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(var(--session), 0.35) 0 4px,
+    rgba(var(--session), 0.12) 4px 8px
+  );
+}
+.seg-regular.seg-active {
+  background: rgba(var(--session), 0.92);
+}
+.seg-label {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+  pointer-events: none;
+  padding: 0 var(--s-2);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  font-stretch: 90%;
+  color: var(--ink-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.seg-label-out {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+/* a label before its bar ends exactly at the bar's start */
+.seg-label-end {
+  justify-content: flex-end;
+}
+/* hidden copies of the row labels, measured to place the visible ones */
+.rib-measure {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.rib-axis {
+  position: relative;
+  height: 26px;
+}
+.rib-hour {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  font-size: var(--fs-12);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.rib-day {
+  color: var(--ink-1);
+  font-weight: 600;
+}
+
+.rib-layer {
+  position: absolute;
+  grid-column: 2;
+  grid-row: 2 / -1;
+  inset: 0;
+  pointer-events: none;
+}
+.rib-tick {
+  position: absolute;
+  top: 0;
+  bottom: 20px;
+  width: 1px;
+  background: var(--line);
+  opacity: 0.7;
+}
+.rib-tick-day {
+  background: var(--ink-3);
+  opacity: 1;
+}
+.rib-past {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 26px;
+  background: var(--surface-1);
+  opacity: 0.5;
+  z-index: 2;
+}
+.rib-now {
+  position: absolute;
+  top: -4px;
+  bottom: 22px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--ink-1);
+  z-index: 3;
+}
+.rib-foot {
+  padding: var(--s-2) var(--gutter) 0;
+  font-size: var(--fs-13);
+  color: var(--ink-2);
+}
+
+@media (max-width: 720px) {
+  .rib-grid {
+    grid-template-columns: 124px minmax(0, 1fr);
+    min-width: 640px;
+  }
+  .rib-label {
+    padding-right: var(--s-2);
+  }
+  .rib-region-name {
+    font-size: var(--fs-14);
+  }
+  .rib-count {
+    font-size: var(--fs-12);
+  }
+  .rib-state {
+    display: none;
+  }
+  .rib-legend {
+    margin-left: 0;
+  }
+}

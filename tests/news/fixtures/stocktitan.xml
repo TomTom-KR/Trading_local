@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
+  <channel>
+    <title>Latest News | Stock Titan</title>
+    <link>https://www.stocktitan.net/news/live.html</link>
+    <description>Latest 100 stock news updates from stocktitan.net</description>
+    <atom:link href="https://www.stocktitan.net/rss" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://stocktitan.superfeedr.com/" rel="hub"/>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Nov 2026 17:29:00 GMT</lastBuildDate>
+    <ttl>1</ttl>
+    <sy:updatePeriod>hourly</sy:updatePeriod>
+    <sy:updateFrequency>60</sy:updateFrequency>
+    <image>
+      <url>https://static.stocktitan.net/img/stock_titan_thumbnail.png</url>
+      <title>Stock Titan</title>
+      <link>https://www.stocktitan.net</link>
+    </image>
+    <item>
+      <title>WRD 3.0 Secures Ninth Championship Title, Making WeRide the China Urban Intelligent Driving Competition's Only Nine-Time Champion | WRD Stock News</title>
+      <link>https://www.stocktitan.net/news/WRD/wrd-3-0-secures-ninth-championship-title-making-we-ride-the-china-u3cflsvgn48q.html</link>
+      <pubDate>Sun, 22 Nov 2026 17:29:00 GMT</pubDate>
+      <guid isPermaLink="true">https://www.stocktitan.net/news/WRD/wrd-3-0-secures-ninth-championship-title-making-we-ride-the-china-u3cflsvgn48q.html</guid>
+      <media:content url="https://static.stocktitan.net/company-logo/wrd-lg.png" type="image/png" medium="image" width="600" height="600"/>
+    </item>
+<item>
+      <title>Schneider Electric turns Industrial Intelligence into action at SPS 2026 | SBGSY Stock News</title>
+      <link>https://www.stocktitan.net/news/SBGSY/schneider-electric-turns-industrial-intelligence-into-action-at-sps-tp683nlufawa.html</link>
+      <pubDate>Sun, 22 Nov 2026 12:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://www.stocktitan.net/news/SBGSY/schneider-electric-turns-industrial-intelligence-into-action-at-sps-tp683nlufawa.html</guid>
+      <media:content url="https://static.stocktitan.net/company-logo/sbgsy-lg.png" type="image/png" medium="image" width="600" height="600"/>
+    </item>
+<item>
+      <title>Anteris’ DurAVR THV Demonstrates 1% Heart Failure Hospitalization, Single-Digit Gradients and No Valve-Related Deaths at 1 Year in Patients with Small Aortic Annuli | AVR Stock News</title>
+      <link>https://www.stocktitan.net/news/AVR/anteris-dur-avr-thv-demonstrates-1-heart-failure-hospitalization-19ticcue04rs.html</link>
+      <pubDate>Sun, 22 Nov 2026 10:24:00 GMT</pubDate>
+      <guid isPermaLink="true">https://www.stocktitan.net/news/AVR/anteris-dur-avr-thv-demonstrates-1-heart-failure-hospitalization-19ticcue04rs.html</guid>
+      <media:content url="https://static.stocktitan.net/company-logo/avr-lg.png" type="image/png" medium="image" width="600" height="600"/>
+    </item>
+<item>
+      <title>Isar Aerospace starts build-out of its launch site at Spaceport Nova Scotia, advancing Canada's sovereign access to space | MAXQF Stock News</title>
+      <link>https://www.stocktitan.net/news/MAXQF/isar-aerospace-starts-build-out-of-its-launch-site-at-spaceport-nova-fkvbyj64twzv.html</link>
+      <pubDate>Sat, 21 Nov 2026 22:46:00 GMT</pubDate>
+      <guid isPermaLink="true">https://www.stocktitan.net/news/MAXQF/isar-aerospace-starts-build-out-of-its-launch-site-at-spaceport-nova-fkvbyj64twzv.html</guid>
+      <media:content url="https://static.stocktitan.net/company-logo/maxqf-lg.png" type="image/png" medium="image" width="600" height="600"/>
+    </item>
+<item>
+      <title>GIGABYTE Partners with Newegg to Host "AORUS VS40" Esports Event for GIGABYTE's 40th Anniversary | NEGG Stock News</title>
+      <link>https://www.stocktitan.net/news/NEGG/gigabyte-partners-with-newegg-to-host-aorus-vs40-esports-event-for-y6eexf4dsgkg.html</link>
+      <pubDate>Sat, 21 Nov 2026 17:05:00 GMT</pubDate>
+      <guid isPermaLink="true">https://www.stocktitan.net/news/NEGG/gigabyte-partners-with-newegg-to-host-aorus-vs40-esports-event-for-y6eexf4dsgkg.html</guid>
+      <media:content url="https://static.stocktitan.net/company-logo/negg-lg.png" type="image/png" medium="image" width="600" height="600"/>
+    </item>
+
+  </channel>
+</rss>
