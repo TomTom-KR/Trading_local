@@ -128,10 +128,19 @@ class CostParams:
     ``slippage`` is the ONE-WAY cost of crossing half the spread plus market impact, in basis points of the
     price. It is applied against the trader on every fill: buys fill higher, sells fill lower.
 
-    Exchange-traded crypto (instruments of the pseudo venue ``KRAKEN``) has no flat fee but a proportional
-    taker fee. A proportional fee does not depend on the position size, so it is modelled as part of the
-    one-way cost (``slippage_bps`` = half spread + taker fee) and therefore appears identically in the paper
-    broker, the signal tracker, the validation replay and the expected value; ``order_fee`` is 0 for them.
+    Two kinds of cost are kept apart, because only one of them moves the price:
+
+    * ``slippage_bps`` - half spread and market impact. It moves the FILL PRICE (buys higher, sells lower).
+      Stops and targets are placed relative to that fill price.
+    * ``fee_bps`` - a proportional commission (Kraken's taker fee, or ``fee_pct`` for other instruments). It
+      does NOT move the price - folding it into the fill price would put a tight stop right at the market
+      price. It is charged as money by the paper broker (``order_fee``), deducted in R from tracked and
+      replayed results (``execution.result_r(fee_bps=...)``) and included in the expected value
+      (``round_trip_cost_r``).
+
+    Exchange-traded crypto (instruments of the pseudo venue ``KRAKEN``) has no flat fee; all other instruments
+    pay ``fee_flat_base`` per order, which depends on the position size and is therefore charged only by the
+    paper broker (results in R are before flat fees).
     """
 
     slippage_bps_us_equity: float = 2.0
@@ -147,9 +156,22 @@ class CostParams:
     fee_flat_base: float = 1.0  # per order, in base currency (typical neo-broker flat fee)
     fee_pct: float = 0.0  # per order, percent of the order value
 
-    def slippage_bps(self, instrument: Instrument) -> float:
+    def fee_bps(self, instrument: Instrument) -> float:
+        """Proportional commission per order in basis points of the order value (does not move the price)."""
         if instrument.exchange == "KRAKEN":
-            return self.slippage_bps_kraken + self.fee_bps_kraken
+            return self.fee_bps_kraken
+        return self.fee_pct * 100.0
+
+    def flat_fee(self, instrument: Instrument | None = None) -> float:
+        """Flat fee per order in base currency (0 for KRAKEN instruments)."""
+        if instrument is not None and instrument.exchange == "KRAKEN":
+            return 0.0
+        return self.fee_flat_base
+
+    def slippage_bps(self, instrument: Instrument) -> float:
+        """One-way price slippage (half spread + impact) in basis points; moves the fill price."""
+        if instrument.exchange == "KRAKEN":
+            return self.slippage_bps_kraken
         if instrument.asset_class == "index":
             return self.slippage_bps_index
         if instrument.asset_class == "crypto":
@@ -169,16 +191,17 @@ class CostParams:
         return price * (1.0 + factor) if buying else price * (1.0 - factor)
 
     def round_trip_cost_r(self, instrument: Instrument, price: float, stop_dist: float) -> float:
-        """Slippage of entry plus exit, expressed in R (multiples of the stop distance)."""
+        """Slippage plus proportional fees of entry and exit, in R (multiples of the stop distance).
+
+        Flat fees are not included: they depend on the position size (see ``order_fee``)."""
         if stop_dist <= 0:
             return 0.0
-        return 2.0 * self.slippage_bps(instrument) / 10_000.0 * price / stop_dist
+        return 2.0 * (self.slippage_bps(instrument) + self.fee_bps(instrument)) / 10_000.0 * price / stop_dist
 
     def order_fee(self, order_value_base: float, instrument: Instrument | None = None) -> float:
-        """Fee of one order in base currency (0 for KRAKEN instruments: their fee is in ``slippage_bps``)."""
-        if instrument is not None and instrument.exchange == "KRAKEN":
-            return 0.0
-        return self.fee_flat_base + abs(order_value_base) * self.fee_pct / 100.0
+        """Fee of one order in base currency: the flat fee plus the proportional commission."""
+        bps = self.fee_pct * 100.0 if instrument is None else self.fee_bps(instrument)
+        return self.flat_fee(instrument) + abs(order_value_base) * bps / 10_000.0
 
 
 DEFAULT_COSTS = CostParams()

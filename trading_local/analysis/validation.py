@@ -1,4 +1,4 @@
-﻿"""Validation replay: the out-of-sample evidence for the deterministic part of the signal engine.
+"""Validation replay: the out-of-sample evidence for the deterministic part of the signal engine.
 
 The stored minute history is replayed through EXACTLY the live code path - ``features.build_features``,
 ``setups.detect``, ``scoring.score_hit`` and the life cycle of ``tracking`` with the fill rules of
@@ -273,7 +273,9 @@ class TradeSimulator:
         if exit_ is None:
             raise RuntimeError("exit search and execution.exit_on_bar disagree")
         exit_price = execution.exit_fill_price(self._costs, self._instrument, direction, exit_)
-        return execution.result_r(direction, entry_price, exit_price, stop_dist)
+        return execution.result_r(
+            direction, entry_price, exit_price, stop_dist, fee_bps=self._costs.fee_bps(self._instrument)
+        )
 
     def _limits_for(self, entry: int, horizon_min: int, intraday: bool) -> tuple[int, int | None, int]:
         """(time stop, session flattening or None, index of the first bar at or after the earlier of both)."""

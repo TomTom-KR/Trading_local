@@ -61,7 +61,7 @@ def test_weights_sum_to_one_and_params_are_hashable_and_frozen() -> None:
 def test_version_format_and_determinism() -> None:
     version = ENGINE_PARAMS.version
     assert re.fullmatch(rf"{RULES_REVISION}-[0-9a-f]{{8}}", version)
-    assert version.startswith("e2-")
+    assert version.startswith("e3-")
     assert EngineParams().version == version
 
 

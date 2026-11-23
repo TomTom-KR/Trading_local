@@ -1,4 +1,4 @@
-﻿"""API payload models (pydantic). This file is the contract between backend services, the REST/WebSocket
+"""API payload models (pydantic). This file is the contract between backend services, the REST/WebSocket
 API and the browser GUI.
 
 Rules

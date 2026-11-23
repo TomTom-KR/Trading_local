@@ -234,11 +234,11 @@ def test_reason_codes_are_never_shown_raw() -> None:
 
 
 def test_r_results_are_labelled_without_order_fees() -> None:
-    """MONEY-4: tracked and validated R include the slippage but not the broker's flat order fee."""
+    """MONEY-4 / e3: tracked and validated R include slippage and the percentage commission, not the flat fee."""
     for name in ("views/signals.js", "views/validation.js"):
         text = (STATIC / name).read_text(encoding="utf-8")
         assert "nach Kosten" not in text and "Kosten." not in text, name
-        assert "nach Slippage, ohne Ordergebühren" in text, name
+        assert "nach Slippage und Provision, ohne feste Ordergebühren" in text, name
 
 
 def test_settings_form_covers_every_runtime_setting_with_its_bounds() -> None:

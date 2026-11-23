@@ -1,4 +1,4 @@
-﻿"""The live signal engine (implements ``contracts.Engine``).
+"""The live signal engine (implements ``contracts.Engine``).
 
 Minute cycle (``on_minute``), always in this order:
 

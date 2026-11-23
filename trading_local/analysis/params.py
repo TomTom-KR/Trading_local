@@ -1,4 +1,4 @@
-﻿"""The one and only parameter set of the signal engine.
+"""The one and only parameter set of the signal engine.
 
 Every number that shapes a decision lives in ``EngineParams``: indicator periods, setup thresholds, risk
 distances, score weights, the calibration prior and the tracking rules. The values are fixed textbook
@@ -16,7 +16,7 @@ from typing import Any
 
 # e2: payoff-aware expected R, news timing relative to the bucket end (age from first sight), daily
 #     features only with the previous session's daily bar, tracking on settled bars only.
-RULES_REVISION = "e2"
+RULES_REVISION = "e3"  # e3: proportional fees no longer move fill prices (23.11.2026)
 
 DEFAULT_WEIGHTS: tuple[tuple[str, float], ...] = (
     ("trend", 0.22),

@@ -157,7 +157,9 @@ def _close(
     """
     signal.exit_ts = int(exit_ts)
     signal.exit_price = execution.exit_fill_price(costs, instrument, signal.direction, exit_)
-    signal.outcome_r = execution.result_r(signal.direction, entry_price, signal.exit_price, signal.stop_dist)
+    signal.outcome_r = execution.result_r(
+        signal.direction, entry_price, signal.exit_price, signal.stop_dist, fee_bps=costs.fee_bps(instrument)
+    )
     move = (exit_.price - entry_price) * signal.sign / signal.stop_dist if signal.stop_dist > 0 else 0.0
     signal.mfe_r = max(signal.mfe_r or 0.0, move, 0.0)
     signal.mae_r = max(signal.mae_r or 0.0, -move, 0.0)

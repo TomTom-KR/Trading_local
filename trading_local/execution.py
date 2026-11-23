@@ -91,12 +91,19 @@ def exit_on_bar(
     return None
 
 
-def result_r(side: Direction, entry_price: float, exit_price: float, stop_dist: float) -> float:
-    """Realised result in R (multiples of the initial risk). Both prices already include slippage."""
+def result_r(
+    side: Direction, entry_price: float, exit_price: float, stop_dist: float, *, fee_bps: float = 0.0
+) -> float:
+    """Realised result in R (multiples of the initial risk).
+
+    Both prices already include slippage. ``fee_bps`` is the proportional commission per order
+    (``CostParams.fee_bps``); entry and exit fee are deducted on their own order values.
+    """
     if stop_dist <= 0:
         return 0.0
     sign = 1.0 if side == "LONG" else -1.0
-    return (exit_price - entry_price) * sign / stop_dist
+    fees = fee_bps / 10_000.0 * (abs(entry_price) + abs(exit_price))
+    return ((exit_price - entry_price) * sign - fees) / stop_dist
 
 
 def excursion_r(

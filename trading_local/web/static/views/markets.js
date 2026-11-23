@@ -1,4 +1,4 @@
-﻿// #/maerkte - the full watchlist: filters, search, add an instrument, activate/deactivate.
+// #/maerkte - the full watchlist: filters, search, add an instrument, activate/deactivate.
 
 import { html, useMemo, useState } from '../vendor/preact-htm.mjs';
 import { api, errorText } from '../lib/api.js';

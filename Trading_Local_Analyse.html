@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Local – Funktions- und Bedarfsanalyse</title>
+<meta name="description" content="Funktions- und Bedarfsanalyse der Plattform Trading Local mit priorisierten Verbesserungen">
+<link rel="icon" href="data:,">
+<style>
+:root {
+  --bg: #f3f5f9; --panel: #ffffff; --panel-2: #edf1f7; --line: #d9e0ea; --text: #131f33; --muted: #566277;
+  --accent: #1b5ed1; --accent-soft: #e3edff; --code: #edf0f6; --ok: #17803d;
+  --shadow: 0 1px 2px rgb(15 23 42 / 6%), 0 18px 40px -18px rgb(15 23 42 / 28%);
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Roboto, sans-serif;
+  --font-head: "Segoe UI Variable Display", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --mono: "Cascadia Mono", Consolas, ui-monospace, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c121b; --panel: #141c28; --panel-2: #1a2434; --line: #27344a; --text: #e6ebf3; --muted: #93a0b5;
+    --accent: #6ea4ff; --accent-soft: #162a4a; --code: #1b2535; --ok: #4ade80;
+    --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 18px 40px -18px rgb(0 0 0 / 70%); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c121b; --panel: #141c28; --panel-2: #1a2434; --line: #27344a; --text: #e6ebf3; --muted: #93a0b5;
+  --accent: #6ea4ff; --accent-soft: #162a4a; --code: #1b2535; --ok: #4ade80;
+  --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 18px 40px -18px rgb(0 0 0 / 70%); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.62 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); }
+img { max-width: 100%; height: auto; }
+code, kbd, pre { font-family: var(--mono); }
+code { background: var(--code); padding: .08em .38em; border-radius: 5px; font-size: .88em; overflow-wrap: anywhere; }
+kbd { display: inline-block; min-width: 1.6em; padding: .05em .45em; text-align: center; font-size: .85em; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; background: var(--panel); }
+pre { background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font-size: 13px; line-height: 1.55; margin: 0 0 16px; }
+pre code { background: none; padding: 0; font-size: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* ---------------------------------------------------------------- Kopfleiste */
+.bar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 14px; padding: 9px clamp(14px, 3vw, 28px); background: color-mix(in srgb, var(--panel) 92%, transparent); border-bottom: 1px solid var(--line); backdrop-filter: blur(10px); }
+.bar .brand { font: 650 17px var(--font-head); color: var(--text); text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+.bar .brand svg { color: var(--accent); }
+.bar .brand small { font-weight: 400; color: var(--muted); font-size: 14px; }
+.bar nav.pills { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+.bar nav.pills a { padding: 5px 11px; border-radius: 999px; color: var(--muted); text-decoration: none; white-space: nowrap; font-size: 14px; font-weight: 500; }
+.bar nav.pills a:hover { background: var(--panel-2); color: var(--text); }
+.bar nav.pills a.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.bar button { border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 9px; padding: 6px 11px; cursor: pointer; font: inherit; font-size: 14px; }
+.bar button:hover { background: var(--panel-2); }
+
+/* ---------------------------------------------------------------- Raster */
+.wrap { display: grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1640px; margin: 0 auto; }
+.toc { position: sticky; top: 56px; align-self: start; height: calc(100dvh - 56px); overflow-y: auto; padding: 22px 12px 40px clamp(14px, 2vw, 26px); font-size: 14px; }
+.toc a { display: block; padding: 4px 10px; border-radius: 7px; color: var(--muted); text-decoration: none; }
+.toc a:hover { background: var(--panel-2); color: var(--text); }
+.toc a.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.toc .grp { margin: 16px 0 4px 10px; font-size: 12.5px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
+.toc .sub { padding-left: 22px; font-size: 13.5px; }
+main { min-width: 0; padding: 26px clamp(14px, 3vw, 44px) 90px 8px; }
+section { margin-bottom: 72px; }
+h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; letter-spacing: -.01em; }
+h1 { font-size: clamp(30px, 4.2vw, 46px); margin: 0 0 10px; font-weight: 700; }
+h2 { font-size: clamp(25px, 3vw, 32px); margin: 0 0 14px; font-weight: 680; }
+h3 { font-size: 19px; margin: 34px 0 12px; font-weight: 650; }
+h4 { font-size: 16px; margin: 0 0 6px; font-weight: 650; }
+p { margin: 0 0 13px; max-width: 76ch; }
+ul, ol { margin: 0 0 14px; padding-left: 22px; max-width: 76ch; }
+li { margin: 4px 0; }
+.lead { font-size: 18.5px; color: var(--muted); max-width: 70ch; }
+.muted { color: var(--muted); }
+
+/* ---------------------------------------------------------------- Titelbereich und Ueberblick */
+.hero { padding: 6px 0 36px; }
+.hero .stand { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.overview { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 18px; margin-top: 26px; }
+.card { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; text-decoration: none; color: var(--text); box-shadow: var(--shadow); transition: transform .15s ease, border-color .15s ease; }
+.card:hover { transform: translateY(-3px); border-color: var(--accent); }
+.card img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; background: var(--panel-2); border-bottom: 1px solid var(--line); }
+.card .t { padding: 12px 16px 15px; }
+.card .t b { display: block; font: 650 17px var(--font-head); }
+.card .t span { display: block; color: var(--muted); font-size: 14px; line-height: 1.4; margin-top: 2px; }
+.card .t i { display: block; font-style: normal; font-size: 12.5px; color: var(--accent); margin-top: 6px; font-weight: 600; }
+
+/* ---------------------------------------------------------------- Bausteine */
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; box-shadow: var(--shadow); }
+.note { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 10px 16px; border-radius: 0 10px 10px 0; margin: 14px 0; max-width: 76ch; }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); margin: 0 0 18px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--panel-2); font-weight: 600; font-size: 13.5px; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+.steps { counter-reset: s; list-style: none; padding: 0; }
+.steps li { counter-increment: s; position: relative; padding: 2px 0 2px 42px; margin: 12px 0; }
+.steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+
+/* ---------------------------------------------------------------- Kapitel eines Layouts */
+.lay-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.lay-head .stil { color: var(--muted); font: 500 17px var(--font-head); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 18px; }
+.chips span { padding: 2px 11px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); background: var(--panel); }
+.tagline { font-size: 19px; color: var(--text); margin: 0 0 6px; max-width: 60ch; }
+.facts { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; margin: 22px 0 6px; }
+.facts dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; font-size: 14.5px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.hero-shot { margin: 22px 0 0; }
+
+figure { margin: 0; }
+figure a.zoom { display: block; cursor: zoom-in; }
+figure img { display: block; width: 100%; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: var(--shadow); }
+figcaption { margin-top: 7px; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 20px 18px; }
+.gallery.two { grid-template-columns: repeat(auto-fill, minmax(min(100%, 460px), 1fr)); }
+.devices { display: flex; flex-wrap: wrap; gap: 22px 20px; align-items: flex-start; margin: 4px 0 8px; }
+.devices figure.phone { width: 186px; }
+.devices figure.phoneL { width: 372px; }
+.devices figure.tablet { width: 262px; }
+.devices figure.tabletL { width: 392px; }
+.devices figure.phone img, .devices figure.phoneL img { border: 5px solid #0f1722; border-radius: 20px; }
+.devices figure.tablet img, .devices figure.tabletL img { border: 6px solid #0f1722; border-radius: 14px; }
+.devices h4 { flex: 0 0 100%; margin: 14px 0 -6px; color: var(--muted); font-weight: 600; font-size: 14px; }
+.devices h4:first-child { margin-top: 0; }
+.code-title { font-size: 13.5px; color: var(--muted); margin: 0 0 6px; }
+
+/* Vergleich der Geraete */
+.matrix th, .matrix td { padding: 12px 14px; vertical-align: middle; }
+.matrix td:first-child { font-size: 15px; }
+.matrix td a { display: block; }
+.matrix img { display: block; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.matrix figcaption { display: none; }
+.matrix img.d { width: 300px; }
+.matrix img.t { height: 215px; width: auto; }
+.matrix img.p { height: 215px; width: auto; }
+
+details { margin: 0 0 14px; }
+summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
+
+/* ---------------------------------------------------------------- Bildbetrachter */
+.lb { position: fixed; inset: 0; z-index: 100; display: none; background: rgb(6 10 18 / 90%); padding: 14px; }
+.lb.open { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+.lb img { max-width: 100%; max-height: calc(100dvh - 88px); width: auto; height: auto; border-radius: 8px; box-shadow: 0 20px 60px rgb(0 0 0 / 60%); background: #fff; }
+.lb p { color: #dbe3f0; margin: 0; text-align: center; max-width: 90ch; font-size: 14.5px; }
+.lb button { position: absolute; border: 0; background: rgb(255 255 255 / 14%); color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 24px; cursor: pointer; }
+.lb button:hover { background: rgb(255 255 255 / 26%); }
+.lb .x { top: 14px; right: 14px; }
+.lb .prev { left: 14px; top: 50%; }
+.lb .next { right: 14px; top: 50%; }
+
+/* ---------------------------------------------------------------- schmale Anzeige */
+@media (max-width: 1100px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); }
+  .toc { display: none; }
+  main { padding-left: clamp(14px, 3vw, 44px); }
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .bar nav.pills { -webkit-mask-image: linear-gradient(to right, #000 88%, transparent); mask-image: linear-gradient(to right, #000 88%, transparent); }
+}
+@media (max-width: 640px) {
+  .bar .brand small { display: none; }
+  .devices figure.phone { width: calc(50% - 10px); }
+  .devices figure.phoneL, .devices figure.tabletL { width: 100%; }
+  .devices figure.tablet { width: calc(70% - 10px); }
+  .matrix img.d { width: 220px; }
+  .matrix img.t, .matrix img.p { height: 170px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .card { transition: none; } }
+@media print {
+  .bar, .toc, .lb { display: none !important; }
+  .wrap { display: block; }
+  body { background: #fff; color: #000; }
+  section { break-inside: auto; margin-bottom: 30px; }
+  figure { break-inside: avoid; }
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+.status { display: inline-block; padding: 1px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 650; white-space: nowrap; }
+.s-ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+.s-part { background: color-mix(in srgb, #c4861f 20%, transparent); color: light-dark(#7a4f00, #e8b25a); }
+.s-open { background: color-mix(in srgb, #d0402f 16%, transparent); color: light-dark(#a8311d, #f08a7b); }
+.prio { display: inline-block; min-width: 26px; text-align: center; padding: 1px 8px; border-radius: 6px; font-weight: 700; font-size: 12.5px; }
+.p-m { background: light-dark(#fde7e3, #3b1c18); color: light-dark(#a8311d, #f08a7b); }
+.p-s { background: light-dark(#fff1d6, #352812); color: light-dark(#7a4f00, #e8b25a); }
+.p-k { background: var(--accent-soft); color: var(--accent); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 14px; margin: 18px 0 8px; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; box-shadow: var(--shadow); }
+.kpi b { display: block; font: 680 26px var(--font-head); letter-spacing: -.01em; }
+.kpi span { display: block; color: var(--muted); font-size: 13.5px; line-height: 1.35; margin-top: 2px; }
+.findings { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; margin: 16px 0; }
+.findings .panel h4 { margin-bottom: 8px; }
+.findings .panel p { font-size: 15px; }
+.warn { border-left-color: #c4861f; background: light-dark(#fff6e6, #2a2211); }
+.bad { border-left-color: #d0402f; background: light-dark(#fdeeeb, #2b1715); }
+td.c, th.c { text-align: center; }
+.tbl td:first-child { white-space: normal; }
+.phase { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 6px 18px; margin: 10px 0 22px; }
+.phase dt { font: 650 15px var(--font-head); color: var(--accent); }
+.phase dd { margin: 0; }
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="#oben"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="22" viewBox="0 0 66 48" fill="none" stroke-linecap="round" role="img" aria-label="Trading">
+  
+  <path d="M12 6V45M33 3.5V37M54 2V31" stroke="currentColor" stroke-width="3.5"/>
+  <rect x="3.5" y="15" width="17" height="21" rx="3" style="fill:light-dark(#0e8a69,#259b7b)"/>
+  <rect x="24.5" y="9" width="17" height="17" rx="3" style="fill:light-dark(#d0402f,#dc5a47)"/>
+  <rect x="45.5" y="5" width="17" height="16" rx="3" style="fill:light-dark(#0e8a69,#259b7b)"/>
+</svg>Trading <small>Analyse</small></a>
+  <nav class="pills" aria-label="Abschnitte"><a href="#zusammenfassung">Zusammenfassung</a><a href="#anforderungen">Anforderungen</a><a href="#funktionen">Funktionen</a><a href="#erste-ergebnisse">Ergebnisse</a><a href="#bedarf">Bedarf</a><a href="#verbesserungen">Verbesserungen</a><a href="#fahrplan">Fahrplan</a><a href="#kennzahlen">Kennzahlen</a></nav>
+  <button type="button" id="theme" aria-label="Farbschema wechseln" title="Farbschema wechseln">Hell / Dunkel</button>
+</header>
+<div class="wrap" id="oben">
+  <aside class="toc" aria-label="Inhalt">
+<div class="grp">Überblick</div>
+<a href="#zusammenfassung">Zusammenfassung</a><a href="#ausgangslage">Ausgangslage und Ziel</a><a href="#anforderungen">Anforderungen</a>
+<div class="grp">Analyse</div>
+<a href="#funktionen">Funktionsanalyse</a><a href="#erste-ergebnisse">Erste Ergebnisse</a><a href="#bedarf">Bedarfsanalyse</a>
+<div class="grp">Empfehlungen</div>
+<a href="#verbesserungen">Verbesserungen</a><a href="#risiken">Risiken und Grenzen</a><a href="#fahrplan">Fahrplan</a><a href="#kennzahlen">Kennzahlen</a>
+</aside>
+  <main>
+
+<section class="hero" id="zusammenfassung">
+<h1>Trading Local – Funktions- und Bedarfsanalyse</h1>
+<p class="lead">Was die Plattform heute kann, wie gut sie den Zweck erfüllt und was bis zum automatisierten Handel noch fehlt.</p>
+<p class="stand">Stand 23.11.2026, 08:30 Uhr · Version 0.1.0 · Engine e3-53192150 · nach rund 11 Stunden Echtbetrieb</p>
+
+<div class="kpis">
+<div class="kpi"><b>10 / 10</b><span>Anforderungen umgesetzt, eine davon nur eingeschränkt (Echtzeit bei Aktien)</span></div>
+<div class="kpi"><b>115</b><span>Werte: 71 Aktien, 17 Indizes, 12 Devisen, 5 Futures, 10 Krypto-Paare</span></div>
+<div class="kpi"><b>1,38 Mio.</b><span>gespeicherte Minutenkerzen (30 Tage Aktien, 14 Tage Krypto)</span></div>
+<div class="kpi"><b>&gt; 3.000</b><span>automatische Tests, alle grün; drei unabhängige Prüfrunden</span></div>
+<div class="kpi"><b>41</b><span>Signale in 11 Stunden, 13 davon als Empfehlung ausgegeben</span></div>
+<div class="kpi"><b>0 / 24</b><span>abgeschlossene Signale im Gewinn – Ursachen siehe <a href="#erste-ergebnisse">Erste Ergebnisse</a></span></div>
+</div>
+
+<h2 style="margin-top:34px">Kernaussagen</h2>
+<ol class="steps">
+<li><b>Funktional vollständig.</b> Alle zehn Anforderungen aus dem Auftrag sind umgesetzt und laufen im Echtbetrieb. Nur die <b>Echtzeit bei Aktien</b> fehlt: Yahoo liefert die meisten Börsen 15 bis 30 Minuten verzögert. In Echtzeit kommen Krypto über Kraken sowie Kopenhagen und Stockholm.</li>
+<li><b>Technisch belastbar.</b> Der Minutenzyklus braucht im Schnitt 0,15 s. Stream-Abbrüche heilen sich in etwa einer Sekunde, und in 11 Stunden ist der Server nicht abgestürzt. Über 3.000 Tests und drei unabhängige Prüfrunden haben 30 Integrationsfehler und viele Modulfehler gefunden und behoben.</li>
+<li><b>Ein ernster Fehler wurde in dieser Analyse gefunden und behoben.</b> Die Kraken-Gebühr von 0,40 % war in den Ausführungskurs eingerechnet. Dadurch lagen enge Krypto-Stopps praktisch auf dem Marktpreis, und die Krypto-Signale wurden meist in ihrer ersten Minute ausgestoppt. Seit Engine-Version e3 wird die Gebühr als Geld bzw. in R abgezogen; Statistik und Kalibrierung beginnen neu.</li>
+<li><b>Ob die Regeln einen Vorteil haben, ist offen.</b> 24 abgeschlossene Signale, alle im Verlust. Ein Teil geht auf den Kostenfehler zurück, ein Teil auf einen fallenden Asienmarkt in der ersten Nacht. Die Stichprobe ist winzig und stark gebündelt. Das klärt erst die Testphase, und dafür ist sie da.</li>
+<li><b>Die größten Hebel</b> liegen nicht in neuen Signalregeln, sondern in vier Bereichen: <a href="#verbesserungen">Betriebssicherheit</a> (Dienst, Alarm, Backup), Echtzeitdaten für Aktien, Risikobegrenzung über zusammenhängende Signale hinweg und die sichere Vorbereitung des Kraken-Live-Handels.</li>
+</ol>
+</section>
+
+<section id="ausgangslage">
+<h2>Ausgangslage und Ziel</h2>
+<p>Trading Local soll einem Privatanleger auf seinem Windows-PC zeitkritische Kauf- und Verkaufsempfehlungen liefern. Dazu gehören Long und Short, Chartanalyse, minütliche Nachrichten-Auswertung durch ein lokales Sprachmodell und die Handelszeiten in Asien, Europa und den USA. Eine Simulation stellt die Empfehlungen der KI dem eigenen Handeln gegenüber. Alle Minutendaten werden gespeichert und für die Analyse genutzt, ohne dass sich die Regeln an die Vergangenheit anpassen.</p>
+<p>Seit gestern ist ein weiteres Ziel klar: Nach einer Testphase soll die Plattform <b>automatisiert über Kraken handeln</b>, mit deinem eigenen API-Schlüssel. Daraus folgt der Maßstab dieser Analyse. Es reicht nicht, dass jede Funktion existiert. Die Ergebnisse der Simulation müssen verlässlich genug sein, um eine Geldentscheidung darauf zu stützen.</p>
+<div class="facts">
+<div><h4>Rahmenbedingungen</h4><dl>
+<dt>Rechner</dt><dd>Windows 11, 32 GB RAM, RTX 2080 SUPER mit 8 GB</dd>
+<dt>Modell</dt><dd>qwen3.5:9b über Ollama, Kontext 4096, Temperatur 0,1, ohne Denkmodus</dd>
+<dt>Daten</dt><dd>kostenlos: Yahoo Finance (inoffizielle Schnittstelle), Kraken (öffentlich), 147 RSS-Feeds</dd>
+<dt>Kapital Test</dt><dd>100.000 € je Depot (seit 23.11.2026)</dd>
+</dl></div>
+<div><h4>Nutzungsziele</h4><ul>
+<li>Testphase: etwa 3 Monate unveränderte Regeln, belastbare Kennzahlen</li>
+<li>Zeitkritische Empfehlungen per Mail, später auch schneller</li>
+<li>Danach Live-Handel mit Krypto über Kraken, wenn die vorab festgelegten Kriterien erfüllt sind</li>
+</ul></div>
+</div>
+</section>
+
+<section id="anforderungen">
+<h2>Anforderungen und Erfüllungsgrad</h2>
+<p>Die zehn Anforderungen aus dem ursprünglichen Auftrag, mit dem Stand nach 11 Stunden Echtbetrieb.</p>
+<div class="tbl"><table><thead><tr><th>Anforderung</th><th>Umsetzung</th><th class="c">Stand</th><th>Bemerkung</th></tr></thead><tbody>
+<tr><td>Lokales LLM qwen3.5:9b</td><td>Ollama-Anbindung mit Prioritäts-Warteschlange (Trade-Prüfung vor News vor Chart), strukturierte Ausgabe mit Schema</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>Gemessen im Betrieb: News 1,6 s, Trade-Prüfung 3,3 s, Chartbild 3,8 s; 2 Fehler in rund 1.000 Aufrufen</td></tr>
+<tr><td>Minütliche News-Scraps und -Analysen</td><td>147 Feeds aus USA, Europa und Asien, Abruf alle 60–300 s, Duplikaterkennung, Zuordnung zu Werten, KI-Bewertung</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>Rund 320 neue Meldungen und 145 KI-Analysen pro Stunde; Meldungen ohne Bezug zur Beobachtungsliste gehen bewusst nicht an die KI</td></tr>
+<tr><td>Kurse der wichtigsten Unternehmen</td><td>71 Aktien aus Asien, Europa und USA, dazu Indizes, Devisen, Futures und 10 Krypto-Paare; in der Oberfläche erweiterbar</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>Historie: 30 Tage Minuten, 5 Jahre Tageskurse (Krypto: 14 Tage Minuten, 2 Jahre Tage)</td></tr>
+<tr><td>Echtzeitnahe Daten für zeitkritische Empfehlungen per Mail</td><td>Yahoo-Stream plus Abgleich, Kraken-WebSocket; Mail über GMX oder als Datei</td><td class="c"><span class="status s-part">teilweise</span></td><td>Krypto in Echtzeit. Aktien: Yahoo meldet 15 Min (Nasdaq), 20 Min (NYSE, Tokio, Seoul) bis 30 Min (Zürich, Shanghai) Verzögerung. Mailversand getestet, steht aber noch auf „Datei“</td></tr>
+<tr><td>Automatisierte Chart-Analysen</td><td>Technische Lage je Wert (Trend, Momentum, Volumen, Marken) und KI-Bildanalyse im Hintergrund, auf Knopfdruck neu</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>277 KI-Chartanalysen in 11 Stunden. Laut Messung liefert das Bild kaum Mehrwert gegenüber den Zahlen, die Kursmarken berechnet der Code</td></tr>
+<tr><td>Long und Short</td><td>Alle Setups in beide Richtungen; Leerverkauf in der Simulation; Hinweis auf CFD, Knock-out und Short-ETF in der Mail</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>Finanzierungskosten für mehrtägige Shorts sind nicht abgebildet</td></tr>
+<tr><td>Gut aussehende, funktionale GUI als Webservice</td><td>9 Ansichten, hell und dunkel, mobil, Live-Updates, sortierbare Märkteliste, Orderticket</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>Läuft offline ohne Fremdserver; kein Login, deshalb nur lokal erreichbar</td></tr>
+<tr><td>Handelszeiten Asien, Europa, USA</td><td>Kalender für 17 Börsen mit Feiertagen, verkürzten Tagen und Mittagspausen; Krypto und Devisen rund um die Uhr</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>2027 für China, Indien und Korea nur geschätzt, weil die Börsen erst im Dezember veröffentlichen</td></tr>
+<tr><td>Handels-Simulation KI gegen mich</td><td>Zwei Papierdepots mit identischen Regeln, Kosten und Ausführungslogik; Vergleich mit DAX und S&amp;P 500</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>Bei 10.000 € handelte das KI-Depot Aktien kaum (Gebühren, ganze Stücke), deshalb gilt jetzt 100.000 €</td></tr>
+<tr><td>Minutenwerte in der Datenbank, Analyse ohne Overfitting</td><td>SQLite, Zugriff nur auf bekannte Daten, feste Parameter mit Version, Kalibrierung nur aus abgeschlossenen Signalen, verworfene Kandidaten werden mitverfolgt, Validierung mit Zufallsvergleich</td><td class="c"><span class="status s-ok">erfüllt</span></td><td>Technisch abgesichert durch Tests, die Zukunftsdaten verfälschen und prüfen, dass sich nichts ändert</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="funktionen">
+<h2>Funktionsanalyse</h2>
+<p>Pro Bereich: was er leistet, die gemessenen Werte und wo seine Grenzen liegen.</p>
+
+<h3>Marktdaten</h3>
+<div class="facts"><div><p>Zwei Quellen mit getrennten Budgets: <b>Yahoo</b> für Aktien, Indizes, Devisen und Futures (Stream über zwei Verbindungen, Kurs-Snapshot alle 15 s, Minutenabgleich etwa alle 5 Minuten je Wert) und <b>Kraken</b> für Krypto (WebSocket mit Minutenkerzen und Geld-/Briefkurs, Abgleich alle 3 Minuten). Minutenkerzen gelten erst als bestätigt, wenn der Abgleich sie geprüft hat oder sie alt genug sind. Erst dann rechnen Depot und Signal-Journal damit.</p></div>
+<div><dl><dt>Messwerte</dt><dd>Abgleich 7 ms je Zyklus; erster Download 11 Min (Yahoo) bzw. 25 Min (Kraken); Stream-Wiederaufbau rund 1 s</dd><dt>Stärken</dt><dd>Selbstheilung, Lückenreparatur, nie gedrosselt</dd><dt>Grenzen</dt><dd>Verzögerte Aktienkurse; Yahoo ist inoffiziell und kann sich ändern; nur die letzten 30 Tage (Yahoo) bzw. 14 Tage (Kraken) lassen sich nachladen</dd></dl></div></div>
+
+<h3>Handelskalender</h3>
+<div class="facts"><div><p>Liefert für jede Börse die Phase (Handel, Mittagspause, Vor- und Nachbörse, geschlossen), Countdown, Handelsminuten und abgeschlossene Handelstage. Engine, Depot und Datenabgleich richten sich danach, ebenso das Handelszeiten-Band der Übersicht.</p></div>
+<div><dl><dt>Stärken</dt><dd>Gegen recherchierte Feiertage geprüft, z. B. Tokio am 23.11., US-Thanksgiving und Börsenschluss 2027</dd><dt>Grenzen</dt><dd>2027 für China, Indien und Korea geschätzt; Koreas Prüfungstag mit späterer Eröffnung fehlt; US-Nachthandel ab Dezember 2026 bewusst nicht genutzt</dd></dl></div></div>
+
+<h3>Nachrichten</h3>
+<div class="facts"><div><p>147 geprüfte Feeds werden höflich abgefragt (eigener Reader-Kennung, bedingte Abrufe, Begrenzung je Server). Meldungen werden entdoppelt und über eine Aliasliste mit 99 % Treffsicherheit Werten zugeordnet. Relevante Meldungen gehen an die KI, das Alter zählt ab der ersten Sichtung.</p></div>
+<div><dl><dt>Messwerte</dt><dd>Abruf aller Feeds im Schnitt 4 s (höchstens 13 s); 5.334 Meldungen in 11 Stunden, davon 698 analysiert, 551 Duplikate</dd><dt>Grenzen</dt><dd>Keine freien Feeds für Reuters, Bloomberg, EQS/DGAP (Ersatz über Aggregatoren); Wartezeit in der KI-Warteschlange im Schnitt 3 s</dd></dl></div></div>
+
+<h3>Lokale KI</h3>
+<div class="facts"><div><p>Drei Aufgaben: Nachrichten klassifizieren, Trade-Kandidaten prüfen (bestätigen, verkleinern, ablehnen) und Charts beschreiben. Zahlen, Kursmarken und Handelsrichtung legt immer der Code fest, die KI urteilt nur. Eingaben aus Nachrichten sind gegen Prompt-Injection gehärtet.</p></div>
+<div><dl><dt>Stärken</dt><dd>Schnell, fehlerarm, vollständig auf der GPU, keine Kosten</dd><dt>Auffällig</dt><dd>Bei den 41 Signalen urteilte die KI 25-mal „verkleinern“, 8-mal „bestätigen“ und nie „ablehnen“. Sie unterscheidet also kaum zwischen den Kandidaten. Ob sie überhaupt etwas beiträgt, zeigt erst der Vergleich nach rund 100 Signalen.</dd></dl></div></div>
+
+<h3>Signal-Engine</h3>
+<div class="facts"><div><p>Fünf klassische Setups (Trend-Rücksetzer, Ausbruch, Gegenbewegung, Nachrichten-Impuls, Tagestrend) mit festen Lehrbuchwerten. Dazu ein transparenter Score aus sieben Komponenten, eine vorsichtig gelernte Trefferwahrscheinlichkeit und ein Erwartungswert nach Kosten. Nur Kandidaten mit positivem Erwartungswert und ausreichendem Score werden Empfehlung. Alle anderen werden als verworfene Kandidaten genauso verfolgt.</p></div>
+<div><dl><dt>Messwerte</dt><dd>0,15 s je Minutenzyklus (höchstens 0,9 s); rund 3 s bei 100 gleichzeitig offenen Werten</dd><dt>Grenzen</dt><dd>Keine Begrenzung über zusammenhängende Signale hinweg: Samsung und SK hynix (beide Speicherchips) kamen in derselben Minute; nur Intraday- und Tagesrahmen</dd></dl></div></div>
+
+<h3>Simulation</h3>
+<div class="facts"><div><p>KI-Depot und dein Depot mit denselben Regeln: Ausführung zur Eröffnung der nächsten bestätigten Minute, Stopp hat Vorrang vor dem Ziel, Kurslücken werden ehrlich gebucht. Shorts behalten den Erlös in der Wertwährung. Das KI-Depot bemisst Positionen nach Risiko und begrenzt Größe, Anzahl und Hebel.</p></div>
+<div><dl><dt>Stärken</dt><dd>Buchhaltung gegen unabhängige Handrechnung geprüft, Neustart ohne Verlust</dd><dt>Grenzen</dt><dd>Keine Teilausführungen, keine Limit- oder Maker-Orders, keine Finanzierungskosten für Shorts, feste Spread-Annahmen statt Orderbuch</dd></dl></div></div>
+
+<h3>Mail-Alarme</h3>
+<div class="facts"><div><p>Einstiegs-, Ausstiegs- und „Entfällt“-Mails mit Chart. Es gibt Begrenzungen je Stunde und je Wert sowie Sendepausen nach Anmeldefehlern, damit GMX das Konto nicht sperrt. Die Testmail über GMX ist angekommen.</p></div>
+<div><dl><dt>Stand</dt><dd>10 Einstiegs- und 8 Ausstiegsmails als Datei in <code>data/outbox</code>, 3 durch Limits unterdrückt</dd><dt>Grenzen</dt><dd>Mail ist für Zeitkritisches langsam (Zustellung, Spam-Filter); höchstens 40 Mails am Tag</dd></dl></div></div>
+
+<h3>Oberfläche, API und Betrieb</h3>
+<div class="facts"><div><p>REST-API und WebSocket mit Schutz gegen fremde Webseiten (Host- und Origin-Prüfung, strenge Content-Security-Policy), dazu die Browser-Oberfläche. Betrieben wird die Plattform als ein Prozess, der mit <code>python -m trading_local</code> startet.</p></div>
+<div><dl><dt>Grenzen</dt><dd>Läuft nur, solange die Konsole bzw. der Prozess läuft: kein Autostart, kein automatischer Neustart, kein Backup, keine Warnung nach außen, wenn etwas ausfällt</dd></dl></div></div>
+</section>
+
+<section id="erste-ergebnisse">
+<h2>Erste Ergebnisse aus dem Echtbetrieb</h2>
+<p>Die erste Nacht (Sonntag 21:36 bis Montag 08:30 Uhr) mit Krypto rund um die Uhr und den Börsen in Seoul, Sydney, Hongkong, Shanghai und Taipeh.</p>
+<div class="tbl"><table><thead><tr><th>Kennzahl</th><th class="r">Wert</th><th>Einordnung</th></tr></thead><tbody>
+<tr><td>Signale gesamt</td><td class="r">41</td><td>30 Ausbruch, 9 Trend-Rücksetzer, 2 Tagestrend</td></tr>
+<tr><td>davon Empfehlungen</td><td class="r">13</td><td>alle aus Asien; Krypto-Kandidaten scheiterten am Erwartungswert</td></tr>
+<tr><td>Verworfene Kandidaten</td><td class="r">28</td><td>19 wegen negativen Erwartungswerts, 9 unter der Score-Schwelle</td></tr>
+<tr><td>Abgeschlossen</td><td class="r">24</td><td>alle ausgestoppt, kein Ziel erreicht</td></tr>
+<tr><td>Ø Ergebnis Empfehlungen</td><td class="r">−1,05 R</td><td>6 Signale, Stopps sauber gesetzt; teils lagen sie vorher bis +1,2 R im Plus</td></tr>
+<tr><td>Ø Ergebnis verworfene Kandidaten</td><td class="r">−1,85 R</td><td>fast nur Krypto, verzerrt durch den Kostenfehler (behoben)</td></tr>
+<tr><td>KI-Depot</td><td class="r">1 Trade</td><td>bei 10.000 € fast immer übersprungen: Gebühren bis 1,07 R oder weniger als 1 Stück</td></tr>
+</tbody></table></div>
+<div class="findings">
+<div class="panel"><h4>Befund 1: Kostenfehler bei Krypto</h4><p>Die Taker-Gebühr steckte im Ausführungskurs. Ein Beispiel: Short XRP, Markt bei 0,83637. Gebucht wurde 0,83269, und der Stopp landete mit 0,83586 schon unter dem Marktpreis. Das Signal war in derselben Minute mit −2,32 R ausgestoppt. <b>Behoben in e3</b>; neue Tests decken genau diesen Fall ab.</p></div>
+<div class="panel"><h4>Befund 2: Gebündelte Signale</h4><p>Samsung und SK hynix (beide Speicherchips) kamen in derselben Minute, ebenso mehrere Krypto-Paare in die gleiche Richtung. In der Statistik zählen sie wie unabhängige Beobachtungen, im Depot vervielfachen sie das Risiko einer einzigen Marktbewegung.</p></div>
+<div class="panel"><h4>Befund 3: Kosten bestimmen Krypto-Intraday</h4><p>Ein Hin- und Rückweg kostet bei Kraken rund 0,88 %. Das entspricht 0,88 R bei 1 % Stopp und mehr als einem ganzen R bei den typischen 0,4–0,6 %. Kurzfristige Krypto-Trades mit Marktorders können sich deshalb kaum lohnen. Die Engine hat das richtig erkannt und keinen davon empfohlen.</p></div>
+<div class="panel"><h4>Befund 4: KI-Prüfung unterscheidet kaum</h4><p>25-mal „verkleinern“, 8-mal „bestätigen“, nie „ablehnen“. Ein Urteil, das fast immer gleich ausfällt, liefert wenig Information. Das ist kein Fehler, aber ein Prüfpunkt für die Testphase.</p></div>
+</div>
+<div class="note warn">Statistisch sagen 24 Signale aus einer einzigen Nacht noch nichts über die Regeln. Die Plattform weist selbst darauf hin („statistisch noch nicht belastbar“). Belastbar wird es ab etwa 100 abgeschlossenen Empfehlungen, für eine Live-Entscheidung eher ab 150 bis 200.</div>
+</section>
+
+<section id="bedarf">
+<h2>Bedarfsanalyse</h2>
+<p>Was braucht die Plattform für die drei nächsten Ziele, und was davon ist schon da?</p>
+<div class="tbl"><table><thead><tr><th>Bedarf</th><th class="c">Heute</th><th>Was fehlt</th></tr></thead><tbody>
+<tr><td colspan="3"><b>Ziel A: aussagekräftige Testphase (etwa 3 Monate)</b></td></tr>
+<tr><td>Dauerbetrieb ohne Lücken</td><td class="c"><span class="status s-part">teilweise</span></td><td>Autostart, automatischer Neustart, Warnung bei Ausfall. Läuft die Plattform länger als 14 Tage nicht, bleiben Lücken in den Krypto-Minuten, nach 30 Tagen auch bei Aktien</td></tr>
+<tr><td>Unveränderte Regeln, saubere Versionen</td><td class="c"><span class="status s-ok">vorhanden</span></td><td>Disziplin: Regeln während der Testphase nicht ändern; jede Änderung erzeugt eine neue Engine-Version</td></tr>
+<tr><td>Unabhängige Beobachtungen</td><td class="c"><span class="status s-open">fehlt</span></td><td>Begrenzung je Branche oder Korrelationsgruppe, damit ein Ereignis nicht als fünf Signale zählt</td></tr>
+<tr><td>Regelmäßige Auswertung</td><td class="c"><span class="status s-part">teilweise</span></td><td>Die Kennzahlen stehen in der Oberfläche; ein Wochenbericht per Mail fehlt</td></tr>
+<tr><td>Datensicherung</td><td class="c"><span class="status s-open">fehlt</span></td><td>Tägliches Backup der Datenbank; die Minutenhistorie ist nicht wiederbeschaffbar</td></tr>
+<tr><td colspan="3"><b>Ziel B: zeitkritische Empfehlungen</b></td></tr>
+<tr><td>Echtzeitkurse</td><td class="c"><span class="status s-part">teilweise</span></td><td>Krypto ja; US-Aktien über Alpaca (kostenlos, IEX, 30 Werte), europäische Aktien nur kostenpflichtig (z. B. Interactive Brokers)</td></tr>
+<tr><td>Schneller Kanal</td><td class="c"><span class="status s-part">teilweise</span></td><td>Mail funktioniert; Push aufs Handy (ntfy, Pushover, Telegram) fehlt; Mail-Modus steht noch auf „Datei“</td></tr>
+<tr><td>Messung der echten Verzögerung</td><td class="c"><span class="status s-part">vorbereitet</span></td><td>Das Mess-Skript liegt bereit; der Lauf während der Handelszeiten steht aus</td></tr>
+<tr><td colspan="3"><b>Ziel C: Live-Handel über Kraken</b></td></tr>
+<tr><td>Ausführung über die Börse</td><td class="c"><span class="status s-open">fehlt</span></td><td>Kraken-Broker mit derselben Schnittstelle wie die Simulation; Paar-Daten (Mindestmengen, Nachkommastellen) liegen schon vor</td></tr>
+<tr><td>Sicherheitsnetz</td><td class="c"><span class="status s-open">fehlt</span></td><td>Schlüssel nur mit Handelsrecht, Limits für Größe, Tagesverlust und Positionen, Not-Aus, Probelauf mit <code>validate</code>, Abgleich mit dem echten Kontostand</td></tr>
+<tr><td>Kosten wie im echten Handel</td><td class="c"><span class="status s-part">teilweise</span></td><td>Taker-Gebühr modelliert; Limit- bzw. Maker-Orders (0,25 %) und die echte Gebührenstufe fehlen</td></tr>
+<tr><td>Steuern</td><td class="c"><span class="status s-open">fehlt</span></td><td>Export der Trades für die Steuererklärung; Krypto-Gewinne innerhalb eines Jahres sind steuerpflichtig</td></tr>
+<tr><td>Go-live-Entscheidung</td><td class="c"><span class="status s-part">teilweise</span></td><td>Kriterien sind vereinbart; eine automatische Prüfung in der Oberfläche fehlt</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="verbesserungen">
+<h2>Verbesserungen</h2>
+<p>Priorität <span class="prio p-m">M</span> muss vor dem Live-Handel umgesetzt sein, <span class="prio p-s">S</span> sollte in der Testphase kommen, <span class="prio p-k">K</span> kann später folgen. Aufwand: S bis 1 Tag, M einige Tage, L etwa 1 bis 2 Wochen.</p>
+<div class="tbl"><table><thead><tr><th class="c">Prio</th><th>Maßnahme</th><th>Begründung</th><th class="c">Aufwand</th></tr></thead><tbody>
+<tr><td class="c"><span class="prio p-m">M1</span></td><td><b>Dauerbetrieb</b>: als Windows-Dienst oder geplante Aufgabe mit Autostart, Überwachung und automatischem Neustart</td><td>Ohne Dauerbetrieb entstehen Datenlücken, und die Testphase verliert Signale</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-m">M2</span></td><td><b>Ausfall-Alarm</b> per Mail bzw. Push: Server weg, Stream tot, Daten veraltet, KI nicht erreichbar, Mails scheitern</td><td>Heute merkt man Ausfälle nur in der Oberfläche</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-m">M3</span></td><td><b>Tägliches Backup</b> der Datenbank (SQLite-Backup im laufenden Betrieb), mehrere Generationen</td><td>Minutenhistorie und Signal-Journal sind nicht wiederbeschaffbar</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-m">M4</span></td><td><b>Kraken-Live-Broker</b> hinter der bestehenden Broker-Schnittstelle, zuerst nur mit Prüf-Orders (<code>validate</code>)</td><td>Voraussetzung für den automatisierten Handel; die Simulation bleibt als Vergleich</td><td class="c">L</td></tr>
+<tr><td class="c"><span class="prio p-m">M5</span></td><td><b>Sicherheitsnetz</b>: Limits für Ordergröße, Tagesverlust und offene Positionen, Not-Aus in der Oberfläche, Abgleich der Positionen mit dem Konto, Alarm bei Abweichung</td><td>Schützt vor Fehlern im Code und vor Ausreißern</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-m">M6</span></td><td><b>Go-live-Prüfung</b> in der Oberfläche: Stichprobe, Ø R nach Kosten mit Intervall, Zufallsvergleich, KI-Depot gegen Bitcoin halten</td><td>Die Entscheidung soll an vorher festgelegten Zahlen hängen, nicht am Bauchgefühl</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-m">M7</span></td><td><b>Steuer-Export</b> der Trades (CSV, FIFO, Haltedauer)</td><td>Pflicht bei automatisiertem Krypto-Handel</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-s">S1</span></td><td><b>Risikogruppen</b>: höchstens 1–2 gleichgerichtete Signale je Branche bzw. Korrelationsgruppe gleichzeitig</td><td>Gebündelte Signale verzerren die Statistik und vervielfachen das Risiko (Befund 2)</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-s">S2</span></td><td><b>Verzögerung messen</b> während der Handelszeiten heute und danach die Werte in der Instrumentenliste anpassen</td><td>Klärt, ob US-Aktien bei Yahoo in Echtzeit kommen</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-s">S3</span></td><td><b>Echtzeit für US-Aktien</b> über Alpaca (kostenlos, IEX-Feed, 30 Werte); die Datenquellen-Schnittstelle ist dafür vorbereitet</td><td>Macht US-Empfehlungen wirklich zeitkritisch</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-s">S4</span></td><td><b>Push-Benachrichtigungen</b> (ntfy, Pushover oder Telegram) zusätzlich zur Mail</td><td>Sekunden statt Minuten; unabhängig von Spam-Filtern</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-s">S5</span></td><td><b>Mails auf SMTP stellen</b>, nach dem Wechsel des GMX-App-Passworts</td><td>Heute landen Empfehlungen nur im Ordner <code>data/outbox</code></td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-s">S6</span></td><td><b>Wert der KI-Prüfung messen</b>: Ergebnisse je Urteil auswerten; wenn „verkleinern“ nichts trennt, den Prompt schärfen oder die Prüfung abschalten</td><td>Befund 4; spart Rechenzeit und Verzögerung</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-s">S7</span></td><td><b>Wochenbericht</b> per Mail: Kennzahlen, beste und schlechteste Setups, Datenlücken, Ausfallzeiten</td><td>Regelmäßige Kontrolle ohne Oberfläche</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-s">S8</span></td><td><b>Krypto-Kosten realistischer</b>: Limit- bzw. Maker-Orders (0,25 %) als Option, echte Gebührenstufe einstellbar</td><td>Befund 3: Mit Marktorders ist Krypto-Intraday kaum profitabel</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-s">S9</span></td><td><b>Kalender 2027</b> für China, Indien und Korea nachtragen, sobald veröffentlicht (Dezember 2026)</td><td>Vermeidet Signale an unbekannten Feiertagen</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-s">S10</span></td><td><b>Statusanzeige</b>: exotische Devisenpaare (z. B. Rupie, Yuan) nicht als „veraltet“ melden; Hinweis, wenn eine Datenlücke droht (14 bzw. 30 Tage)</td><td>Weniger Fehlalarme, rechtzeitige Warnung</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-k">K1</span></td><td>Finanzierungskosten für mehrtägige Shorts (CFD-Modell)</td><td>Betrifft nur die Tagestrend-Signale</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-k">K2</span></td><td>Browser-Benachrichtigung bei neuen Empfehlungen; Sortierung und Favoriten in der Märkteliste der Übersicht</td><td>Komfort</td><td class="c">S</td></tr>
+<tr><td class="c"><span class="prio p-k">K3</span></td><td>Größeres Modell nachts, z. B. das installierte Qwen3.6-35B-A3B, für Tagesrückblick und News-Zusammenfassung</td><td>Mehr Tiefe ohne Echtzeitdruck; passt nicht ganz in 8 GB GPU-Speicher</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-k">K4</span></td><td>Automatische Tests bei jedem Push (GitHub Actions, Windows) und statische Typprüfung</td><td>Sichert die Qualität bei weiteren Änderungen</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-k">K5</span></td><td>Zugriff vom Handy unterwegs über VPN (z. B. Tailscale) statt Port-Freigabe, dann mit Login</td><td>Ohne Login darf der Port nicht ins Netz</td><td class="c">M</td></tr>
+<tr><td class="c"><span class="prio p-k">K6</span></td><td>Neue Setups oder Zeitrahmen erst <b>nach</b> der Testphase und immer als neue Version mit eigener Validierung</td><td>Während der Testphase wäre jede Änderung ein Schritt Richtung Overfitting</td><td class="c">–</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="risiken">
+<h2>Risiken und Grenzen</h2>
+<div class="tbl"><table><thead><tr><th>Risiko</th><th>Auswirkung</th><th>Umgang</th></tr></thead><tbody>
+<tr><td>Yahoo ist eine inoffizielle Schnittstelle</td><td>Kann sich ohne Vorwarnung ändern oder drosseln; Nutzungsbedingungen sind auf private Nutzung ausgelegt</td><td>Datenquellen-Schnittstelle erlaubt Ersatz; Drosselungsschutz eingebaut; für Live-Handel nur Kraken-Daten nutzen</td></tr>
+<tr><td>Verzögerte Aktienkurse</td><td>Empfehlungen kommen 15–30 Minuten nach der Bewegung</td><td>Die Simulation bildet das ab (Einstieg erst mit verzögerten Daten); Echtzeitquelle für US (S3)</td></tr>
+<tr><td>Kleine, gebündelte Stichproben</td><td>Scheinbare Erfolge oder Misserfolge durch Zufall</td><td>Konfidenzintervalle, Zufallsvergleich, Risikogruppen (S1), lange genug testen</td></tr>
+<tr><td>Grenzen des 9B-Modells</td><td>Urteile mit wenig Trennschärfe, gelegentliche Fehlklassifikationen</td><td>KI entscheidet nie allein; Wert messen (S6)</td></tr>
+<tr><td>Einzelner Rechner</td><td>Strom, Updates, Ruhezustand unterbrechen den Betrieb</td><td>Dienst mit Neustart (M1), Alarm (M2), Backup (M3)</td></tr>
+<tr><td>Live-Handel mit echtem Geld</td><td>Fehler kosten Geld</td><td>Erst nach erfüllten Kriterien, mit Sicherheitsnetz (M5), Probelauf und Minibeträgen</td></tr>
+</tbody></table></div>
+<div class="note">Trading Local ist ein Werkzeug zum Forschen und Üben. Die Empfehlungen sind keine Anlageberatung.</div>
+</section>
+
+<section id="fahrplan">
+<h2>Empfohlener Fahrplan</h2>
+<dl class="phase">
+<dt>Diese Woche</dt><dd>GMX-App-Passwort wechseln und Mails auf SMTP stellen (S5). Verzögerung während der Handelszeiten messen (S2). Dauerbetrieb mit Autostart und Neustart (M1), Ausfall-Alarm (M2), tägliches Backup (M3). Danach die Regeln einfrieren: Engine-Version e3 ist die Testversion.</dd>
+<dt>Woche 2–4</dt><dd>Risikogruppen (S1) und Push-Benachrichtigungen (S4). Weil S1 die Signalauswahl ändert, entsteht damit die endgültige Testversion; ab dann keine Regeländerungen mehr. Optional Alpaca für US-Echtzeit (S3).</dd>
+<dt>Woche 4–12</dt><dd>Testphase laufen lassen, Wochenbericht (S7), Zwischenbilanz nach 4 und 8 Wochen ohne Eingriffe. Parallel den Kraken-Live-Broker im Prüfmodus (M4) und das Sicherheitsnetz (M5) bauen, dazu Go-live-Prüfung (M6) und Steuer-Export (M7).</dd>
+<dt>Nach der Testphase</dt><dd>Entscheidung anhand der Kriterien. Wenn erfüllt: Probelauf mit Prüf-Orders, dann Minibeträge mit engen Limits, dann schrittweise mehr. Wenn nicht erfüllt: Ergebnisse auswerten und als neue Version mit eigener Validierung weiterentwickeln, nicht nachjustieren.</dd>
+</dl>
+</section>
+
+<section id="kennzahlen">
+<h2>Kennzahlen für die Testphase</h2>
+<p>Diese Werte entscheiden über den Live-Handel. Sie sollten vorher feststehen; die Plattform zeigt die meisten bereits an.</p>
+<div class="tbl"><table><thead><tr><th>Kennzahl</th><th>Ziel</th><th>Wo sichtbar</th></tr></thead><tbody>
+<tr><td>Abgeschlossene Empfehlungen</td><td>mindestens 150–200, davon ein großer Teil Krypto</td><td>Signale, Statistik</td></tr>
+<tr><td>Ø Ergebnis nach Kosten</td><td>über 0 R, und auch das 95-%-Intervall über 0</td><td>Signale, Statistik</td></tr>
+<tr><td>Vergleich mit Zufallseinstiegen</td><td>p ≤ 0,05</td><td>Validierung</td></tr>
+<tr><td>Trefferquote gegen Kalibrierung</td><td>beobachtet ≈ vorhergesagt (keine systematische Überschätzung)</td><td>Kalibrierungsdiagramm</td></tr>
+<tr><td>KI-Depot gegen einfaches Halten</td><td>besser als Bitcoin halten (Krypto) bzw. DAX/S&amp;P 500</td><td>Depot</td></tr>
+<tr><td>Maximaler Rückgang</td><td>vorher festlegen, z. B. höchstens 10 %</td><td>Depot</td></tr>
+<tr><td>Verfügbarkeit</td><td>über 99 % der Handelszeit, keine Datenlücken</td><td>System (Ausfall-Alarm M2)</td></tr>
+<tr><td>Beitrag der KI-Prüfung</td><td>Signale mit „bestätigt“ besser als mit „verkleinert“</td><td>Statistik nach KI-Urteil</td></tr>
+</tbody></table></div>
+<p class="muted" style="margin-top:24px">Quellen: laufende Plattform (Datenbank und API, abgefragt am 23.11.2026), Testsuite, Prüfberichte der Entwicklung sowie Messungen und Recherchen vom 22.11.2026 (Yahoo, Ollama, Feeds, Handelszeiten, Kraken). Ausführliche Bedienung und Technik: <a href="Trading_Local_Dokumentation.html">Trading_Local_Dokumentation.html</a>.</p>
+</section>
+
+  </main>
+</div>
+<script>
+(() => {
+  const root = document.documentElement;
+  try { const s = localStorage.getItem('analyse.theme'); if (s) root.dataset.theme = s; } catch { /* ohne Speicher */ }
+  document.getElementById('theme').addEventListener('click', () => {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('analyse.theme', root.dataset.theme); } catch { /* ohne Speicher */ }
+  });
+  const links = [...document.querySelectorAll('.toc a, .bar nav.pills a')];
+  const byId = new Map();
+  for (const a of links) { const id = a.getAttribute('href').slice(1); (byId.get(id) ?? byId.set(id, []).get(id)).push(a); }
+  const seen = new Set();
+  const centerPill = a => {
+    const nav = a.closest('.pills');
+    if (!nav || !a.offsetParent || nav.scrollWidth <= nav.clientWidth) return;
+    const n = nav.getBoundingClientRect(), r = a.getBoundingClientRect();
+    nav.scrollTo({ left: nav.scrollLeft + r.left - n.left - (n.width - r.width) / 2, behavior: 'smooth' });
+  };
+  const spy = new IntersectionObserver(entries => {
+    for (const e of entries) e.isIntersecting ? seen.add(e.target.id) : seen.delete(e.target.id);
+    const first = [...document.querySelectorAll('section[id]')].find(s => seen.has(s.id));
+    for (const a of links) a.classList.remove('on');
+    if (first) for (const a of byId.get(first.id) ?? []) { a.classList.add('on'); centerPill(a); }
+  }, { rootMargin: '-72px 0px -62% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => spy.observe(s));
+})();
+</script>
+</body>
+</html>

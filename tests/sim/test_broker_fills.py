@@ -189,28 +189,33 @@ def test_a_stopped_out_short_loses_even_when_its_currency_falls(
     check_accounting(broker, "me")
 
 
-def test_kraken_crypto_pays_its_taker_fee_through_the_slippage_only(
+def test_kraken_fills_move_only_by_the_spread_and_the_taker_fee_is_charged_as_money(
     broker: Broker, db: Database, data: FakeMarketData, clock: ManualClock, instruments: InstrumentBook
 ) -> None:
-    # CostParams: a Kraken pair has no flat fee; its proportional taker fee is part of the one-way cost
-    # (half spread + taker fee), so the order fee must be 0 for both orders.
+    # A Kraken pair has no flat fee. Its proportional taker fee must NOT move the fill price (that would put a
+    # tight stop right at the market price); it is charged as money on each order value.
     pair = Instrument("XBTEUR.K", "Bitcoin/Euro (Kraken)", "crypto", "GLOBAL", "KRAKEN", "EUR", timezone="UTC")
     seed_instruments(db, [pair])
     instruments.reload()
     position = open_position(broker, db, data, clock, pair.symbol, qty=0.5, price=50_000.0)
-    one_way = (DEFAULT_COSTS.slippage_bps_kraken + DEFAULT_COSTS.fee_bps_kraken) / 10_000
-    entry = 50_000.0 * (1 + one_way)
+    spread = DEFAULT_COSTS.slippage_bps_kraken / 10_000
+    fee = DEFAULT_COSTS.fee_bps_kraken / 10_000
+    entry = 50_000.0 * (1 + spread)
+    entry_fee = 0.5 * entry * fee
     assert position.entry_price == pytest.approx(entry)
-    assert (position.fees_base, broker.summary("me").cash) == (pytest.approx(0.0), pytest.approx(START - 0.5 * entry))
+    assert position.fees_base == pytest.approx(entry_fee)
+    assert broker.summary("me").cash == pytest.approx(START - 0.5 * entry - entry_fee)
     broker.close_position("me", position.id)
     add_bar(db, pair.symbol, clock.ts(), 51_000.0)
     run(broker, clock, clock.ts() + MIN)
     trade = broker.trades("me")[0]
-    exit_ = 51_000.0 * (1 - one_way)
-    assert trade.fees_base == pytest.approx(0.0)
-    assert trade.realized_pnl == pytest.approx(0.5 * (exit_ - entry))
+    exit_ = 51_000.0 * (1 - spread)
+    fees = entry_fee + 0.5 * exit_ * fee
+    assert trade.exit_price == pytest.approx(exit_)
+    assert trade.fees_base == pytest.approx(fees)
+    assert trade.realized_pnl == pytest.approx(0.5 * (exit_ - entry) - fees)
     summary = broker.summary("me")
-    assert (summary.fees_paid, summary.cash) == (pytest.approx(0.0), pytest.approx(START + trade.realized_pnl))
+    assert (summary.fees_paid, summary.cash) == (pytest.approx(fees), pytest.approx(START + trade.realized_pnl))
 
 
 def test_long_round_trip_in_pence(broker: Broker, db: Database, data: FakeMarketData, clock: ManualClock) -> None:

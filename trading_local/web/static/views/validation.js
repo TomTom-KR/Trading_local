@@ -68,7 +68,7 @@ function Result({ run }) {
     </section>
     <div class="grid-2">
       <section class="panel"><${StatBlockView} title="Gesamtergebnis" stats=${r.overall} />
-        <p class="tiny faint">Ergebnisse in R nach Slippage, ohne Ordergebühren (die feste Gebühr je Order fällt nur in den Depots an).</p></section>
+        <p class="tiny faint">Ergebnisse in R nach Slippage und Provision, ohne feste Ordergebühren (die feste Gebühr je Order fällt nur in den Depots an).</p></section>
       <section class="panel">
         <h3 class="statblock-title">Zufallsvergleich</h3>
         <${Baseline} baseline=${r.baseline} engineAvg=${r.overall?.avg_r} />
@@ -129,7 +129,7 @@ export function ValidationView() {
   const run = runs.data?.find((r) => r.id === selected) || null;
   return html`<div>
     <div class="page-head"><div><h1>Validierung</h1>
-      <p class="lede">Die Validierung spielt die gespeicherten Minutenkerzen noch einmal ab und lässt die Engine mit ihren festen Regeln entscheiden, als wäre es live – ohne Blick in die Zukunft und mit derselben Slippage wie im Depot. Die Ergebnisse sind in R nach Slippage angegeben, ohne Ordergebühren.
+      <p class="lede">Die Validierung spielt die gespeicherten Minutenkerzen noch einmal ab und lässt die Engine mit ihren festen Regeln entscheiden, als wäre es live – ohne Blick in die Zukunft und mit derselben Slippage wie im Depot. Die Ergebnisse sind in R nach Slippage und Provision angegeben, ohne feste Ordergebühren.
       Ein gutes Ergebnis zeigt nur, dass die Regeln in diesem Zeitraum funktioniert hätten; es beweist keinen künftigen Gewinn, und ein kurzer Zeitraum kann reiner Zufall sein.</p></div></div>
     <div class="valid-grid">
       <aside class="stack">

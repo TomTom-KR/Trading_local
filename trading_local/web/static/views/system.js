@@ -1,4 +1,4 @@
-﻿// #/system - status tiles, jobs, feeds, LLM calls, activity log (live), mail log and 'Über'.
+// #/system - status tiles, jobs, feeds, LLM calls, activity log (live), mail log and 'Über'.
 
 import { html, useEffect, useRef, useState } from '../vendor/preact-htm.mjs';
 import { api, errorText } from '../lib/api.js';

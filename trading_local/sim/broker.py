@@ -466,9 +466,9 @@ class PaperBroker:
         if qty <= 0:
             raise _Skip("die berechnete Positionsgröße ist kleiner als eine handelbare Einheit")
         risk = sizing.value_base(qty, signal.stop_dist, instrument.price_scale, fx)  # planned loss at the stop
-        # expected_r is after slippage but before the flat order fees, which depend on the position size.
-        value = sizing.value_base(qty, signal.ref_price, instrument.price_scale, fx)
-        fee_r = 2.0 * self._costs.order_fee(value, instrument) / risk
+        # expected_r is after slippage and proportional fees but before the FLAT order fees, which depend on the
+        # position size: only those are checked here (counting the proportional fee again would double it).
+        fee_r = 2.0 * self._costs.flat_fee(instrument) / risk
         if signal.expected_r - fee_r <= 0:
             raise _Skip(
                 f"die Ordergebühren für Ein- und Ausstieg ({_de(fee_r, 2)} R) zehren den Erwartungswert "

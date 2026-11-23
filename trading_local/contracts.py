@@ -1,4 +1,4 @@
-﻿"""Service interfaces of the platform (structural typing via ``typing.Protocol``).
+"""Service interfaces of the platform (structural typing via ``typing.Protocol``).
 
 Every module implements one of these protocols; consumers depend ONLY on the protocol, never on the
 concrete class of another module. The runtime (``trading_local/runtime``) creates the concrete objects

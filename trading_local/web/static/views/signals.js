@@ -40,7 +40,7 @@ function StatsSection() {
   const s = stats.data;
   return html`<section class="panel sstats" aria-labelledby="st-title">
     <div class="panel-head"><h2 id="st-title">Bilanz aller verfolgten Signale</h2>
-      <div class="aside"><span>Ergebnisse in R nach Slippage, ohne Ordergebühren</span>${s.engine_version && html`<span>Engine ${s.engine_version}</span>`}</div></div>
+      <div class="aside"><span>Ergebnisse in R nach Slippage und Provision, ohne feste Ordergebühren</span>${s.engine_version && html`<span>Engine ${s.engine_version}</span>`}</div></div>
     ${s.note_de && html`<p class="notice notice-strong">${s.note_de}</p>`}
     <div class="sstats-grid">
       <${StatBlockView} title="Empfehlungen" stats=${s.actionable} />
