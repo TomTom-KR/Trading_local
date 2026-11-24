@@ -7,6 +7,7 @@ import { useRoute } from './lib/router.js';
 import { initTheme } from './lib/theme.js';
 import { TicketDrawer } from './components/ticket-drawer.js';
 import { TopBar } from './components/topbar.js';
+import { AgendaView } from './views/agenda.js';
 import { DepotView } from './views/depot.js';
 import { InstrumentView } from './views/instrument.js';
 import { MarketsView } from './views/markets.js';
@@ -19,7 +20,7 @@ import { ValidationView } from './views/validation.js';
 
 const TITLES = {
   overview: 'Übersicht', instrument: 'Markt', markets: 'Märkte', signals: 'Signale', depot: 'Depot',
-  news: 'Nachrichten', validation: 'Validierung', system: 'System', settings: 'Einstellungen', notfound: 'Übersicht',
+  news: 'Nachrichten', agenda: 'Termine', validation: 'Validierung', system: 'System', settings: 'Einstellungen', notfound: 'Übersicht',
 };
 
 /** Keeps one broken view from blanking the whole app; offers a reload. */
@@ -48,6 +49,8 @@ function currentView(route) {
       return html`<${DepotView} />`;
     case 'news':
       return html`<${NewsView} />`;
+    case 'agenda':
+      return html`<${AgendaView} />`;
     case 'validation':
       return html`<${ValidationView} />`;
     case 'system':

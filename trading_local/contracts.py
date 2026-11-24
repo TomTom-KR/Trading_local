@@ -38,6 +38,7 @@ from trading_local.dto import (
 from trading_local.models import (
     Candidate,
     ChartAnalysis,
+    EarningsDate,
     Instrument,
     LlmVerdict,
     NewsAnalysis,
@@ -159,6 +160,33 @@ class MarketData(Protocol):
         """Download daily and 1-minute history for a newly added symbol."""
         ...
 
+    async def earnings(self, symbol: str) -> list[EarningsDate] | None:
+        """Past and upcoming earnings releases of a company from the data source (newest first). Never raises;
+        None when the request failed, an empty list when the source knows no dates (e.g. for crypto)."""
+        ...
+
+
+@runtime_checkable
+class Derivatives(Protocol):
+    """Funding rates, open interest and liquidations of the crypto instruments' perpetual futures (Kraken
+    Futures, public data). Writes the tables deriv_snapshots and deriv_liquidations."""
+
+    async def start(self) -> None:
+        """Start the background backfill of the history. Returns quickly."""
+        ...
+
+    async def stop(self) -> None: ...
+
+    async def poll(self, now: datetime) -> int:
+        """Per-minute duty, never raises: store the current snapshot and the new liquidation minutes; a
+        liquidation burst pulls the coin's news forward (``News.prioritize``). Returns rows written."""
+        ...
+
+    def metrics(self, symbol: str, asof_ts: int | None = None) -> Any:
+        """The derivatives picture of a crypto instrument as known at ``asof_ts`` (``repo_derivs.DerivMetrics``),
+        or None without perpetual or data. Thread-safe."""
+        ...
+
 
 @runtime_checkable
 class FxRates(Protocol):
@@ -248,9 +276,43 @@ class News(Protocol):
         Never raises. Returns the number of new items stored. Does NOT wait for the analyses."""
         ...
 
+    async def prioritize(self, symbols: Collection[str], now: datetime) -> int:
+        """Pull the news of ``symbols`` forward after an unusual price move (price trigger): their waiting
+        and newly arriving items are analysed first for a while, and recently dropped items naming them are
+        queued again. Never raises; returns the number of items queued again."""
+        ...
+
     def status(self) -> NewsStatusOut: ...
 
     def feeds(self) -> list[FeedStateOut]: ...
+
+
+@runtime_checkable
+class Agenda(Protocol):
+    """Macro data, central-bank decisions and earnings dates with forecast, actual value and surprise (table
+    agenda_events). Readers use ``repo_agenda`` with an as-of time; this service only keeps the table current."""
+
+    async def start(self) -> None: ...
+
+    async def stop(self) -> None: ...
+
+    async def refresh(self, now: datetime) -> int:
+        """Per-minute duty, never raises: calendar of the week (hourly), actual values from new headlines,
+        earnings dates of a few companies. Returns rows written."""
+        ...
+
+
+@runtime_checkable
+class PriceTrigger(Protocol):
+    """Watches the newest bars for unusual moves with unusual volume and pulls the news of the instrument
+    forward (``News.prioritize``). Runs after the market-data step of the minute cycle."""
+
+    async def on_minute(self, now: datetime, updated: Collection[str]) -> list[Any]:
+        """Check the instruments that received new closed bars; act on unusual moves. Never raises.
+        Returns the moves that triggered."""
+        ...
+
+    async def stop(self) -> None: ...
 
 
 # ------------------------------------------------------------------------------------------------
@@ -393,8 +455,10 @@ class Engine(Protocol):
 
 
 __all__ = [
+    "Agenda",
     "Broker",
     "ChartRenderer",
+    "Derivatives",
     "Engine",
     "FxRates",
     "Llm",
@@ -403,6 +467,7 @@ __all__ = [
     "MarketData",
     "News",
     "OrderRejected",
+    "PriceTrigger",
     "TradeReview",
     "TradeReviewContext",
 ]

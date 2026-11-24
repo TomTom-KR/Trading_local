@@ -14,12 +14,25 @@ One poll round (``poll``, once per minute)
    LLM switched off -> skipped 'llm_aus'; otherwise 'queued' (announced on TOPIC_NEWS right away).
 4. Queued items are analysed in background tasks; ``poll`` never waits for them.
 
+Priority: every waiting item has an urgency class (``_urgency``), most urgent first:
+  0 the item names an instrument whose price has just moved unusually (``prioritize``, the price trigger),
+  1 an ad-hoc disclosure (press-release feed with quality >= 4) naming a tradable instrument,
+  2 the item names a tradable instrument and comes from a feed with quality >= 3,
+  3 everything else that is analysed (weak feeds, indices or FX only, unmatched items of good feeds).
+Within a class fresher items come first. The class is re-evaluated whenever an item is picked, so a price
+trigger moves items that are already waiting to the front.
+
 Back-pressure: at most ``MAX_OUTSTANDING`` analyses are outstanding (waiting + handed to the LLM). When full,
-the OLDEST waiting item is dropped (skipped 'rueckstau'): fresh news always wins. Only items that have not been
-handed to the LLM yet can be dropped, so no model work is wasted. Waiting items are handed over newest first,
-at most ``LLM_DISPATCH_LIMIT`` at a time (the LLM service serialises model calls and may batch them). An item
-that was announced as 'queued' and is given up later (dropped, LLM unavailable, failed) is announced again
-with its final status, so the GUI never shows a pending analysis that will not come.
+the LEAST important waiting item is dropped (skipped 'rueckstau'): the highest class, and within it the oldest
+item; a newcomer that would itself be the least important one is dropped instead. Only items that have not
+been handed to the LLM yet can be dropped, so no model work is wasted. Waiting items are handed over in
+priority order, at most ``LLM_DISPATCH_LIMIT`` at a time (see there). An item that was announced as 'queued'
+and is given up later (dropped, LLM unavailable, failed) is announced again with its final status, so the GUI
+never shows a pending analysis that will not come.
+
+Price trigger (``prioritize``): the instruments of an unusual price move get urgency 0 for ``BOOST_S``;
+items naming them that were dropped from the backlog or that the LLM could not take within the last
+``RETRY_WINDOW_S`` are queued again.
 
 Time semantics: the as-of time of an item is ``fetched_ts``: the clock time at which its feed's response had
 arrived (first seen; never earlier than the poll time). ``published_ts`` is display data.
@@ -35,7 +48,7 @@ import functools
 import logging
 import threading
 from collections import Counter, deque
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Collection, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
 from datetime import datetime
@@ -62,7 +75,20 @@ from trading_local.news.matcher import AliasMatcher, NearDupIndex
 log = logging.getLogger(__name__)
 
 MAX_OUTSTANDING: Final = 40  # analyses waiting or handed to the LLM
-LLM_DISPATCH_LIMIT: Final = 8  # analyses handed to the LLM at the same time
+# Analyses handed to the LLM at the same time. The LLM queue serves news newest-first (``llm.jobs``), so every
+# item handed over later overtakes the ones handed over before it: with 8 in flight, the 7 best items of a
+# flood waited behind every later dispatch until their 20 minutes ran out. With 2, one item runs while the
+# next waits, the GPU never idles between news, and the order of this queue is the order of the analyses.
+LLM_DISPATCH_LIMIT: Final = 2
+# urgency classes (smaller = more urgent), see the module docstring
+URGENCY_TRIGGERED: Final = 0
+URGENCY_DISCLOSURE: Final = 1
+URGENCY_TRADABLE: Final = 2
+URGENCY_OTHER: Final = 3
+DISCLOSURE_MIN_QUALITY: Final = 4  # press-release feeds this good are the ad-hoc disclosure feeds
+TRADABLE_MIN_QUALITY: Final = 3
+BOOST_S: Final = 3600  # a price trigger keeps the news of its instrument at urgency 0 this long
+RETRY_WINDOW_S: Final = 6 * 3600  # dropped items fetched this recently get another chance on a price trigger
 ANALYSIS_TIMEOUT_S: Final = 900.0  # safety net: an analysis that never returns frees its slot
 MAX_ITEM_AGE_S: Final = 12 * 3600  # older publications are stored but not analysed
 MIN_QUALITY_WITHOUT_MATCH: Final = 4  # items without any match are analysed only from feeds this good
@@ -154,6 +180,7 @@ class NewsService:
         # analysis queue (event loop only)
         self._waiting: dict[int, NewsItem] = {}
         self._running: dict[int, asyncio.Task[None]] = {}
+        self._boosts: dict[str, int] = {}  # symbol -> end of its price-trigger priority (epoch seconds)
         # worker-thread state
         self._matcher: AliasMatcher | None = None
         self._matcher_key: tuple[Instrument, ...] = ()
@@ -219,6 +246,43 @@ class NewsService:
         await self._decide_and_queue(recent, now_ts, announce=False, extra=stale)
         if pending:
             log.info("news: %d pending analyses re-queued, %d closed as too old", len(recent), len(stale))
+
+    # -- price trigger --------------------------------------------------------------------------
+    async def prioritize(self, symbols: Collection[str], now: datetime) -> int:
+        """Pull the news of ``symbols`` forward after an unusual price move (see the module docstring).
+
+        Waiting and newly arriving items that name one of the symbols get urgency 0 for ``BOOST_S``; items
+        naming them that were dropped from the backlog ('rueckstau') or that the LLM could not take
+        ('llm_nicht_verfuegbar') within ``RETRY_WINDOW_S`` are queued again. Unknown symbols are ignored.
+        Never raises; returns the number of items queued again.
+        """
+        if self._closed or not self._settings.enable_news:
+            return 0
+        try:
+            now_ts = to_ts(now)
+            wanted = sorted({symbol for symbol in symbols if self._book.get(symbol) is not None})
+            if not wanted:
+                return 0
+            for symbol in wanted:
+                self._boosts[symbol] = max(self._boosts.get(symbol, 0), now_ts + BOOST_S)
+            self._boosts = {symbol: until for symbol, until in self._boosts.items() if until > now_ts}
+            if not self._ready:  # not initialised yet: the boost applies, there is nothing to re-queue
+                self._dispatch()
+                return 0
+            retry = await self._in_worker(
+                repo_news.skipped_news_for,
+                self._db,
+                wanted,
+                since_ts=now_ts - RETRY_WINDOW_S,
+                reasons=(REASON_BACKLOG, REASON_LLM_UNAVAILABLE),
+            )
+            admitted = await self._decide_and_queue(retry, now_ts, announce=True)
+            if admitted:
+                log.info("news: price trigger %s: %d item(s) queued again", ", ".join(wanted), admitted)
+            return admitted
+        except Exception:
+            log.exception("news: prioritising %s failed", ", ".join(sorted(symbols)))
+            return 0
 
     # -- polling --------------------------------------------------------------------------------
     async def poll(self, now: datetime) -> int:
@@ -454,9 +518,10 @@ class NewsService:
     # -- selection and back-pressure (event loop) -----------------------------------------------
     async def _decide_and_queue(
         self, items: Sequence[NewsItem], now_ts: int, *, announce: bool, extra: Sequence[_StatusUpdate] = ()
-    ) -> None:
-        """Apply the selection policy, admit the selected items to the analysis queue (dropping the oldest
-        waiting ones when full), persist all status changes and start analyses."""
+    ) -> int:
+        """Apply the selection policy, admit the selected items to the analysis queue (dropping the least
+        important waiting ones when full), persist all status changes and start analyses. Returns the
+        number of items admitted."""
         llm_on = self._llm_enabled()
         updates = list(extra)
         selected: list[NewsItem] = []
@@ -479,6 +544,7 @@ class NewsService:
         if dropped:
             log.info("news: analysis queue full, %d item(s) dropped", len(dropped))
         self._dispatch()
+        return len(admitted)
 
     def _skip_reason(self, item: NewsItem, now_ts: int, llm_on: bool) -> str | None:
         """Why an item is not analysed, or None if it is."""
@@ -491,31 +557,55 @@ class NewsService:
             return REASON_LLM_OFF
         return None
 
+    def _urgency(self, item: NewsItem, now_ts: int) -> int:
+        """The item's urgency class (see the module docstring; smaller = more urgent)."""
+        if any(self._boosts.get(symbol, 0) > now_ts for symbol in item.hinted_symbols):
+            return URGENCY_TRIGGERED
+        feed = self._feeds.get(item.source)
+        quality = 0 if feed is None else feed.quality
+        tradable = any(
+            instrument is not None and instrument.tradable and instrument.active
+            for instrument in map(self._book.get, item.hinted_symbols)
+        )
+        if not tradable:
+            return URGENCY_OTHER
+        if feed is not None and feed.category == "press_release" and quality >= DISCLOSURE_MIN_QUALITY:
+            return URGENCY_DISCLOSURE
+        return URGENCY_TRADABLE if quality >= TRADABLE_MIN_QUALITY else URGENCY_OTHER
+
+    def _rank(self, item: NewsItem, now_ts: int) -> tuple[int, int, int, int]:
+        """Sort key: larger = more important (more urgent class first, then fresher)."""
+        return (-self._urgency(item, now_ts), *_freshness(item))
+
     def _admit(self, items: Sequence[NewsItem]) -> tuple[list[NewsItem], list[NewsItem]]:
-        """Add items to the waiting list within ``MAX_OUTSTANDING``. Returns (admitted, dropped); dropped can
-        contain items that were waiting before (their analysis was announced but is now abandoned)."""
+        """Add items to the waiting list within ``MAX_OUTSTANDING``, most important first. Returns (admitted,
+        dropped); dropped can contain items that were waiting before (their analysis was announced but is
+        now abandoned)."""
+        now_ts = self._clock.ts()
         admitted: dict[int, NewsItem] = {}
         dropped: list[NewsItem] = []
-        for item in sorted(items, key=_freshness, reverse=True):
+        for item in sorted(items, key=lambda candidate: self._rank(candidate, now_ts), reverse=True):
             news_id = _stored_id(item)
             if news_id in self._waiting or news_id in self._running:
                 continue
             if len(self._waiting) + len(self._running) >= MAX_OUTSTANDING:
-                oldest = min(self._waiting.values(), key=_freshness, default=None)
-                if oldest is None or _freshness(oldest) >= _freshness(item):
+                least = min(self._waiting.values(), key=lambda waiting: self._rank(waiting, now_ts), default=None)
+                if least is None or self._rank(least, now_ts) >= self._rank(item, now_ts):
                     dropped.append(item)
                     continue
-                del self._waiting[_stored_id(oldest)]
-                admitted.pop(_stored_id(oldest), None)
-                dropped.append(oldest)
+                del self._waiting[_stored_id(least)]
+                admitted.pop(_stored_id(least), None)
+                dropped.append(least)
             self._waiting[news_id] = item
             admitted[news_id] = item
         return list(admitted.values()), dropped
 
     def _dispatch(self) -> None:
-        """Hand waiting items to the LLM, newest first, while fewer than ``LLM_DISPATCH_LIMIT`` are running."""
+        """Hand waiting items to the LLM, most important first, while fewer than ``LLM_DISPATCH_LIMIT`` are
+        running."""
+        now_ts = self._clock.ts()
         while not self._closed and self._waiting and len(self._running) < LLM_DISPATCH_LIMIT:
-            item = max(self._waiting.values(), key=_freshness)
+            item = max(self._waiting.values(), key=lambda waiting: self._rank(waiting, now_ts))
             news_id = _stored_id(item)
             del self._waiting[news_id]
             task = asyncio.create_task(self._analyse(item), name=f"news-analysis-{news_id}")

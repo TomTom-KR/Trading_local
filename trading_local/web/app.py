@@ -24,6 +24,7 @@ import trading_local
 from trading_local.services import Services
 from trading_local.web.deps import ApiContext, validation_detail
 from trading_local.web.routes import (
+    agenda,
     analysis,
     instruments,
     mail,
@@ -92,6 +93,7 @@ _API_ROUTERS = (
     market.router,
     analysis.router,
     news.router,
+    agenda.router,
     signals.router,
     portfolios.router,
     settings.router,

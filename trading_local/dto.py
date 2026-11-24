@@ -182,6 +182,35 @@ class NewsOut(ApiModel):
 
 
 # ------------------------------------------------------------------------------------------------
+# Agenda (macro data, central banks, earnings)
+# ------------------------------------------------------------------------------------------------
+class AgendaEventOut(ApiModel):
+    """One calendar entry with expectation, actual value and surprise."""
+
+    id: int
+    kind: Literal["macro", "central_bank", "earnings"]
+    kind_de: str  # 'Konjunkturdaten' | 'Notenbank' | 'Quartalszahlen'
+    source: str
+    currency: str = ""  # macro and central-bank events
+    symbol: str | None = None  # earnings
+    name: str = ""  # instrument name of an earnings release
+    title: str  # as published (English for macro events)
+    event_ts: int
+    time_known: bool = True
+    importance: int  # 1 low, 2 medium, 3 high
+    forecast_text: str = ""
+    previous_text: str = ""
+    actual_text: str = ""
+    surprise: float | None = None  # actual - forecast (earnings: percent of the estimate)
+    surprise_z: float | None = None  # in units of the event's earlier surprises
+    surprise_label: Literal["above", "below", "inline", ""] = ""
+    result_de: str = ""  # e.g. '0.4% statt 0.3% – über Erwartung (+1,8σ)'
+    affected: int = 0  # tradable instruments the event concerns
+    block_from_ts: int | None = None  # start of the entry block before the release (macro and central banks)
+    blocks_entries: bool = False  # the entry block is active right now
+
+
+# ------------------------------------------------------------------------------------------------
 # Technical analysis / chart analysis
 # ------------------------------------------------------------------------------------------------
 class ReadingOut(ApiModel):

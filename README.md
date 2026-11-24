@@ -19,7 +19,15 @@ Die ausführliche Dokumentation mit Screenshots (Deutsch und Englisch) steht in
 - **Handelszeiten:** Kalender für 17 Börsen mit Feiertagen, verkürzten Handelstagen und Mittagspausen.
   Signale und Ausführungen gibt es nur während der regulären Handelszeit.
 - **Nachrichten:** 147 RSS-Feeds werden jede Minute abgefragt. Relevante Meldungen bewertet das lokale
-  Sprachmodell nach Relevanz, Stimmung und betroffenen Werten.
+  Sprachmodell nach Relevanz, Stimmung und betroffenen Werten – nach Wichtigkeit statt nur nach Frische:
+  Ad-hoc-Meldungen zu handelbaren Werten zuerst. Bewegt sich ein Kurs ungewöhnlich stark bei ungewöhnlich
+  hohem Volumen, werden die Meldungen dieses Werts vorgezogen.
+- **Termine:** Wochenkalender für Konjunkturdaten und Notenbankentscheidungen (ForexFactory), Istwerte
+  Sekunden nach der Veröffentlichung (FinancialJuice) und Quartalszahlen aller Aktien (Yahoo) mit Prognose,
+  Istwert und Überraschung. Vor wichtigen Terminen gibt die Engine keine neuen Einstiege aus.
+- **Krypto-Derivate:** Funding-Raten, Open Interest und Liquidationen der Kraken-Futures-Perpetuals, jede
+  Minute und ohne Schlüssel; sie fließen in die KI-Prüfung ein, und Liquidationswellen ziehen die Meldungen
+  des Coins vor.
 - **Signale:** Fünf klassische Setups mit festen Lehrbuch-Parametern erzeugen Long- und Short-Kandidaten.
   Das Sprachmodell kann einen Kandidaten bestätigen, eine kleinere Position empfehlen oder ihn ablehnen;
   Kurse, Stopps und Ziele berechnet immer der Code.
@@ -105,10 +113,11 @@ Einstellungen wie Mail-Limits, Regionen oder das Risiko pro Trade änderst du in
 | Ordner | Inhalt |
 |---|---|
 | `trading_local/markets` | Handelskalender aller Börsen |
-| `trading_local/data` | Marktdaten: Yahoo-Stream, Abgleich, Minutenbalken |
-| `trading_local/news` | Feeds, Duplikaterkennung, Zuordnung zu Werten |
+| `trading_local/data` | Marktdaten: Yahoo-Stream, Abgleich, Minutenbalken; Krypto-Derivate (Kraken Futures) |
+| `trading_local/news` | Feeds, Duplikaterkennung, Zuordnung zu Werten, Priorität der Analysen |
+| `trading_local/agenda` | Terminkalender: Konjunkturdaten, Notenbank, Quartalszahlen, Sperre vor Terminen |
 | `trading_local/llm` | Anbindung an Ollama mit Prioritäts-Warteschlange |
-| `trading_local/analysis` | Indikatoren, Setups, Score, Kalibrierung, Signal-Engine, Validierung |
+| `trading_local/analysis` | Indikatoren, Setups, Score, Kalibrierung, Signal-Engine, Validierung, Kursauslöser |
 | `trading_local/sim` | Papier-Broker für die Depots KI und Ich |
 | `trading_local/alerts`, `trading_local/charts` | E-Mail-Alarme und Chartbilder |
 | `trading_local/web` | REST-API, WebSocket und die Oberfläche (`static/`) |

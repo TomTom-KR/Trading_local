@@ -1399,3 +1399,62 @@ fieldset.set-row {
     font-size: var(--fs-20);
   }
 }
+
+/* ---------------------------------------------------------------------------------------------
+   Agenda (#/termine)
+   --------------------------------------------------------------------------------------------- */
+.agenda-day + .agenda-day {
+  margin-top: var(--s-5);
+}
+.agenda-day-h {
+  margin: 0 0 var(--s-2);
+  font-size: var(--fs-14);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.agenda-table {
+  table-layout: fixed;
+}
+.agenda-table td {
+  vertical-align: top;
+}
+.agenda-table .ag-time {
+  width: 64px;
+}
+.agenda-table .ag-imp {
+  width: 84px;
+}
+.agenda-table .ag-num {
+  width: 76px;
+}
+.agenda-table .ag-surprise {
+  width: 176px;
+}
+.agenda-aside .side-h:not(:first-child) {
+  margin-top: var(--s-4);
+}
+.agenda-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.agenda-ccy {
+  min-width: 42px;
+  justify-content: center;
+}
+.agenda-past td {
+  color: var(--ink-2);
+}
+.imp {
+  letter-spacing: 2px;
+  font-size: var(--fs-12);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.imp-3 {
+  color: var(--warn);
+}
+.imp-2 {
+  color: var(--ink-2);
+}

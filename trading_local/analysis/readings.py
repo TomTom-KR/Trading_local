@@ -21,6 +21,7 @@ from typing import Any, Literal
 
 from trading_local.analysis.features import FEATURE_COLUMNS, feature_float
 from trading_local.analysis.params import ENGINE_PARAMS
+from trading_local.db.repo_derivs import DerivMetrics
 from trading_local.dto import AnalysisOut, ChartAnalysisOut, LevelOut, ReadingOut
 from trading_local.models import Candidate, Instrument, Signal
 from trading_local.presenters import setup_label_de
@@ -479,7 +480,88 @@ def review_facts(
     facts["Nachrichten-Score"] = None if news_score is None else round(news_score, 2)
     facts["Datenalter Min"] = round((candidate.decision_ts - candidate.data_ts) / 60.0)
     facts["Minuten bis Börsenschluss"] = minutes_to_close
+    for label, key in _EVENT_FACTS:
+        text = row.get(key)
+        if isinstance(text, str) and text:
+            facts[label] = text
+    for label, key in _DERIVATIVE_FACTS:
+        value = _num(row, key)
+        if math.isfinite(value):
+            facts[label] = round(value) if key == "deriv_liq_60m_usd" else value
     return {key: value for key, value in facts.items() if value is not None}
+
+
+# Agenda facts of the trade review (label, feature key of the signal snapshot written by the engine).
+_EVENT_FACTS: tuple[tuple[str, str], ...] = (("Nächster Termin", "event_next"), ("Letzter Termin", "event_last"))
+
+
+# ------------------------------------------------------------------------------------------------
+# Crypto derivatives (Kraken Futures perpetuals)
+# ------------------------------------------------------------------------------------------------
+# Feature keys of the derivative metrics in the snapshot of a crypto signal: (key, DerivMetrics field, digits).
+DERIVATIVE_FEATURES: tuple[tuple[str, str, int], ...] = (
+    ("deriv_funding_pa", "funding_annual_pct", 2),
+    ("deriv_funding_pred_pa", "funding_pred_annual_pct", 2),
+    ("deriv_funding_z", "funding_z", 2),
+    ("deriv_oi_1h_pct", "oi_change_1h_pct", 2),
+    ("deriv_oi_24h_pct", "oi_change_24h_pct", 2),
+    ("deriv_basis_pct", "basis_pct", 4),
+    ("deriv_liq_60m_usd", "liq_60m_usd", 0),
+    ("deriv_liq_5m_ratio", "liq_5m_ratio", 1),
+)
+# Facts of the trade review (label, feature key); [INFO] facts for the model to weigh.
+_DERIVATIVE_FACTS: tuple[tuple[str, str], ...] = (
+    ("Funding p.a. %", "deriv_funding_pa"),
+    ("Funding ggü. 30 Tagen (Sigma)", "deriv_funding_z"),
+    ("Open Interest 1 Std %", "deriv_oi_1h_pct"),
+    ("Open Interest 24 Std %", "deriv_oi_24h_pct"),
+    ("Basis Perpetual %", "deriv_basis_pct"),
+    ("Liquidationen 1 Std USD", "deriv_liq_60m_usd"),
+)
+_FUNDING_UNUSUAL_Z = 2.0
+
+
+def derivative_features(metrics: DerivMetrics | None) -> dict[str, float]:
+    """The derivative metrics as feature-snapshot entries (empty without data or with stale data)."""
+    if metrics is None or metrics.stale:
+        return {}
+    found: dict[str, float] = {}
+    for key, field, digits in DERIVATIVE_FEATURES:
+        value = getattr(metrics, field)
+        if value is not None and math.isfinite(value):
+            found[key] = round(float(value), digits)
+    return found
+
+
+def derivative_readings(metrics: DerivMetrics | None, base: str) -> list[ReadingOut]:
+    """GUI readings of the derivatives picture ('Funding', 'Open Interest', 'Liquidationen', 'Basis');
+    ``base`` is the coin ('BTC'). Empty without data."""
+    if metrics is None:
+        return []
+    stale = " (veraltet)" if metrics.stale else ""
+    found: list[ReadingOut] = []
+    if metrics.funding_annual_pct is not None:
+        text = f"{de_number(metrics.funding_annual_pct, 1, signed=True)} % p.a."
+        z = metrics.funding_z
+        if z is not None:
+            word = "ungewöhnlich hoch" if z >= _FUNDING_UNUSUAL_Z else "ungewöhnlich niedrig" if z <= -_FUNDING_UNUSUAL_Z else "üblich"
+            text += f", {word} ({de_number(z, 1, signed=True)}σ ggü. 30 Tagen)"
+        found.append(_reading("deriv_funding", "Funding (Perpetual)", text + stale))
+    if metrics.open_interest is not None:
+        parts = [f"{de_number(metrics.open_interest, 0)} {base}"]
+        if metrics.oi_change_1h_pct is not None:
+            parts.append(f"1 Std {de_number(metrics.oi_change_1h_pct, 1, signed=True)} %")
+        if metrics.oi_change_24h_pct is not None:
+            parts.append(f"24 Std {de_number(metrics.oi_change_24h_pct, 1, signed=True)} %")
+        found.append(_reading("deriv_open_interest", "Open Interest", ", ".join(parts) + stale))
+    if metrics.liq_60m is not None:
+        text = f"{de_number(metrics.liq_60m, 2 if metrics.liq_60m < 100 else 0)} {base} in 1 Std"
+        if metrics.liq_60m_usd is not None:
+            text += f" (≈ {de_number(metrics.liq_60m_usd, 0)} USD)"
+        found.append(_reading("deriv_liquidations", "Liquidationen", text))
+    if metrics.basis_pct is not None:
+        found.append(_reading("deriv_basis", "Basis Perpetual", f"{de_number(metrics.basis_pct, 3, signed=True)} %"))
+    return found
 
 
 def market_note_de(row: Mapping[str, Any], benchmark_name: str | None) -> str:

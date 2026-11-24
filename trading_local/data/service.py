@@ -85,7 +85,7 @@ from trading_local.db.database import Database
 from trading_local.db.repo_market import BAR_SECONDS, InstrumentBook
 from trading_local.dto import DataStatusOut
 from trading_local.events import TOPIC_BAR, TOPIC_QUOTES, EventBus
-from trading_local.models import Bar, Instrument, Quote
+from trading_local.models import Bar, EarningsDate, Instrument, Quote
 from trading_local.presenters import quote_out
 from trading_local.universe import REGION_SORT_BASE, USER_SORT_OFFSET, seed_default_universe
 
@@ -424,6 +424,21 @@ class MarketDataService:
             return None
         self._lookup_failures.pop(key, None)
         return replace(instrument, sort_order=REGION_SORT_BASE[instrument.region] + USER_SORT_OFFSET)
+
+    async def earnings(self, symbol: str) -> list[EarningsDate] | None:
+        """Earnings releases from the provider (``fetch_earnings``); [] for providers without them."""
+        fetch = getattr(self._provider, "fetch_earnings", None)
+        if fetch is None:
+            return []
+        if not self._network:
+            return None
+        try:
+            return list(await fetch(symbol))
+        except (ProviderError, ValueError) as exc:
+            log.warning("earnings dates of %s unavailable: %s", symbol, exc)
+        except Exception:
+            log.exception("earnings dates of %s failed", symbol)
+        return None
 
     async def ensure_history(self, symbol: str) -> None:
         instrument = self._instruments.get(symbol)
@@ -1483,6 +1498,9 @@ class RoutedMarketData:
 
     async def ensure_history(self, symbol: str) -> None:
         await self.lane_for(symbol).service.ensure_history(symbol)
+
+    async def earnings(self, symbol: str) -> list[EarningsDate] | None:
+        return await self.lane_for(symbol).service.earnings(symbol)
 
 
 __all__ = ["KRAKEN_OPTIONS", "DataOptions", "InstrumentView", "Lane", "MarketDataService", "RoutedMarketData"]

@@ -4,9 +4,10 @@ Entry point for the runtime: ``build_engine``.
 """
 
 from trading_local.analysis.engine import SignalEngine
+from trading_local.analysis.movers import MoveWatch
 from trading_local.clock import Clock
 from trading_local.config import CostParams, Settings
-from trading_local.contracts import Broker, ChartRenderer, Engine, Llm, Mailer, MarketCalendar
+from trading_local.contracts import Broker, ChartRenderer, Engine, Llm, Mailer, MarketCalendar, News, PriceTrigger
 from trading_local.db.database import Database
 from trading_local.db.repo_market import InstrumentBook
 from trading_local.db.repo_ops import SettingsStore
@@ -48,4 +49,29 @@ def build_engine(
     )
 
 
-__all__ = ["SignalEngine", "build_engine"]
+def build_price_trigger(
+    *,
+    db: Database,
+    clock: Clock,
+    bus: EventBus,
+    calendar: MarketCalendar,
+    instruments: InstrumentBook,
+    runtime_settings: SettingsStore,
+    news: News,
+) -> PriceTrigger:
+    """The price trigger (``movers.MoveWatch``): unusual moves with volume pull the instrument's news forward.
+
+    Construction does no I/O; the worker thread starts with the first minute cycle.
+    """
+    return MoveWatch(
+        db=db,
+        clock=clock,
+        bus=bus,
+        calendar=calendar,
+        instruments=instruments,
+        runtime_settings=runtime_settings,
+        news=news,
+    )
+
+
+__all__ = ["MoveWatch", "SignalEngine", "build_engine", "build_price_trigger"]

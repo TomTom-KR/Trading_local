@@ -323,6 +323,27 @@ def pending_news(db: Database, *, now_ts: int, max_age_s: int, limit: int = 200)
     return [_news_from_row(row) for row in rows]
 
 
+def skipped_news_for(
+    db: Database, symbols: Iterable[str], *, since_ts: int, reasons: Iterable[str], limit: int = 100
+) -> list[NewsItem]:
+    """Skipped items whose ``hinted_symbols`` contain one of ``symbols``, whose skip reason is one of
+    ``reasons`` and that were fetched at or after ``since_ts``, newest first. Used to give items another
+    chance when their instrument suddenly moves (news service, ``prioritize``)."""
+    wanted = [dumps(symbol) for symbol in dict.fromkeys(symbols)]
+    allowed = list(dict.fromkeys(reasons))
+    if not wanted or not allowed:
+        return []
+    # hinted_symbols is a compact JSON list of strings, so a quoted symbol can only match a whole element.
+    symbol_match = " OR ".join("instr(n.hinted_symbols, ?) > 0" for _ in wanted)
+    rows = db.query(
+        f"SELECT {_NEWS_FIELDS} FROM news n "
+        f"WHERE n.status = 'skipped' AND n.fetched_ts >= ? AND n.status_reason IN ({', '.join('?' * len(allowed))}) "
+        f"AND ({symbol_match}) ORDER BY n.fetched_ts DESC, n.id DESC LIMIT ?",
+        (since_ts, *allowed, *wanted, limit),
+    )
+    return [_news_from_row(row) for row in rows]
+
+
 def symbol_news(
     db: Database, symbol: str, *, asof_ts: int, window_s: int, min_relevance: int = 1
 ) -> list[SymbolNews]:

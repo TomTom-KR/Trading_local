@@ -54,6 +54,20 @@ class FakeEngine:
         self.rec.calls.append("engine.stop")
 
 
+class FakeMovers:
+    def __init__(self, rec: Recorder) -> None:
+        self.rec = rec
+        self.updated: list[list[str]] = []
+
+    async def on_minute(self, now: datetime, updated) -> list:
+        self.rec.calls.append("movers.on_minute")
+        self.updated.append(list(updated))
+        return ["move"]
+
+    async def stop(self) -> None:
+        self.rec.calls.append("movers.stop")
+
+
 class FakeNews:
     def __init__(self, rec: Recorder) -> None:
         self.rec = rec
@@ -107,6 +121,34 @@ async def test_cycle_runs_steps_in_fixed_order(settings: Settings, db: Database,
     assert jobs["market_data"].ok and jobs["market_data"].message.startswith("1 Symbol")
     rows = db.query("SELECT job, ok FROM job_runs ORDER BY id")
     assert [r["job"] for r in rows] == ["market_data", "broker", "engine"]
+
+
+async def test_price_trigger_runs_last_and_stops_before_the_news(tmp_path, db: Database, clock: ManualClock) -> None:
+    from trading_local.testing import make_settings
+
+    rec = Recorder()
+    movers = FakeMovers(rec)
+    runtime = Runtime(
+        settings=make_settings(tmp_path, offline=False),
+        db=db,
+        clock=clock,
+        bus=EventBus(),
+        data=FakeData(rec),
+        broker=FakeBroker(rec),
+        engine=FakeEngine(rec),
+        news=FakeNews(rec),
+        llm=FakeLlm(rec),
+        movers=movers,
+    )
+    assert await runtime.run_cycle() is True
+    assert rec.calls == ["data.refresh", "broker.process", "engine.on_minute", "movers.on_minute"]
+    assert movers.updated == [["NVDA"]]
+    assert {j.job: j for j in runtime.jobs()}["movers"].message == "1 ungewöhnliche Bewegung"
+    rec.calls.clear()
+    await runtime.start()
+    await asyncio.sleep(0)
+    await runtime.stop()
+    assert rec.calls[-5:] == ["engine.stop", "movers.stop", "news.stop", "data.stop", "llm.stop"]
 
 
 async def test_same_minute_is_not_processed_twice(settings: Settings, db: Database, clock: ManualClock) -> None:

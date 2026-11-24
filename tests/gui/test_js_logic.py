@@ -246,7 +246,7 @@ def test_engine_reason_codes_have_german_labels() -> None:
         }}));
     """
     result = _run_module(script)
-    assert len(shadow) == 6 and len(status) == 6
+    assert len(shadow) == 7 and len(status) == 6
     for code, label in [*zip(shadow, result["shadow"], strict=True), *zip(status, result["status"], strict=True)]:
         assert label and label != code and "_" not in label, code
     assert result["empty"] == ["", ""] and result["unknown"] == "neuer_grund"
@@ -336,3 +336,25 @@ def test_the_24_7_footnote_stays_short_with_ten_kraken_coins() -> None:
     assert _run_module(script) == [
         "Bitcoin, Ethereum, Solana, XRP und 6 weitere", "Bitcoin, Ethereum, Solana, XRP, Cardano", "Bitcoin, Ethereum", "",
     ]
+
+
+def test_agenda_groups_by_local_day_and_formats_published_figures() -> None:
+    script = f"""
+        const a = await import({json.dumps(_url('lib/agenda.js'))});
+        const at = (d, h, m) => Date.UTC(2026, 10, d, h, m) / 1000;
+        const events = [
+            {{ id: 3, event_ts: at(25, 13, 30) }}, {{ id: 1, event_ts: at(24, 15, 0) }},
+            {{ id: 2, event_ts: at(24, 22, 59) }}, {{ id: 4, event_ts: at(24, 23, 30) }},
+        ];
+        const days = a.groupByDay(events);
+        const now = at(24, 12, 0);
+        console.log(JSON.stringify({{
+            days: days.map((d) => d.events.map((e) => e.id)),
+            titles: days.map((d) => a.dayTitle(d.ts, now)),
+            figures: ['0.3%', '-2', '103.3', '21.75K', '', '4.719%'].map(a.figure),
+        }}));
+    """
+    result = _run_module(script)  # Berlin: 23:30 UTC is already the 25th
+    assert result["days"] == [[1, 2], [4, 3]]
+    assert result["titles"] == ["Heute, Di 24.11.2026", "Morgen, Mi 25.11.2026"]
+    assert result["figures"] == ["0,3 %", "-2", "103,3", "21,75K", "–", "4,719 %"]

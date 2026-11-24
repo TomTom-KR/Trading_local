@@ -22,10 +22,11 @@ def build_services(settings: Settings, *, clock: Clock | None = None) -> Service
     background work. Construction never touches the network.
     """
     # Imported here so that importing trading_local.runtime stays cheap (pandas, matplotlib, yfinance ...).
+    from trading_local.agenda import build_agenda
     from trading_local.alerts import build_mailer
-    from trading_local.analysis import build_engine
+    from trading_local.analysis import build_engine, build_price_trigger
     from trading_local.charts import build_chart_renderer
-    from trading_local.data import build_market_data
+    from trading_local.data import build_derivatives, build_market_data
     from trading_local.llm import build_llm
     from trading_local.markets import build_calendar
     from trading_local.news import build_news
@@ -105,6 +106,19 @@ def build_services(settings: Settings, *, clock: Clock | None = None) -> Service
         mailer=mailer,
         broker=broker,
     )
+    derivatives = build_derivatives(
+        db=db, clock=clock, bus=bus, instruments=instruments, runtime_settings=runtime_settings, news=news
+    )
+    agenda = build_agenda(db=db, clock=clock, bus=bus, instruments=instruments, data=data)
+    movers = build_price_trigger(
+        db=db,
+        clock=clock,
+        bus=bus,
+        calendar=calendar,
+        instruments=instruments,
+        runtime_settings=runtime_settings,
+        news=news,
+    )
     runtime = Runtime(
         settings=settings,
         db=db,
@@ -116,6 +130,9 @@ def build_services(settings: Settings, *, clock: Clock | None = None) -> Service
         news=news,
         llm=llm,
         calendar=calendar,
+        movers=movers,
+        derivatives=derivatives,
+        agenda=agenda,
     )
     return Services(
         settings=settings,
@@ -135,4 +152,5 @@ def build_services(settings: Settings, *, clock: Clock | None = None) -> Service
         broker=broker,
         engine=engine,
         runtime=runtime,
+        derivatives=derivatives,
     )

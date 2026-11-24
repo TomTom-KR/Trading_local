@@ -24,7 +24,16 @@ from trading_local.dto import (
     SignalStatsOut,
     StatBlock,
 )
-from trading_local.models import ChartAnalysis, Instrument, NewsAnalysis, NewsItem, Position, Quote, Signal
+from trading_local.models import (
+    ChartAnalysis,
+    EarningsDate,
+    Instrument,
+    NewsAnalysis,
+    NewsItem,
+    Position,
+    Quote,
+    Signal,
+)
 
 REJECTED_SYMBOL = "REJECT"
 REJECTION_TEXT = "Nicht genügend Kaufkraft für diese Order."
@@ -60,6 +69,9 @@ class FakeMarketData:
 
     async def ensure_history(self, symbol: str) -> None:
         self.history_requests.append(symbol)
+
+    async def earnings(self, symbol: str) -> list[EarningsDate] | None:
+        return []
 
 
 class FakeFx:
@@ -98,6 +110,9 @@ class FakeNews:
     async def stop(self) -> None: ...
 
     async def poll(self, now: datetime) -> int:
+        return 0
+
+    async def prioritize(self, symbols: Collection[str], now: datetime) -> int:
         return 0
 
     def status(self) -> NewsStatusOut:

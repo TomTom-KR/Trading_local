@@ -133,6 +133,31 @@
  */
 
 /**
+ * @typedef {object} AgendaEventOut
+ * @property {number} id
+ * @property {'macro' | 'central_bank' | 'earnings'} kind
+ * @property {string} kind_de
+ * @property {string} source
+ * @property {string} currency
+ * @property {string | null} symbol
+ * @property {string} name
+ * @property {string} title
+ * @property {number} event_ts
+ * @property {boolean} time_known
+ * @property {number} importance 1 low, 2 medium, 3 high
+ * @property {string} forecast_text
+ * @property {string} previous_text
+ * @property {string} actual_text
+ * @property {number | null} surprise
+ * @property {number | null} surprise_z
+ * @property {'above' | 'below' | 'inline' | ''} surprise_label
+ * @property {string} result_de
+ * @property {number} affected
+ * @property {number | null} block_from_ts
+ * @property {boolean} blocks_entries
+ */
+
+/**
  * @typedef {object} ReadingOut
  * @property {string} key
  * @property {string} label_de
@@ -418,11 +443,14 @@
  * @property {boolean} llm_review
  * @property {number} llm_review_timeout_s 5..300
  * @property {number} signal_cooldown_min 0..1440
+ * @property {boolean} event_block_enabled
+ * @property {number} event_block_before_min 0..1440
  * @property {number} risk_per_trade_pct (0, 5]
  * @property {number} max_position_pct (0, 100]
  * @property {number} max_open_positions 1..100
  * @property {number} max_gross_leverage (0, 5]
  * @property {boolean} news_llm_enabled
+ * @property {boolean} price_trigger_enabled
  * @property {boolean} chart_scan_enabled
  * @property {number} chart_scan_interval_min 5..1440
  * @property {string[]} benchmarks

@@ -362,3 +362,57 @@ CREATE TABLE IF NOT EXISTS validation_runs (
     engine_version  TEXT    NOT NULL,
     message         TEXT    NOT NULL DEFAULT ''
 ) STRICT;
+
+-- ---------------------------------------------------------------------------------------------
+-- Crypto derivatives: Kraken Futures perpetual of every crypto instrument (BTC-EUR -> PF_XBTUSD)
+-- ---------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS deriv_snapshots (
+    symbol         TEXT    NOT NULL,               -- our crypto instrument, e.g. 'BTC-EUR'
+    ts             INTEGER NOT NULL,               -- instant of the values (epoch seconds UTC, multiple of 60)
+    funding_rate   REAL,                           -- relative funding per hour (fraction of the price); backfilled
+                                                   -- rows at full hours hold the realised funding of that hour
+    funding_pred   REAL,                           -- predicted relative funding per hour of the next period
+    open_interest  REAL,                           -- open contracts (= units of the base asset)
+    mark_price     REAL,                           -- USD
+    index_price    REAL,                           -- USD
+    received_ts    INTEGER NOT NULL,               -- when this platform learned the row: the as-of time
+    PRIMARY KEY (symbol, ts)
+) STRICT, WITHOUT ROWID;
+
+CREATE TABLE IF NOT EXISTS deriv_liquidations (
+    symbol       TEXT    NOT NULL,
+    ts           INTEGER NOT NULL,                 -- start of the minute (epoch seconds UTC)
+    volume       REAL    NOT NULL,                 -- contracts (units of the base asset) liquidated in the minute
+    received_ts  INTEGER NOT NULL,
+    PRIMARY KEY (symbol, ts)
+) STRICT, WITHOUT ROWID;
+
+-- ---------------------------------------------------------------------------------------------
+-- Agenda: macro data, central-bank decisions and earnings dates (with expectation and actual value)
+-- ---------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS agenda_events (
+    id             INTEGER PRIMARY KEY,
+    uid            TEXT    NOT NULL UNIQUE,        -- source key, e.g. 'ff:USD:CPI m/m:2026-12-10', 'earn:AAPL:2027-01-28'
+    kind           TEXT    NOT NULL CHECK (kind IN ('macro', 'central_bank', 'earnings')),
+    source         TEXT    NOT NULL,               -- 'forexfactory' | 'yahoo' | 'financialjuice'
+    currency       TEXT    NOT NULL DEFAULT '',    -- currency of a macro / central-bank event ('USD'); '' for earnings
+    symbol         TEXT,                           -- instrument of an earnings event
+    title          TEXT    NOT NULL,               -- as published (English for macro events)
+    event_ts       INTEGER NOT NULL,               -- scheduled time (UTC); start of the local day if the time is unknown
+    time_known     INTEGER NOT NULL DEFAULT 1 CHECK (time_known IN (0, 1)),
+    importance     INTEGER NOT NULL DEFAULT 1 CHECK (importance BETWEEN 1 AND 3),  -- 1 low, 2 medium, 3 high
+    unit           TEXT    NOT NULL DEFAULT '',    -- '%', 'K', 'M', 'B', 'T' of forecast / previous / actual
+    forecast       REAL,                           -- consensus (earnings: EPS estimate)
+    previous       REAL,
+    actual         REAL,
+    forecast_text  TEXT    NOT NULL DEFAULT '',    -- the values as published, for display
+    previous_text  TEXT    NOT NULL DEFAULT '',
+    actual_text    TEXT    NOT NULL DEFAULT '',
+    surprise       REAL,                           -- actual - forecast (earnings: percent of the estimate)
+    surprise_z     REAL,                           -- surprise in standard deviations of the event's earlier surprises
+    first_seen_ts  INTEGER NOT NULL,               -- when this platform first learned of the event
+    actual_ts      INTEGER,                        -- when the actual value became known here: the as-of time
+    updated_ts     INTEGER NOT NULL
+) STRICT;
+CREATE INDEX IF NOT EXISTS agenda_events_ts_idx ON agenda_events (event_ts);
+CREATE INDEX IF NOT EXISTS agenda_events_symbol_idx ON agenda_events (symbol, event_ts) WHERE symbol IS NOT NULL;

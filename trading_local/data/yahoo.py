@@ -38,7 +38,7 @@ from trading_local.clock import Clock
 from trading_local.data.provider import ProviderError, RateLimitError, StateHandler, TickHandler
 from trading_local.data.stream import StreamOptions, YahooStream
 from trading_local.db.repo_market import BAR_COLUMNS, BAR_SECONDS, empty_bars_1d, empty_bars_1m
-from trading_local.models import AssetClass, Instrument, Quote
+from trading_local.models import AssetClass, EarningsDate, Instrument, Quote
 from trading_local.universe import (
     REGION_SORT_BASE,
     USER_SORT_OFFSET,
@@ -57,6 +57,7 @@ QUOTE_CHUNK = 200  # symbols per snapshot request (1,083 in one request were ver
 DOWNLOAD_THREADS = 4  # parallel chart requests inside one yf.download call
 MAX_MINUTE_WINDOW_S = 8 * 86_400 - 60  # Yahoo: at most 8 days of 1-minute bars per request
 MAX_MINUTE_AGE_S = 30 * 86_400 - 3_600  # Yahoo: 1-minute bars only for the last 30 days (one hour of margin)
+EARNINGS_LIMIT = 8  # earnings releases per request: the next one and the latest seven
 
 # Requested quote fields (Yahoo returns ~50 always-on keys besides; unrequested keys can be wrong).
 SNAPSHOT_FIELDS: tuple[str, ...] = (
@@ -426,6 +427,54 @@ def _is_rate_limited(messages: Sequence[str]) -> bool:
 
 
 # ------------------------------------------------------------------------------------------------
+# Earnings dates
+# ------------------------------------------------------------------------------------------------
+def _finite_or_none(value: Any) -> float | None:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    return number if math.isfinite(number) else None
+
+
+def earnings_from_yahoo(symbol: str, frame: pd.DataFrame | None) -> list[EarningsDate]:
+    """Earnings releases from ``Ticker.get_earnings_dates``, newest first.
+
+    The index holds the release times (tz-aware, New York time; a tz-naive index is read as New York time);
+    columns 'EPS Estimate', 'Reported EPS', 'Surprise(%)'. A release at local midnight has no known time.
+    The surprise is computed from estimate and actual when the source leaves it out.
+    """
+    if frame is None or frame.empty:
+        return []
+    found: list[EarningsDate] = []
+    for stamp, row in frame.iterrows():
+        try:
+            moment = pd.Timestamp(stamp)  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            continue
+        if moment is pd.NaT:
+            continue
+        if moment.tzinfo is None:
+            moment = moment.tz_localize("America/New_York")
+        estimate = _finite_or_none(row.get("EPS Estimate"))
+        actual = _finite_or_none(row.get("Reported EPS"))
+        surprise = _finite_or_none(row.get("Surprise(%)"))
+        if surprise is None and actual is not None and estimate:
+            surprise = (actual - estimate) / abs(estimate) * 100.0
+        found.append(
+            EarningsDate(
+                symbol=symbol,
+                ts=int(moment.timestamp()),
+                time_known=not (moment.hour == 0 and moment.minute == 0),
+                eps_estimate=estimate,
+                eps_actual=actual,
+                surprise_pct=surprise if actual is not None else None,
+            )
+        )
+    return sorted(found, key=lambda release: release.ts, reverse=True)
+
+
+# ------------------------------------------------------------------------------------------------
 # Provider
 # ------------------------------------------------------------------------------------------------
 class YahooProvider:
@@ -477,6 +526,10 @@ class YahooProvider:
 
     async def lookup(self, symbol: str) -> Instrument | None:
         return await self._run(self._lookup_job, symbol)
+
+    async def fetch_earnings(self, symbol: str) -> list[EarningsDate]:
+        """Past and upcoming earnings releases (``Ticker.get_earnings_dates``, one request), newest first."""
+        return await self._run(self._earnings_job, symbol)
 
     def open_stream(self, on_tick: TickHandler, on_state: StateHandler) -> YahooStream:
         return YahooStream(on_tick, on_state, clock=self._clock, options=self._stream_options)
@@ -625,6 +678,23 @@ class YahooProvider:
         received = self._clock.ts()
         return [quote for item in results if (quote := quote_from_yahoo(item, received)) is not None]
 
+    def _earnings_job(self, symbol: str) -> list[EarningsDate]:
+        import yfinance as yf
+        from yfinance.exceptions import YFException, YFRateLimitError
+
+        self._prepare(1)
+        with self._capture.capture() as messages:
+            try:
+                frame = yf.Ticker(symbol, session=self._session).get_earnings_dates(limit=EARNINGS_LIMIT)
+            except YFRateLimitError as exc:
+                raise self._rate_limited("earnings") from exc
+            except (OSError, YFException, KeyError, ValueError, TypeError, AttributeError) as exc:
+                raise ProviderError(f"earnings dates of {symbol} failed: {exc}") from exc
+        if _is_rate_limited(messages):
+            raise self._rate_limited("earnings")
+        self._breaker.record_success()
+        return earnings_from_yahoo(symbol, frame)
+
     def _lookup_job(self, symbol: str) -> Instrument | None:
         results = self._quote_request([symbol], LOOKUP_FIELDS)
         match = next((item for item in results if str(item.get("symbol", "")).upper() == symbol.upper()), None)
@@ -642,6 +712,7 @@ __all__ = [
     "YahooProvider",
     "aliases_from_names",
     "clean_name",
+    "earnings_from_yahoo",
     "instrument_from_yahoo",
     "quote_from_yahoo",
     "round_significant",

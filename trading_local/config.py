@@ -235,6 +235,11 @@ class RuntimeSettings(BaseModel):
     llm_review: bool = True  # let the LLM confirm / reduce / veto candidates
     llm_review_timeout_s: int = Field(default=45, ge=5, le=300)
     signal_cooldown_min: int = Field(default=30, ge=0, le=1440)  # per symbol after a signal closed
+    # No new entries shortly before an important event of the instrument (agenda: macro data, central-bank
+    # decisions within ``event_block_before_min`` minutes; the company's own earnings before the planned exit).
+    # Blocked candidates are tracked as shadow signals ('termin'), so the rule is measured like the others.
+    event_block_enabled: bool = True
+    event_block_before_min: int = Field(default=30, ge=0, le=1440)
 
     # --- AI portfolio risk ---------------------------------------------------------------------
     risk_per_trade_pct: float = Field(default=0.5, gt=0.0, le=5.0)  # equity risked between entry and stop
@@ -244,6 +249,9 @@ class RuntimeSettings(BaseModel):
 
     # --- LLM background work -------------------------------------------------------------------
     news_llm_enabled: bool = True
+    # An unusual price move with unusual volume (or a liquidation burst in crypto) pulls the instrument's news
+    # to the front of the analysis queue (``analysis.movers``, ``data.derivatives``).
+    price_trigger_enabled: bool = True
     chart_scan_enabled: bool = True
     chart_scan_interval_min: int = Field(default=30, ge=5, le=1440)  # per symbol, while its venue is open
 

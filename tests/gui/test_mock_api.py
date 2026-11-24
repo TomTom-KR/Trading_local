@@ -62,6 +62,8 @@ READ_ENDPOINTS: list[tuple[str, Any]] = [
     ("/api/analysis/NVDA", dto.AnalysisOut),
     ("/api/chart-analyses/NVDA?limit=2", list[dto.ChartAnalysisOut]),
     ("/api/news?limit=10&min_relevance=3", list[dto.NewsOut]),
+    ("/api/agenda", list[dto.AgendaEventOut]),
+    ("/api/agenda?min_importance=3&symbol=NVDA", list[dto.AgendaEventOut]),
     ("/api/signals?scope=open&actionable=true", list[dto.SignalOut]),
     ("/api/signals?scope=closed&actionable=false&limit=5", list[dto.SignalOut]),
     ("/api/signals/stats", dto.SignalStatsOut),
@@ -100,6 +102,10 @@ def test_demo_data_covers_every_state_the_gui_shows(client: TestClient) -> None:
     instruments = client.get("/api/instruments?include_inactive=true").json()
     assert {i["region"] for i in instruments} == {"ASIA", "EU", "US", "GLOBAL"}
     assert any(i["price_scale"] == 0.01 for i in instruments), "a pence-quoted London share is missing"
+    agenda = client.get("/api/agenda?min_importance=1").json()
+    assert {e["kind"] for e in agenda} == {"macro", "central_bank", "earnings"}
+    assert any(e["actual_text"] and e["surprise_label"] for e in agenda), "a released value is missing"
+    assert any(e["blocks_entries"] for e in agenda), "an active entry block is missing"
     runs = client.get("/api/validation").json()
     assert any(r["status"] == "done" and r["result"] for r in runs) and any(r["status"] == "failed" for r in runs)
 

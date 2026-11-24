@@ -6,9 +6,11 @@ results of the previous one:
     1. data.refresh(now)        closed 1-minute bars and quotes are in the database
     2. broker.process(now)      pending orders fill on the new bars, stops/targets trigger
     3. engine.on_minute(now)    open signals are tracked, new candidates are detected
+    4. movers.on_minute(now)    unusual price moves pull the news of their instruments forward (price trigger;
+                                last, because it serves the news analysis and must never delay trading)
 
-The news poll runs on its own once-per-minute loop (feeds are slow and independent of market data) and
-housekeeping runs hourly. A step that fails is logged and the cycle continues with the next step; a cycle
+The news poll, the crypto-derivatives poll and the agenda refresh run on their own once-per-minute loops (slow,
+independent HTTP sources) and housekeeping runs hourly. A step that fails is logged and the cycle continues with the next step; a cycle
 that overruns the next minute boundary causes the missed minutes to be skipped, never queued.
 """
 
@@ -23,8 +25,18 @@ from typing import Any
 from trading_local.barstore import set_live_since
 from trading_local.clock import Clock, floor_ts, from_ts
 from trading_local.config import Settings
-from trading_local.contracts import Broker, Engine, Llm, MarketCalendar, MarketData, News
-from trading_local.db import repo_news, repo_ops
+from trading_local.contracts import (
+    Agenda,
+    Broker,
+    Derivatives,
+    Engine,
+    Llm,
+    MarketCalendar,
+    MarketData,
+    News,
+    PriceTrigger,
+)
+from trading_local.db import repo_derivs, repo_news, repo_ops
 from trading_local.db.database import Database
 from trading_local.dto import JobStatusOut
 from trading_local.events import EventBus
@@ -33,16 +45,23 @@ log = logging.getLogger(__name__)
 
 CYCLE_OFFSET_S = 3.0  # run the minute cycle this many seconds after the minute boundary
 NEWS_OFFSET_S = 30.0  # poll news in the middle of the minute, away from the market-data burst
+DERIVATIVES_OFFSET_S = 20.0  # Kraken Futures: after the minute cycle, before the news poll
+AGENDA_OFFSET_S = 45.0  # after the news poll: actual values posted in this minute's headlines are stored
 HOUSEKEEPING_INTERVAL_S = 3600.0
 OPS_RETENTION_DAYS = 30
 # News (and their analyses) are kept long enough for signal reviews and validation replays; 1-minute bars
 # are never deleted - the minute history is the platform's most valuable asset.
 NEWS_RETENTION_DAYS = 180
+# Minute snapshots and liquidations of the perpetuals; the hourly funding rows are kept for good.
+DERIVATIVES_RETENTION_DAYS = 90
 
 JOB_LABELS_DE: dict[str, str] = {
     "market_data": "Kurse und Minutenbalken",
     "broker": "Simulation (Orders, Stopps, Ziele)",
     "engine": "Signal-Engine",
+    "movers": "Kursauslöser (Nachrichten vorziehen)",
+    "derivatives": "Krypto-Derivate (Kraken Futures)",
+    "agenda": "Terminkalender",
     "news": "Nachrichten abrufen",
     "housekeeping": "Aufräumen",
 }
@@ -82,6 +101,9 @@ class Runtime:
         news: News,
         llm: Llm,
         calendar: MarketCalendar | None = None,
+        movers: PriceTrigger | None = None,
+        derivatives: Derivatives | None = None,
+        agenda: Agenda | None = None,
     ) -> None:
         self.settings = settings
         self.calendar = calendar
@@ -93,6 +115,9 @@ class Runtime:
         self.engine = engine
         self.news = news
         self.llm = llm
+        self.movers = movers
+        self.derivatives = derivatives
+        self.agenda = agenda
         self.started_ts = clock.ts()
         self.offline = settings.offline
         self._tasks: list[asyncio.Task[None]] = []
@@ -127,6 +152,10 @@ class Runtime:
         # a full settle period of live operation - never immediately by age (barstore.settle_horizon).
         set_live_since(self.clock.ts())
         starters = [("llm", self.llm.start), ("market data", self.data.start)]
+        if self.derivatives is not None:
+            starters.append(("derivatives", self.derivatives.start))
+        if self.agenda is not None:
+            starters.append(("agenda", self.agenda.start))
         if self.settings.enable_news:
             starters.append(("news", self.news.start))
         for name, starter in starters:
@@ -137,6 +166,8 @@ class Runtime:
         self._tasks += [
             asyncio.create_task(self._minute_loop(), name="minute-cycle"),
             asyncio.create_task(self._news_loop(), name="news-poll"),
+            asyncio.create_task(self._derivatives_loop(), name="derivatives-poll"),
+            asyncio.create_task(self._agenda_loop(), name="agenda-refresh"),
             asyncio.create_task(self._housekeeping_loop(), name="housekeeping"),
         ]
         await self._activity("info", "Plattform gestartet.")
@@ -153,8 +184,15 @@ class Runtime:
         if self.offline:
             return
         set_live_since(None)
+        stoppers: list[tuple[str, Callable[[], Awaitable[None]]]] = [("engine", self.engine.stop)]
+        if self.movers is not None:
+            stoppers.append(("price trigger", self.movers.stop))
+        if self.derivatives is not None:
+            stoppers.append(("derivatives", self.derivatives.stop))
+        if self.agenda is not None:
+            stoppers.append(("agenda", self.agenda.stop))
         for name, stopper in (
-            ("engine", self.engine.stop),
+            *stoppers,
             ("news", self.news.stop),
             ("market data", self.data.stop),
             ("llm", self.llm.stop),
@@ -183,6 +221,22 @@ class Runtime:
         while self._running:
             await self._sleep_until(NEWS_OFFSET_S)
             await self._run_job("news", lambda: self.news.poll(self.clock.now()))
+
+    async def _derivatives_loop(self) -> None:
+        derivatives = self.derivatives
+        if derivatives is None:
+            return
+        while self._running:
+            await self._sleep_until(DERIVATIVES_OFFSET_S)
+            await self._run_job("derivatives", lambda: derivatives.poll(self.clock.now()))
+
+    async def _agenda_loop(self) -> None:
+        agenda = self.agenda
+        if agenda is None:
+            return
+        while self._running:
+            await self._sleep_until(AGENDA_OFFSET_S)
+            await self._run_job("agenda", lambda: agenda.refresh(self.clock.now()))
 
     async def _housekeeping_loop(self) -> None:
         while self._running:
@@ -219,6 +273,16 @@ class Runtime:
         await self._run_job("market_data", refresh)
         await self._run_job("broker", process)
         await self._run_job("engine", evaluate)
+        movers = self.movers
+        if movers is not None:
+
+            async def watch() -> str:
+                moves = await movers.on_minute(now, updated)
+                if not moves:
+                    return ""
+                return f"{len(moves)} ungewöhnliche Bewegung{'en' if len(moves) > 1 else ''}"
+
+            await self._run_job("movers", watch)
         return True
 
     async def _run_job(self, job: str, func: Callable[[], Awaitable[Any]]) -> None:
@@ -283,6 +347,7 @@ class Runtime:
         deleted = await asyncio.to_thread(
             repo_news.delete_news_before, self.db, now_ts - NEWS_RETENTION_DAYS * 86400
         )
+        await asyncio.to_thread(repo_derivs.prune, self.db, before_ts=now_ts - DERIVATIVES_RETENTION_DAYS * 86400)
         return (
             f"Betriebsdaten älter als {OPS_RETENTION_DAYS} Tage und {deleted} Nachrichten älter als "
             f"{NEWS_RETENTION_DAYS} Tage gelöscht ({from_ts(now_ts):%d.%m.%Y})"

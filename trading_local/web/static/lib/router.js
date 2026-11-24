@@ -2,8 +2,9 @@
 //   #/                   overview            #/markt/:symbol      instrument
 //   #/maerkte            watchlist           #/signale            signals
 //   #/signale/:id        signal drawer       #/depot              portfolios
-//   #/news               news                #/validierung        validation
-//   #/system             system              #/einstellungen      settings
+//   #/news               news                #/termine            agenda
+//   #/validierung        validation          #/system             system
+//   #/einstellungen      settings
 // Unknown hashes fall back to the overview (name 'notfound' so the view can say so).
 
 import { useEffect, useState } from '../vendor/preact-htm.mjs';
@@ -36,6 +37,8 @@ function parseHash(hash = window.location.hash) {
       return route('depot');
     case 'news':
       return route('news');
+    case 'termine':
+      return route('agenda');
     case 'validierung':
       return route('validation');
     case 'system':

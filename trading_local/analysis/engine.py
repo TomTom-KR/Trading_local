@@ -43,11 +43,13 @@ from collections.abc import Callable, Collection, Coroutine, Mapping
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
-from typing import Any
+from typing import Any, Literal
 
 import pandas as pd
 
-from trading_local import presenters
+from trading_local import execution, presenters
+from trading_local.agenda import rules as agenda_rules
+from trading_local.agenda import texts as agenda_texts
 from trading_local.analysis import readings, scoring, setups, tracking
 from trading_local.analysis.calibration import Calibrator
 from trading_local.analysis.features import NewsContext, build_features, feature_float, news_context
@@ -66,12 +68,13 @@ from trading_local.contracts import (
     TradeReview,
     TradeReviewContext,
 )
-from trading_local.db import repo_news, repo_ops, repo_signals
+from trading_local.db import repo_agenda, repo_derivs, repo_news, repo_ops, repo_signals
+from trading_local.db.repo_agenda import AgendaEvent
 from trading_local.db.database import Database
 from trading_local.db.repo_market import BAR_SECONDS, InstrumentBook
 from trading_local.db.repo_news import SymbolNews
 from trading_local.db.repo_ops import SettingsStore
-from trading_local.dto import AnalysisOut, SignalStatsOut, StatBlock
+from trading_local.dto import AnalysisOut, ReadingOut, SignalStatsOut, StatBlock
 from trading_local.events import TOPIC_CHART_ANALYSIS, TOPIC_SIGNAL, EventBus
 from trading_local.models import SIGNAL_CLOSED_STATUSES, Candidate, Instrument, Signal
 
@@ -113,6 +116,10 @@ SHADOW_LLM_VETO = "llm_veto"
 SHADOW_LLM_UNAVAILABLE = "llm_nicht_verfuegbar"
 SHADOW_MARKET_CLOSED = "markt_geschlossen"
 SHADOW_STALE_DATA = "daten_veraltet"
+SHADOW_EVENT = "termin"
+
+EVENT_LOOKAHEAD_S = 7 * 86_400  # upcoming events named in the review and the GUI
+EVENT_LOOKBACK_S = 86_400  # released macro events whose surprise is named (earnings: within 7 days)
 
 NOTE_UNKNOWN_SYMBOL = "Unbekanntes Symbol."
 NOTE_TOO_LITTLE_DATA = (
@@ -246,6 +253,9 @@ def _shadow_text_de(signal: Signal, prefs: RuntimeSettings) -> str:
         return "Börse bei Freigabe geschlossen"
     if reason == SHADOW_STALE_DATA:
         return "Kursdaten bei Freigabe veraltet"
+    if reason == SHADOW_EVENT:
+        label = signal.features.get("event_block")
+        return f"Termin steht an: {label}" if isinstance(label, str) and label else "Wichtiger Termin steht an"
     return reason
 
 
@@ -916,6 +926,7 @@ class SignalEngine:
             components=components,
             news=snapshot.news,
         )
+        candidate.features.update(self._context_features(instrument, now_ts))
         signal = tracking.make_signal(
             candidate,
             confidence=round(calibrator.probability(score, rr), 4),
@@ -925,6 +936,69 @@ class SignalEngine:
         repo_signals.insert_signal(self._db, signal)
         self._publish(signal, instrument)
         return _Pending(signal, instrument, candidate, snapshot)
+
+    def _context_features(self, instrument: Instrument, now_ts: int) -> dict[str, Any]:
+        """Facts beyond the bars, as known at the decision time, for the review and the signal's snapshot: the
+        next important event and the latest surprise of the instrument (agenda) and the derivatives picture of a
+        crypto instrument. Never raises (missing facts are left out)."""
+        found: dict[str, Any] = {}
+        try:
+            upcoming, released = self._agenda_context(instrument, now_ts)
+        except Exception:
+            log.exception("agenda unavailable for %s", instrument.symbol)
+            upcoming = released = None
+        if upcoming is not None:
+            found["event_next"] = agenda_texts.upcoming_de(upcoming, now_ts=now_ts, timezone=self._settings.timezone)
+            found["event_next_min"] = max(0, (upcoming.event_ts - now_ts) // 60)
+        if released is not None:
+            found["event_last"] = agenda_texts.released_de(released)
+            if released.surprise is not None:
+                found["event_last_surprise"] = float(f"{released.surprise:.6g}")
+            if released.surprise_z is not None:
+                found["event_last_surprise_z"] = round(released.surprise_z, 2)
+        if instrument.asset_class == "crypto":
+            try:
+                found.update(
+                    readings.derivative_features(repo_derivs.metrics(self._db, instrument.symbol, asof_ts=now_ts))
+                )
+            except Exception:
+                log.exception("derivative metrics of %s unavailable", instrument.symbol)
+        return found
+
+    def _agenda_context(self, instrument: Instrument, now_ts: int) -> tuple[AgendaEvent | None, AgendaEvent | None]:
+        """(next important event within 7 days, latest released event with an actual value) that concern the
+        instrument, as known at ``now_ts``. Important: the company's earnings, or macro data and central-bank
+        decisions of the highest importance with a known time. Released: macro events of at least medium
+        importance within a day, the company's earnings within 7 days."""
+        events = repo_agenda.events_between(
+            self._db,
+            start_ts=now_ts - 7 * _DAY_SECONDS,
+            end_ts=now_ts + EVENT_LOOKAHEAD_S,
+            asof_ts=now_ts,
+            min_importance=2,
+            symbol=instrument.symbol,
+        )
+        relevant = [event for event in events if agenda_rules.affects(event, instrument)]
+        upcoming = next(
+            (
+                event
+                for event in relevant
+                if event.event_ts >= now_ts
+                and (
+                    event.kind == "earnings"
+                    or (event.importance >= agenda_rules.BLOCK_MIN_IMPORTANCE and event.time_known)
+                )
+            ),
+            None,
+        )
+        released = [
+            event
+            for event in relevant
+            if event.actual is not None
+            and event.event_ts <= now_ts
+            and (event.kind == "earnings" or event.event_ts >= now_ts - EVENT_LOOKBACK_S)
+        ]
+        return upcoming, (max(released, key=lambda event: event.event_ts) if released else None)
 
     @staticmethod
     def _allowed(hit: SetupHit, prefs: RuntimeSettings) -> bool:
@@ -1094,11 +1168,58 @@ class SignalEngine:
             return SHADOW_LLM_VETO
         if signal.llm_verdict in (None, "unavailable") and signal.score < threshold + NO_REVIEW_MARGIN:
             return SHADOW_LLM_UNAVAILABLE if signal.llm_verdict == "unavailable" else SHADOW_BELOW_THRESHOLD
+        if prefs.event_block_enabled:
+            blocking = self._blocking_event(signal, instrument, prefs, t_issue)
+            if blocking is not None:  # recorded with the signal, so the reason can be shown and evaluated
+                signal.features["event_block"] = agenda_texts.upcoming_de(
+                    blocking, now_ts=t_issue, timezone=self._settings.timezone
+                )
+                signal.features["event_block_ts"] = blocking.event_ts
+                signal.features["event_block_kind"] = blocking.kind
+                return SHADOW_EVENT
         if not self._venue_open(instrument, from_ts(t_issue)):
             return SHADOW_MARKET_CLOSED
         if self._data_stale(instrument, t_issue):
             return SHADOW_STALE_DATA
         return ""
+
+    def _blocking_event(
+        self, signal: Signal, instrument: Instrument, prefs: RuntimeSettings, t_issue: int
+    ) -> AgendaEvent | None:
+        """The agenda event that blocks the entry at ``t_issue`` (``agenda.rules.blocking_event``), or None."""
+        before_s = prefs.event_block_before_min * 60
+        exit_ts = self._planned_exit_ts(signal, instrument, t_issue)
+        try:
+            events = repo_agenda.events_between(
+                self._db,
+                start_ts=t_issue - _DAY_SECONDS,
+                end_ts=max(exit_ts, t_issue + before_s) + 1,
+                asof_ts=t_issue,
+                symbol=instrument.symbol,
+            )
+        except Exception:
+            log.exception("agenda unavailable for %s; no event block", instrument.symbol)
+            return None
+        return agenda_rules.blocking_event(
+            events, instrument, t_issue=t_issue, planned_exit_ts=exit_ts, before_s=before_s
+        )
+
+    def _planned_exit_ts(self, signal: Signal, instrument: Instrument, t_issue: int) -> int:
+        """Latest planned exit of a trade entered at ``t_issue``: the time stop, for intraday trades at most the
+        flattening before the session close."""
+        try:
+            exit_ts = to_ts(
+                self._calendar.add_trading_minutes(instrument.exchange, from_ts(t_issue), signal.horizon_min)
+            )
+            if signal.intraday:
+                flatten = execution.session_flatten_ts(
+                    self._calendar, instrument.exchange, t_issue, P.flatten_before_close_min
+                )
+                if flatten is not None:
+                    exit_ts = min(exit_ts, flatten)
+        except KeyError:
+            exit_ts = t_issue + signal.horizon_min * 60
+        return max(exit_ts, t_issue)
 
     def _data_stale(self, instrument: Instrument, now_ts: int) -> bool:
         last = BarReader(self._db, self._instruments, self._calendar, now_ts).last_bar(instrument.symbol)
@@ -1241,7 +1362,7 @@ class SignalEngine:
         snapshot = self._current_snapshot(instrument, now_ts)
         if snapshot is None:
             return AnalysisOut(symbol=symbol, available=False, note_de=NOTE_TOO_LITTLE_DATA, chart_analysis=chart)
-        return readings.analysis_out(
+        out = readings.analysis_out(
             symbol,
             snapshot.row,
             as_of=snapshot.as_of,
@@ -1251,6 +1372,36 @@ class SignalEngine:
             chart_analysis=chart,
             note_de="" if self._venue_open(instrument, from_ts(now_ts)) else NOTE_MARKET_CLOSED,
         )
+        out.readings.extend(self._context_readings(instrument, now_ts))
+        return out
+
+    def _context_readings(self, instrument: Instrument, now_ts: int) -> list[ReadingOut]:
+        """GUI readings beyond the bars: next important event and latest surprise (agenda), and the derivatives
+        picture of a crypto instrument."""
+        found: list[ReadingOut] = []
+        try:
+            upcoming, released = self._agenda_context(instrument, now_ts)
+        except Exception:
+            log.exception("agenda unavailable for %s", instrument.symbol)
+            upcoming = released = None
+        if upcoming is not None:
+            text = agenda_texts.upcoming_de(upcoming, now_ts=now_ts, timezone=self._settings.timezone)
+            found.append(ReadingOut(key="event_next", label_de="Nächster Termin", value_de=text))
+        if released is not None:
+            label = agenda_texts.surprise_label(released)
+            stance: Literal["bullish", "bearish", "neutral"] = "neutral"
+            if released.kind == "earnings" and label in ("above", "below"):
+                stance = "bullish" if label == "above" else "bearish"
+            text = agenda_texts.released_de(released)
+            found.append(ReadingOut(key="event_last", label_de="Letzter Termin", value_de=text, stance=stance))
+        if instrument.asset_class == "crypto":
+            try:
+                metrics = repo_derivs.metrics(self._db, instrument.symbol, asof_ts=now_ts)
+            except Exception:
+                log.exception("derivative metrics of %s unavailable", instrument.symbol)
+                metrics = None
+            found.extend(readings.derivative_readings(metrics, instrument.symbol.split("-", 1)[0]))
+        return found
 
     def _current_snapshot(self, instrument: Instrument, now_ts: int) -> Snapshot | None:
         """The cached snapshot unless it is older than 15 trading minutes; otherwise a fresh one (same code

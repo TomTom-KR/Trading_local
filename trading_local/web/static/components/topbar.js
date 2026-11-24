@@ -18,6 +18,7 @@ const NAV = [
   { path: '/signale', label: 'Signale', routes: ['signals'] },
   { path: '/depot', label: 'Depot', routes: ['depot'] },
   { path: '/news', label: 'Nachrichten', routes: ['news'] },
+  { path: '/termine', label: 'Termine', routes: ['agenda'] },
   { path: '/validierung', label: 'Validierung', routes: ['validation'] },
   { path: '/system', label: 'System', routes: ['system'] },
 ];

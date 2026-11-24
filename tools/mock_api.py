@@ -1553,7 +1553,75 @@ JOBS = (
     ("chart_scan", "Chartanalysen", 1800, 61_000, True, "4 Werte analysiert"),
     ("backfill", "Historie nachladen", 3600, 18_400, True, "alle Werte vollständig"),
     ("daily_maintenance", "Tageswartung", 86400, 3200, False, "VACUUM übersprungen: Datenbank in Benutzung"),
+    ("movers", "Kursauslöser (Nachrichten vorziehen)", 60, 140, True, ""),
+    ("derivatives", "Krypto-Derivate (Kraken Futures)", 60, 2300, True, "11 neue Einträge"),
+    ("agenda", "Terminkalender", 60, 420, True, "2 neue Einträge"),
 )
+
+
+# ------------------------------------------------------------------------------------------------
+# Agenda
+# ------------------------------------------------------------------------------------------------
+# (minutes from the demo start, kind, currency or symbol, title, importance, forecast, previous, actual, z)
+AGENDA_DEMO: tuple[tuple[int, str, str, str, int, str, str, str, float | None], ...] = (
+    (-26 * 60, "macro", "EUR", "German Ifo Business Climate", 2, "87.5", "87.3", "88.1", 1.2),
+    (-5 * 60 - 12, "macro", "USD", "Unemployment Claims", 3, "221K", "219K", "213K", -1.4),
+    (-3 * 60 - 12, "macro", "USD", "CB Consumer Confidence", 3, "92.4", "91.7", "103.3", 2.6),
+    (-3 * 60 - 12, "macro", "USD", "Richmond Manufacturing Index", 1, "-2", "-2", "3", None),
+    (18, "macro", "USD", "Core PCE Price Index m/m", 3, "0.3%", "0.3%", "", None),
+    (18, "macro", "USD", "Prelim GDP q/q", 3, "3.5%", "3.4%", "", None),
+    (3 * 60 + 48, "earnings", "NVDA", "Quartalszahlen", 3, "1.25", "", "", None),
+    (16 * 60 + 18, "macro", "JPY", "Tokyo Core CPI y/y", 2, "1.9%", "2.0%", "", None),
+    (20 * 60, "macro", "EUR", "German Prelim CPI m/m", 2, "0.1%", "0.3%", "", None),
+    (26 * 60 + 48, "central_bank", "EUR", "Main Refinancing Rate", 3, "2.15%", "2.15%", "", None),
+    (27 * 60 + 18, "central_bank", "EUR", "ECB Press Conference", 3, "", "", "", None),
+    (6 * 1440 + 18, "central_bank", "USD", "Federal Funds Rate", 3, "4.50%", "4.75%", "", None),
+    (9 * 1440 - 4 * 60, "earnings", "SAP.DE", "Quartalszahlen", 3, "1.98", "", "", None),
+    (-2 * 1440 - 5 * 60, "earnings", "AAPL", "Quartalszahlen", 3, "1.98", "", "2.10", None),
+)
+AGENDA_KINDS_DE = {"macro": "Konjunkturdaten", "central_bank": "Notenbank", "earnings": "Quartalszahlen"}
+AGENDA_BLOCK_MIN = 30
+
+
+def _agenda_number(text: str) -> float | None:
+    try:
+        value = float(text.rstrip("%KkMB"))
+    except ValueError:
+        return None
+    return value * (1000.0 if text[-1:] in "Kk" else 1.0)
+
+
+def build_agenda(now: int) -> list[dto.AgendaEventOut]:
+    """Deterministic demo calendar around the demo start (released entries carry actual and surprise)."""
+    out = []
+    start = now // 60 * 60
+    for i, (minutes, kind, key, title, importance, forecast, previous, actual, z) in enumerate(AGENDA_DEMO, 1):
+        ts = start + minutes * 60
+        earnings = kind == "earnings"
+        actual_value, forecast_value = _agenda_number(actual), _agenda_number(forecast)
+        surprise = None
+        label: Literal["above", "below", "inline", ""] = ""
+        if actual_value is not None and forecast_value is not None:
+            surprise = (actual_value / forecast_value - 1) * 100 if earnings else actual_value - forecast_value
+            label = "inline" if abs(surprise) < 1e-9 else "above" if surprise > 0 else "below"
+        result = ""
+        if actual:
+            result = f"EPS {actual} statt {forecast}" if earnings else f"{actual} statt {forecast}"
+            result += {"above": " – über Erwartung", "below": " – unter Erwartung", "inline": " – wie erwartet", "": ""}[label]
+        currency = "" if earnings else key
+        affected = 1 if earnings else sum(
+            1 for spec in UNIVERSE if spec.tradable and (spec.currency == currency or (currency == "USD" and spec.asset_class == "crypto"))
+        )
+        blocking = not earnings and importance == 3
+        block_from = ts - AGENDA_BLOCK_MIN * 60 if blocking else None
+        out.append(dto.AgendaEventOut(
+            id=i, kind=kind, kind_de=AGENDA_KINDS_DE[kind], source="yahoo" if earnings else "forexfactory", currency=currency,
+            symbol=key if earnings else None, name=SPECS[key].name if earnings else "", title=title, event_ts=ts,
+            time_known=True, importance=importance, forecast_text=forecast, previous_text=previous, actual_text=actual,
+            surprise=surprise, surprise_z=z, surprise_label=label, result_de=result, affected=affected,
+            block_from_ts=block_from, blocks_entries=block_from is not None and block_from <= now <= ts,
+        ))
+    return out
 
 
 # ------------------------------------------------------------------------------------------------
@@ -1573,6 +1641,7 @@ class MockState:
         self.broker = Broker(self.market, self.signals, now)
         self.chart_analyses = build_chart_analyses(self.market, now)
         self.feeds = build_feeds(now)
+        self.agenda = build_agenda(now)
         self.activity, self.llm_calls, self.mail_log = build_ops(now)
         self.settings = RuntimeSettings()
         self.validation_runs = [
@@ -1931,6 +2000,24 @@ def create_app(demo_now: datetime | None = DEFAULT_DEMO_NOW, *, offline: bool = 
         if analyzed_only:
             items = [n for n in items if n.analysis]
         return items[:limit]
+
+    # -- agenda -----------------------------------------------------------------------------------
+    @app.get("/api/agenda")
+    def get_agenda(from_ts: int | None = Query(None, ge=0), to_ts: int | None = Query(None, ge=0),
+                   min_importance: int = Query(1, ge=1, le=3),
+                   kind: Literal["macro", "central_bank", "earnings"] | None = None,
+                   symbol: str | None = None) -> list[dto.AgendaEventOut]:
+        now = state.now()
+        start = now - 86400 if from_ts is None else from_ts
+        end = now + 7 * 86400 if to_ts is None else to_ts
+        items = [e for e in state.agenda if start <= e.event_ts < end and e.importance >= min_importance]
+        if kind:
+            items = [e for e in items if e.kind == kind]
+        if symbol:
+            spec = _spec_or_404(state, symbol)
+            items = [e for e in items if e.symbol == symbol or (e.kind != "earnings" and (
+                e.currency == spec.currency or (e.currency == "USD" and spec.asset_class == "crypto")))]
+        return sorted(items, key=lambda e: (e.event_ts, e.id))
 
     # -- signals ----------------------------------------------------------------------------------
     @app.get("/api/signals")

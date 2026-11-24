@@ -251,7 +251,7 @@ summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
 <a href="#maerkte"><span lang="de">Märkte und Instrument</span><span lang="en">Markets and instrument</span></a>
 <a href="#signale"><span lang="de">Signale</span><span lang="en">Signals</span></a>
 <a href="#depot"><span lang="de">Depot: KI gegen mich</span><span lang="en">Portfolio: AI versus me</span></a>
-<a href="#nachrichten"><span lang="de">Nachrichten</span><span lang="en">News</span></a>
+<a href="#nachrichten"><span lang="de">Nachrichten</span><span lang="en">News</span></a> <a href="#termine-ansicht"><span lang="de">Termine</span><span lang="en">Agenda</span></a>
 <a href="#validierung-ansicht"><span lang="de">Validierung</span><span lang="en">Validation</span></a>
 <a href="#system"><span lang="de">System</span><span lang="en">System</span></a>
 <a href="#einstellungen"><span lang="de">Einstellungen</span><span lang="en">Settings</span></a>
@@ -260,7 +260,7 @@ summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
 <a href="#datenfluss"><span lang="de">Datenfluss und Minutentakt</span><span lang="en">Data flow and minute cycle</span></a>
 <a href="#marktdaten"><span lang="de">Marktdaten und Verzögerungen</span><span lang="en">Market data and delays</span></a>
 <a href="#handelszeiten"><span lang="de">Handelszeiten</span><span lang="en">Trading hours</span></a>
-<a href="#news-pipeline"><span lang="de">Nachrichten</span><span lang="en">News pipeline</span></a>
+<a href="#news-pipeline"><span lang="de">Nachrichten</span><span lang="en">News pipeline</span></a> <a href="#terminkalender"><span lang="de">Terminkalender</span><span lang="en">Agenda pipeline</span></a> <a href="#krypto-derivate"><span lang="de">Krypto-Derivate</span><span lang="en">Crypto derivatives</span></a>
 <a href="#ki"><span lang="de">Rolle der KI</span><span lang="en">Role of the AI</span></a>
 <a href="#signal-engine"><span lang="de">Signale</span><span lang="en">Signal engine</span></a>
 <a href="#overfitting"><span lang="de">Schutz vor Overfitting</span><span lang="en">Guarding against overfitting</span></a>
@@ -286,7 +286,7 @@ summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
 <section class="hero" id="einleitung">
 <h1><span lang="de">Trading Local – Dokumentation</span><span lang="en">Trading Local – Documentation</span></h1>
 <p class="lead"><span lang="de">Lokale Plattform zum Forschen und Üben: Minutenkurse, Nachrichten mit lokaler KI, Long- und Short-Signale nach festen Regeln und zwei Papierdepots im direkten Vergleich.</span><span lang="en">A local platform for research and practice: minute prices, news read by a local AI, long and short signals from fixed rules and two paper portfolios compared head to head.</span></p>
-<p class="stand"><span lang="de">Stand 23.11.2026 · Version 0.1.0 · Engine e3-53192150</span><span lang="en">As of 23 Nov 2026 · Version 0.1.0 · Engine e3-53192150</span></p>
+<p class="stand"><span lang="de">Stand 25.11.2026 · Version 0.1.0 · Engine e3-53192150</span><span lang="en">As of 25 Nov 2026 · Version 0.1.0 · Engine e3-53192150</span></p>
 <div class="overview">
 <a class="card" href="#uebersicht"><img src="docs/screenshots/overview-hero-dark-desktop.png" width="1440" height="900" loading="lazy" decoding="async" alt="Übersicht, sichtbarer Bereich bei 1440 × 900: Handelszeiten-Band mit geöffnetem Asien und zwei offene Short-Empfehlungen (SK hynix, Samsung), die auf den Einstieg warten." data-alt-de="Übersicht, sichtbarer Bereich bei 1440 × 900: Handelszeiten-Band mit geöffnetem Asien und zwei offene Short-Empfehlungen (SK hynix, Samsung), die auf den Einstieg warten." data-alt-en="Overview, visible area at 1440 × 900: session ribbon with Asia open and two open short recommendations (SK hynix, Samsung) waiting for entry."><div class="t"><b><span lang="de">Übersicht</span><span lang="en">Overview page</span></b><span><span lang="de">Handelszeiten-Band, Empfehlungen, KI gegen mich und Nachrichten auf einen Blick.</span><span lang="en">Session ribbon, recommendations, AI versus me and news at a glance.</span></span><i><span lang="de">Startseite</span><span lang="en">Start page</span></i></div></a>
 <a class="card" href="#maerkte"><img src="docs/screenshots/instrument-crypto-dark-desktop.png" width="1440" height="1829" loading="lazy" decoding="async" alt="Bitcoin (BTC-EUR) von Kraken in Echtzeit: 1-Minuten-Chart mit EMA 20, EMA 50 und VWAP, Orderticket, technische Lage, Marken und KI-Chartanalyse." data-alt-de="Bitcoin (BTC-EUR) von Kraken in Echtzeit: 1-Minuten-Chart mit EMA 20, EMA 50 und VWAP, Orderticket, technische Lage, Marken und KI-Chartanalyse." data-alt-en="Bitcoin (BTC-EUR) from Kraken in real time: 1-minute chart with EMA 20, EMA 50 and VWAP, order ticket, technical readings, levels and AI chart analysis."><div class="t"><b><span lang="de">Märkte und Instrument</span><span lang="en">Markets and instrument</span></b><span><span lang="de">Beobachtungsliste, Chart mit Indikatoren, technische Lage und Orderticket.</span><span lang="en">Watchlist, chart with indicators, technical readings and order ticket.</span></span><i><span lang="de">115 Werte</span><span lang="en">115 instruments</span></i></div></a>
@@ -733,6 +733,34 @@ Without <code>uv</code>, <code>python -m venv .venv</code> and <code>.venv\Scrip
 </div>
 </section>
 
+<section id="termine-ansicht">
+<h2><span lang="de">Termine</span><span lang="en">Agenda</span></h2>
+<p class="lead"><span lang="de">Konjunkturdaten, Notenbankentscheidungen und Quartalszahlen mit Prognose, Vorwert, Istwert und Überraschung – und wann vor einem Termin keine neuen Einstiege ausgegeben werden.</span><span lang="en">Economic data, central-bank decisions and earnings with forecast, previous value, actual value and surprise – and when no new entries are issued ahead of an event.</span></p>
+<div lang="de">
+<ul>
+<li><b>Liste nach Tagen</b> („Heute“, „Morgen“ …) mit Zeit, Termin, Wichtigkeit (●●● hoch, ●●○ mittel, ●○○ gering), Prognose, Vorwert, Istwert und Überraschung. Konjunkturdaten tragen ihre Währung (USD, EUR …), Notenbanktermine zusätzlich das Kennzeichen „Notenbank“, Quartalszahlen den Namen des Unternehmens mit Link zur Instrumentseite.</li>
+<li><b>Filter:</b> Wichtigkeit (hoch, ab mittel, alle), Zeitraum (7 Tage, 4 Wochen; immer ab gestern), Art (Konjunkturdaten, Notenbank, Quartalszahlen) und Wert. Mit einem Wert zeigt die Liste nur, was ihn betrifft: seine Quartalszahlen und die Konjunkturdaten seiner Währung.</li>
+<li><b>Sperre:</b> „Einstiege gesperrt“ markiert einen wichtigen Termin, vor dem gerade keine neuen Einstiege ausgegeben werden; „sperrt ab 14:00“ kündigt die Sperre an. Darunter steht, wie viele handelbare Werte der Termin betrifft.</li>
+<li><b>Überraschung:</b> „über Erwartung“, „unter Erwartung“ oder „wie erwartet“ (gleich auf die veröffentlichte Genauigkeit der Prognose), bei mindestens sechs früheren Veröffentlichungen desselben Termins mit der Größe in σ. Nur bei Quartalszahlen ist die Farbe gut oder schlecht; ob ein höherer Inflationswert gut ist, hängt vom Indikator ab.</li>
+<li>Die Liste lädt jede Minute neu – Istwerte erscheinen Sekunden nach der Veröffentlichung. Die rechte Spalte erklärt die Sperre und die Quellen.</li>
+</ul>
+<p>Auf der Instrumentseite stehen der nächste wichtige Termin und die letzte Überraschung des Werts als eigene Zeilen der technischen Lage („Nächster Termin“, „Letzter Termin“).</p>
+</div>
+<div lang="en">
+<ul>
+<li><b>List by day</b> ('Heute' today, 'Morgen' tomorrow …) with time, event, importance (●●● high, ●●○ medium, ●○○ low), forecast, previous, actual value and surprise. Economic data carry their currency (USD, EUR …), central-bank events the tag 'Notenbank' as well, earnings the company name with a link to the instrument page.</li>
+<li><b>Filters:</b> importance (high, from medium, all), period (7 days, 4 weeks; always from yesterday), kind (economic data, central bank, earnings) and instrument. With an instrument the list shows only what concerns it: its earnings and the economic data of its currency.</li>
+<li><b>Block:</b> 'Einstiege gesperrt' (entries blocked) marks an important event ahead of which no new entries are issued right now; 'sperrt ab 14:00' announces the block. Below it stands how many tradable instruments the event concerns.</li>
+<li><b>Surprise:</b> 'über Erwartung' (above), 'unter Erwartung' (below) or 'wie erwartet' (in line – equal at the forecast's published precision), with its size in σ once there are at least six earlier releases of the same event. Only for earnings is the colour good or bad news; whether a higher inflation figure is good depends on the indicator.</li>
+<li>The list reloads every minute – actual values appear seconds after the release. The right column explains the block and the sources.</li>
+</ul>
+<p>On the instrument page the next important event and the latest surprise of the instrument appear as rows of the technical readings ('Nächster Termin', 'Letzter Termin').</p>
+</div>
+<div class="gallery two">
+<figure data-gallery="g-agenda"><a class="zoom" href="docs/screenshots/agenda-dark-desktop-demo.png"><img src="docs/screenshots/agenda-dark-desktop-demo.png" width="1440" height="1360" loading="lazy" decoding="async" alt="Termine (Demo-Daten): Konjunkturdaten, Notenbanktermine und Quartalszahlen nach Tagen mit Wichtigkeit, Prognose, Vorwert, Istwert und Überraschung; zwei US-Termine sperren gerade neue Einstiege." data-alt-de="Termine (Demo-Daten): Konjunkturdaten, Notenbanktermine und Quartalszahlen nach Tagen mit Wichtigkeit, Prognose, Vorwert, Istwert und Überraschung; zwei US-Termine sperren gerade neue Einstiege." data-alt-en="Agenda (demo data): economic data, central-bank events and earnings by day with importance, forecast, previous, actual and surprise; two US events are blocking new entries right now."></a><figcaption><span lang="de">Termine (Demo-Daten): Konjunkturdaten, Notenbanktermine und Quartalszahlen nach Tagen mit Wichtigkeit, Prognose, Vorwert, Istwert und Überraschung; zwei US-Termine sperren gerade neue Einstiege.</span><span lang="en">Agenda (demo data): economic data, central-bank events and earnings by day with importance, forecast, previous, actual and surprise; two US events are blocking new entries right now.</span></figcaption></figure>
+</div>
+</section>
+
 <section id="validierung-ansicht">
 <div class="lay-head"><h2><span lang="de">Validierung</span><span lang="en">Validation</span></h2><span class="stil"><span lang="de">Die Regeln auf der Historie</span><span lang="en">The rules on the history</span></span></div>
 <p class="tagline"><span lang="de">Spielt die gespeicherten Minutenkerzen noch einmal ab und lässt die Engine entscheiden, als wäre es live.</span><span lang="en">Replays the stored minute candles and lets the engine decide as if it were live.</span></p>
@@ -927,23 +955,25 @@ Without <code>uv</code>, <code>python -m venv .venv</code> and <code>.venv\Scrip
 </div>
 <h3><span lang="de">Der Minutentakt</span><span lang="en">The minute cycle</span></h3>
 <div lang="de">
-<p>Drei Sekunden nach jeder vollen Minute laufen drei Schritte in fester Reihenfolge, damit jeder Schritt die Ergebnisse des vorigen sieht:</p>
+<p>Drei Sekunden nach jeder vollen Minute laufen vier Schritte in fester Reihenfolge, damit jeder Schritt die Ergebnisse des vorigen sieht:</p>
 <ol class="steps">
 <li><b>Daten</b> – abgeschlossene 1-Minuten-Kerzen und Kurse stehen in der Datenbank.</li>
 <li><b>Depots</b> – offene Orders werden auf den neuen, abgerechneten Kerzen ausgeführt, Stopps, Ziele, Zeitstopps und die Glattstellung vor Handelsschluss geprüft.</li>
 <li><b>Engine</b> – offene Signale werden auf neuen Kerzen weiterverfolgt; für jeden handelbaren Wert, dessen Börse gerade regulär handelt und dessen neueste 5-Minuten-Kerze vollständig ist, prüft die Engine die fünf Setups. Neue Kandidaten gehen bei Bedarf im Hintergrund an die KI.</li>
+<li><b>Kursauslöser</b> – ungewöhnliche Bewegungen mit ungewöhnlichem Volumen ziehen die Meldungen des Werts vor (siehe <a href="#news-pipeline">Kurs als Auslöser</a>). Der Schritt kommt zuletzt, weil er der Nachrichtenanalyse dient und den Handel nie verzögern darf.</li>
 </ol>
-<p>Schlägt ein Schritt fehl, wird er protokolliert und der Takt läuft mit dem nächsten weiter. Dauert ein Takt länger als eine Minute, werden die verpassten Minuten übersprungen, nicht nachgeholt. Unabhängig davon fragt eine zweite Schleife jede Minute (zur halben Minute) die Nachrichten ab, und einmal pro Stunde räumt die Plattform auf (siehe <a href="#datenbank">Datenbank</a>).</p>
+<p>Schlägt ein Schritt fehl, wird er protokolliert und der Takt läuft mit dem nächsten weiter. Dauert ein Takt länger als eine Minute, werden die verpassten Minuten übersprungen, nicht nachgeholt. Unabhängig davon laufen drei weitere Schleifen jede Minute: die <a href="#krypto-derivate">Krypto-Derivate</a> (20 Sekunden nach der Minute), die Nachrichten (zur halben Minute) und der <a href="#terminkalender">Terminkalender</a> (45 Sekunden nach der Minute, damit Istwerte aus den Meldungen dieser Minute sofort ankommen). Einmal pro Stunde räumt die Plattform auf (siehe <a href="#datenbank">Datenbank</a>).</p>
 <p>Ein Ereignisbus meldet alles, was passiert, an die Oberfläche (neue Kerzen, Kurse, Signale, Orders, Nachrichten, Phasenwechsel der Börsen). Er steuert nichts: Die Reihenfolge legt allein der Takt fest – das macht das Verhalten vorhersehbar und testbar.</p>
 </div>
 <div lang="en">
-<p>Three seconds after every full minute three steps run in a fixed order, so that each step sees the results of the previous one:</p>
+<p>Three seconds after every full minute four steps run in a fixed order, so that each step sees the results of the previous one:</p>
 <ol class="steps">
 <li><b>Data</b> – closed 1-minute candles and quotes are in the database.</li>
 <li><b>Portfolios</b> – pending orders fill on the new, settled candles; stops, targets, time stops and the flattening before the session close are checked.</li>
 <li><b>Engine</b> – open signals are tracked on new candles; for every tradable instrument whose exchange is in its regular session and whose newest 5-minute candle is complete, the engine checks the five setups. New candidates go to the AI in the background where needed.</li>
+<li><b>Price trigger</b> – unusual moves with unusual volume pull the instrument's items forward (see <a href="#news-pipeline">price as a trigger</a>). The step comes last because it serves the news analysis and must never delay trading.</li>
 </ol>
-<p>If a step fails it is logged and the cycle continues with the next one. If a cycle takes longer than a minute, the missed minutes are skipped, not queued. Independently, a second loop polls the news every minute (at half past the minute), and once an hour the platform cleans up (see <a href="#datenbank">Database</a>).</p>
+<p>If a step fails it is logged and the cycle continues with the next one. If a cycle takes longer than a minute, the missed minutes are skipped, not queued. Independently, three more loops run every minute: the <a href="#krypto-derivate">crypto derivatives</a> (20 seconds after the minute), the news (at half past) and the <a href="#terminkalender">agenda</a> (45 seconds after the minute, so actual values from this minute's headlines arrive at once). Once an hour the platform cleans up (see <a href="#datenbank">Database</a>).</p>
 <p>An event bus reports everything that happens to the interface (new candles, quotes, signals, orders, news, phase changes of the exchanges). It controls nothing: the order is set by the cycle alone, which keeps the behaviour predictable and testable.</p>
 </div>
 </section>
@@ -1211,7 +1241,135 @@ Without <code>uv</code>, <code>python -m venv .venv</code> and <code>.venv\Scrip
 <tr><td>AI switched off</td><td>skipped 'KI aus' (AI off)</td></tr>
 <tr><td>Otherwise</td><td>queued; the AI may only name the candidates found as affected instruments (up to 8 matched instruments, then the macro indices). The platform discards any other symbol.</td></tr>
 </tbody></table></div>
-<p><span lang="de"><b>Rückstau:</b> Höchstens 40 Analysen sind gleichzeitig offen, davon höchstens 8 schon bei der KI. Ist die Grenze erreicht, fällt die älteste noch nicht übergebene Meldung heraus („Rückstau“) – frische Nachrichten gehen immer vor, und keine Rechenzeit wird verschwendet. Wartende werden neueste zuerst übergeben; eine Nachricht, die 20 Minuten in der KI-Warteschlange lag, verfällt. Meldungen und ihre Analysen werden 180 Tage aufbewahrt.</span><span lang="en"><b>Back-pressure:</b> at most 40 analyses are open at a time, at most 8 of them already handed to the AI. When the limit is reached, the oldest item not yet handed over is dropped ('Rückstau', backlog) – fresh news always wins, and no computing time is wasted. Waiting items are handed over newest first; an item that waited 20 minutes in the AI queue expires. Items and their analyses are kept for 180 days.</span></p>
+<h3><span lang="de">Reihenfolge nach Wichtigkeit</span><span lang="en">Order by importance</span></h3>
+<div class="tbl wrap1" lang="de"><table><thead><tr><th>Stufe</th><th>Meldung</th></tr></thead><tbody>
+<tr><td>0</td><td>nennt einen Wert, dessen Kurs sich gerade ungewöhnlich bewegt (Kurs als Auslöser, siehe unten) – für eine Stunde</td></tr>
+<tr><td>1</td><td>Ad-hoc-Meldung (Pflichtmitteilungen über finanznachrichten.de und wallstreet-online) zu einem handelbaren Wert</td></tr>
+<tr><td>2</td><td>nennt einen handelbaren Wert und stammt aus einer Quelle mit Qualität ab 3 von 5</td></tr>
+<tr><td>3</td><td>alles Übrige, das analysiert wird (schwache Quellen, nur Indizes oder Devisen, Meldungen ohne Zuordnung aus guten Quellen)</td></tr>
+</tbody></table></div>
+<div class="tbl wrap1" lang="en"><table><thead><tr><th>Level</th><th>Item</th></tr></thead><tbody>
+<tr><td>0</td><td>names an instrument whose price is moving unusually right now (price as a trigger, see below) – for one hour</td></tr>
+<tr><td>1</td><td>ad-hoc disclosure (mandatory announcements through finanznachrichten.de and wallstreet-online) about a tradable instrument</td></tr>
+<tr><td>2</td><td>names a tradable instrument and comes from a source rated at least 3 of 5</td></tr>
+<tr><td>3</td><td>everything else that is analysed (weak sources, indices or currencies only, unmatched items of good sources)</td></tr>
+</tbody></table></div>
+<p><span lang="de">Innerhalb einer Stufe geht die frischere Meldung vor. Die Stufe wird bei jeder Übergabe neu bestimmt, so rückt eine schon wartende Meldung nach vorn, sobald ihr Wert auffällt. <b>Rückstau:</b> Höchstens 40 Analysen sind gleichzeitig offen. Ist die Grenze erreicht, fällt die <i>unwichtigste</i> noch nicht übergebene Meldung heraus (höchste Stufe, darin die älteste) – nicht mehr einfach die älteste. Beim Start am 24.11.2026 wurden 529 Meldungen rein nach Alter verworfen, darunter auch Ad-hoc-Meldungen. An die KI gehen höchstens 2 Meldungen gleichzeitig: Die KI-Warteschlange bedient Nachrichten neueste zuerst, mit 8 gleichzeitig übergebenen Meldungen überholte jede spätere Übergabe die früheren, und die wichtigsten einer Flut warteten, bis ihre 20 Minuten abgelaufen waren. Eine Nachricht, die 20 Minuten in der KI-Warteschlange lag, verfällt. Meldungen und ihre Analysen werden 180 Tage aufbewahrt.</span><span lang="en">Within a level the fresher item goes first. The level is determined again at every hand-over, so an item that is already waiting moves to the front as soon as its instrument stands out. <b>Back-pressure:</b> at most 40 analyses are open at a time. When the limit is reached, the <i>least important</i> item not yet handed over is dropped (highest level, within it the oldest) – no longer simply the oldest. At the start on 24 Nov 2026, 529 items were dropped by age alone, ad-hoc disclosures among them. At most 2 items are handed to the AI at a time: the AI queue serves news newest first, and with 8 items handed over at once every later hand-over overtook the earlier ones, so the most important items of a flood waited until their 20 minutes ran out. An item that waited 20 minutes in the AI queue expires. Items and their analyses are kept for 180 days.</span></p>
+<h3><span lang="de">Kurs als Auslöser</span><span lang="en">Price as a trigger</span></h3>
+<div lang="de">
+<p>Nachrichten erklären Kursbewegungen – und eine Bewegung, die noch niemand erklärt hat, ist der Moment, in dem die Meldungen eines Werts am meisten zählen. Deshalb prüft der Minutentakt nach dem Engine-Schritt jeden aktiven Wert mit neuen Kerzen:</p>
+<ul>
+<li><b>Bewegung:</b> Veränderung der letzten 5 Minuten (Eröffnung der ersten bis Schluss der letzten 1-Minuten-Kerze) in Standardabweichungen der 5-Minuten-Veränderungen der 10 vorigen Handelstage (ohne Übernachtlücken). Ausgelöst wird ab 6σ.</li>
+<li><b>Volumen:</b> mindestens dreimal so viel wie üblich zu dieser Tageszeit (Median derselben 5-Minuten-Zeitspanne der vorigen Handelstage). So zählt der lebhafte Handelsbeginn nicht als ungewöhnlich. Werte ohne Volumen (Indizes, Devisen) lösen nie aus.</li>
+<li>Höchstens einmal je Wert und halbe Stunde; nur innerhalb einer regulären Sitzung (eine Mittagspause oder Übernachtlücke ist keine Bewegung).</li>
+<li><b>Wirkung:</b> Meldungen des Werts – wartende und neu eintreffende – kommen eine Stunde lang auf Stufe 0. Meldungen der letzten 6 Stunden, die wegen Rückstau verworfen wurden oder für die die KI keine Zeit hatte, werden erneut eingereiht. Im Aktivitätsprotokoll steht etwa „Ungewöhnliche Kursbewegung: NVDA +2,4 % in 5 Min (7,1σ), Volumen 4,2-fach – Nachrichten vorgezogen, 3 Meldungen erneut eingereiht“.</li>
+<li>Bei Kryptowährungen löst zusätzlich eine Liquidationswelle aus (siehe <a href="#krypto-derivate">Krypto-Derivate</a>). Beides lässt sich unter <a href="#einstellungen">Einstellungen</a> → KI-Hintergrundarbeit → „Kurs als Auslöser“ abschalten.</li>
+</ul>
+<p>Die Schwellen sind an der gespeicherten Historie geprüft (19. bis 24.11.2026, alle aktiven Werte mit Volumen, je drei Handelstage). Eine robuste Streuung (mittlere absolute Abweichung) mit 4σ hätte 93-mal am Tag ausgelöst: 5-Minuten-Veränderungen haben dicke Ränder, und die dünn gehandelten Krypto-Paare in EUR haben viele flache Abschnitte. Mit der Standardabweichung und 6σ sind es 15 Auslösungen am Tag, also etwa eine je Wert und Woche. Die Signal-Engine und die Validierung ändert der Auslöser nicht.</p>
+</div>
+<div lang="en">
+<p>News explain price moves – and a move nobody has explained yet is the moment when an instrument's headlines matter most. So after the engine step the minute cycle checks every active instrument with new candles:</p>
+<ul>
+<li><b>Move:</b> change over the last 5 minutes (open of the first to close of the last 1-minute candle) in standard deviations of the 5-minute changes of the 10 previous trading days (overnight gaps excluded). It triggers from 6σ.</li>
+<li><b>Volume:</b> at least three times the usual for that time of day (median of the same 5-minute slot of the previous trading days), so the busy opening does not count as unusual. Instruments without volume (indices, currencies) never trigger.</li>
+<li>At most once per instrument and half hour; only within a regular session (a lunch break or an overnight gap is not a move).</li>
+<li><b>Effect:</b> the instrument's items – waiting and newly arriving – go to level 0 for one hour. Items of the last 6 hours that were dropped for back-pressure or that the AI had no time for are queued again. The activity log says, for example, 'Ungewöhnliche Kursbewegung: NVDA +2,4 % in 5 Min (7,1σ), Volumen 4,2-fach – Nachrichten vorgezogen, 3 Meldungen erneut eingereiht'.</li>
+<li>For cryptocurrencies a liquidation burst triggers as well (see <a href="#krypto-derivate">Crypto derivatives</a>). Both can be switched off under <a href="#einstellungen">Settings</a> → KI-Hintergrundarbeit → 'Kurs als Auslöser'.</li>
+</ul>
+<p>The thresholds were checked on the stored history (19 to 24 Nov 2026, all active instruments with volume, three trading days each). A robust spread (median absolute deviation) with 4σ would have triggered 93 times a day: 5-minute changes have fat tails, and the thinly traded EUR crypto pairs have many flat stretches. With the standard deviation and 6σ it is 15 triggers a day, about one per instrument and week. The trigger changes neither the signal engine nor the validation.</p>
+</div>
+</section>
+
+<section id="terminkalender">
+<h2><span lang="de">Terminkalender</span><span lang="en">Agenda pipeline</span></h2>
+<p class="lead"><span lang="de">Wann wichtige Zahlen kommen, was erwartet wird und wie sehr sie überrascht haben – drei kostenlose Quellen, jede Minute zusammengeführt.</span><span lang="en">When important figures are due, what is expected and how much they surprised – three free sources, merged every minute.</span></p>
+<div class="tbl wrap1" lang="de"><table><thead><tr><th>Quelle</th><th>Liefert</th><th>Abruf</th></tr></thead><tbody>
+<tr><td>ForexFactory-Wochenkalender (<code>ff_calendar_thisweek.json</code>, der Export der Seite selbst)</td><td>Konjunkturdaten und Notenbanktermine der laufenden Woche mit Wichtigkeit (hoch, mittel, gering), Prognose und Vorwert – aber ohne Istwert</td><td>stündlich, nach einem Fehler nach 10 Minuten</td></tr>
+<tr><td>FinancialJuice-Meldungen (schon im Nachrichtenabruf)</td><td>Istwerte Sekunden nach der Veröffentlichung im festen Format „US CB Consumer Confidence Actual 103.3 (Forecast 92.4, Previous 91.7)“</td><td>jede Minute aus der Nachrichtentabelle</td></tr>
+<tr><td>Yahoo Finance</td><td>Quartalstermine aller Aktien mit geschätztem und gemeldetem Gewinn je Aktie (EPS) und Überraschung, auch für europäische und asiatische Unternehmen</td><td>2 Aktien je Minute; jede alle 12 Stunden, 2 Tage vor den Zahlen alle 3 Stunden, danach alle 30 Minuten, bis das Ergebnis da ist</td></tr>
+</tbody></table></div>
+<div class="tbl wrap1" lang="en"><table><thead><tr><th>Source</th><th>Delivers</th><th>Polling</th></tr></thead><tbody>
+<tr><td>ForexFactory weekly calendar (<code>ff_calendar_thisweek.json</code>, the site's own export)</td><td>economic data and central-bank events of the current week with importance (high, medium, low), forecast and previous value – but no actual value</td><td>hourly, after an error again after 10 minutes</td></tr>
+<tr><td>FinancialJuice headlines (already part of the news poll)</td><td>actual values seconds after the release, in the fixed format 'US CB Consumer Confidence Actual 103.3 (Forecast 92.4, Previous 91.7)'</td><td>every minute from the news table</td></tr>
+<tr><td>Yahoo Finance</td><td>earnings dates of all shares with estimated and reported earnings per share (EPS) and surprise, also for European and Asian companies</td><td>2 shares per minute; each every 12 hours, every 3 hours in the 2 days before the release, every 30 minutes afterwards until the result is in</td></tr>
+</tbody></table></div>
+<div lang="de">
+<h3>Istwert und Überraschung</h3>
+<ul>
+<li><b>Zuordnung:</b> Eine Istwert-Meldung gehört zum Kalendereintrag derselben Währung (aus dem Länderwort: „US“, „German“, „Japanese“ …, sonst aus der Institution: Fed, EZB, BoE …), der höchstens 45 Minuten von ihrer Veröffentlichungszeit entfernt liegt und dessen Titel ähnlich ist (Abkürzungen wie „Mfg“, „MoM“, „YoY“ werden übersetzt) oder dessen Prognose und Vorwert übereinstimmen. Maßgeblich ist die Veröffentlichungszeit des Feeds, denn nach einem Start kommen Meldungen gesammelt an. Als „bekannt seit“ zählt aber der Moment, in dem die Plattform den Wert gesehen hat. Ein Istwert ohne Kalendereintrag wird als eigener Termin geringer Wichtigkeit gespeichert, eine zweite Meldung desselben Werts nicht.</li>
+<li><b>Überraschung:</b> Istwert minus Prognose (bei Quartalszahlen in Prozent der Schätzung). „Wie erwartet“ heißt: gleich auf die veröffentlichte Genauigkeit der Prognose (0,3 % gegen 0,3 %). Gibt es mindestens sechs frühere Überraschungen desselben Termins, steht die Überraschung zusätzlich in deren quadratischem Mittel (σ). Wichtige Veröffentlichungen landen im Aktivitätsprotokoll, etwa „Konjunkturdaten USD: CPI m/m 0.4% (Prognose 0.3%) – über Erwartung (+1,8σ)“.</li>
+<li>Verschobene oder gestrichene Termine verschwinden beim nächsten Abruf, solange noch kein Istwert vorliegt.</li>
+</ul>
+<h3>Wen ein Termin betrifft</h3>
+<p>Quartalszahlen betreffen nur das Unternehmen selbst. Konjunkturdaten und Notenbankentscheidungen betreffen die Werte, die in der Währung des Termins notieren (Hongkong zusätzlich China-Termine), Devisenpaare mit dieser Währung und – nur bei US-Terminen – Kryptowährungen, die unabhängig von der Kurswährung an Dollar und Risikobereitschaft hängen.</p>
+<h3>Keine Einstiege vor wichtigen Terminen</h3>
+<ul>
+<li><b>Konjunkturdaten und Notenbank</b> (hohe Wichtigkeit, bekannte Uhrzeit): kein neuer Einstieg ab 30 Minuten vor der Veröffentlichung bis zur Veröffentlichung. Danach sind Einstiege wieder erlaubt – die Reaktion auf die Zahl ist genau das, worauf das Setup „Nachrichten-Impuls“ wartet.</li>
+<li><b>Eigene Quartalszahlen:</b> kein Einstieg, wenn die Zahlen vor den geplanten Ausstieg fallen (Zeitstopp, bei Intraday-Trades höchstens die Glattstellung vor Handelsschluss) – also nie mit einer Position durch die Zahlen. Intraday-Trades sind vor Handelsschluss glattgestellt, Zahlen nach Börsenschluss sperren sie deshalb nicht. Zahlen ohne bekannte Uhrzeit gelten für den ganzen Tag.</li>
+<li>Gesperrte Kandidaten werden mit dem Grund „Termin“ als verworfen verfolgt – mit Termin und Zeitpunkt im Signal. So zeigt das Signal-Journal, ob die Sperre Verluste vermieden oder Gewinne gekostet hat. Die Sperre ist eine Einstellung (an, 30 Minuten), keine Regel der Engine: Die Engine-Version bleibt gleich, und die <a href="#validierung">Validierung</a>, die bewusst nur die Regeln prüft, wendet sie nicht an.</li>
+</ul>
+<h3>Was die KI-Prüfung erfährt</h3>
+<p>Für jeden Kandidaten stehen „Nächster Termin“ (der nächste wichtige Termin des Werts in den kommenden 7 Tagen, etwa „Core PCE Price Index m/m (USD) morgen 14:30 (in 14 Std)“) und „Letzter Termin“ (die jüngste Überraschung: Konjunkturdaten des letzten Tages, eigene Quartalszahlen der letzten 7 Tage) in den Fakten der KI-Prüfung und im Merkmalsschnappschuss des Signals. Nur bekannte Werte zählen: Ein Istwert, der nach der Entscheidung eintraf, ist unsichtbar.</p>
+</div>
+<div lang="en">
+<h3>Actual value and surprise</h3>
+<ul>
+<li><b>Matching:</b> an actual-value headline belongs to the calendar entry of the same currency (from the country word: 'US', 'German', 'Japanese' …, otherwise from the institution: Fed, ECB, BoE …) released at most 45 minutes from the headline's publication time whose title is similar (abbreviations such as 'Mfg', 'MoM', 'YoY' are translated) or whose forecast and previous values match. The feed's publication time counts, because headlines arrive in a burst after a start; 'known since' is the moment the platform saw the value. An actual value without a calendar entry is stored as an event of its own with low importance, a second headline of the same value is not.</li>
+<li><b>Surprise:</b> actual minus forecast (for earnings in percent of the estimate). 'Wie erwartet' (in line) means equal at the forecast's published precision (0.3% against 0.3%). Once there are at least six earlier surprises of the same event, the surprise is also given in their root mean square (σ). Important releases go to the activity log, for example 'Konjunkturdaten USD: CPI m/m 0.4% (Prognose 0.3%) – über Erwartung (+1,8σ)'.</li>
+<li>Moved or cancelled events disappear with the next poll as long as no actual value has been recorded.</li>
+</ul>
+<h3>Whom an event concerns</h3>
+<p>Earnings concern only the company itself. Economic data and central-bank decisions concern the instruments quoted in the event's currency (Hong Kong also China's events), currency pairs with that currency and – for US events only – cryptocurrencies, which depend on the dollar and risk appetite whatever their quote currency.</p>
+<h3>No entries before important events</h3>
+<ul>
+<li><b>Economic data and central banks</b> (high importance, known time): no new entry from 30 minutes before the release until the release. Afterwards entries are allowed again – the reaction to the figure is exactly what the 'news momentum' setup waits for.</li>
+<li><b>The company's own earnings:</b> no entry when the release falls before the planned exit (time stop, for intraday trades at most the flattening before the close) – never hold a position through earnings. Intraday trades are flat before the close, so a release after the close does not block them. A release without a known time covers the whole day.</li>
+<li>Blocked candidates are tracked as rejected with the reason 'Termin' (event) – with event and time stored in the signal. So the signal journal shows whether the block avoided losses or cost gains. The block is a preference (on, 30 minutes), not an engine rule: the engine version stays the same, and the <a href="#validierung">validation</a>, which deliberately judges the rules only, does not apply it.</li>
+</ul>
+<h3>What the AI review is told</h3>
+<p>For every candidate 'Nächster Termin' (the instrument's next important event within 7 days, e.g. 'Core PCE Price Index m/m (USD) morgen 14:30 (in 14 Std)') and 'Letzter Termin' (the latest surprise: economic data of the last day, the company's earnings of the last 7 days) are part of the review facts and of the signal's feature snapshot. Only known values count: an actual value that arrived after the decision is invisible.</p>
+</div>
+</section>
+
+<section id="krypto-derivate">
+<h2><span lang="de">Krypto-Derivate</span><span lang="en">Crypto derivatives</span></h2>
+<p class="lead"><span lang="de">Bei Kryptowährungen bewegt die Positionierung den Kurs schneller als Schlagzeilen: Funding-Raten, Open Interest und Liquidationen der Kraken-Perpetuals, öffentlich und ohne Schlüssel.</span><span lang="en">For cryptocurrencies positioning moves the price faster than headlines: funding rates, open interest and liquidations of the Kraken perpetuals, public and without a key.</span></p>
+<div lang="de">
+<p>Die Nachrichtenlage der Kryptowährungen ist dünn: In den ersten Tagen gab es 78 analysierte Meldungen zu Bitcoin, 9 zu Ethereum und 4 zu Solana. Für den <a href="#live-handel">Kraken-Plan</a> sind die Daten der Terminkontrakte deshalb das zeitkritischere Signal. Jeder Kryptowert hat sein USD-Perpetual bei Kraken Futures (BTC-EUR → PF_XBTUSD); Funding, Open Interest und Liquidationen beschreiben die Positionierung im Coin, die Kurswährung spielt keine Rolle.</p>
+</div>
+<div lang="en">
+<p>News coverage of the cryptocurrencies is thin: in the first days there were 78 analysed items on Bitcoin, 9 on Ethereum and 4 on Solana. For the <a href="#live-handel">Kraken plan</a> the futures data are therefore the more time-critical signal. Every crypto instrument has its USD perpetual on Kraken Futures (BTC-EUR → PF_XBTUSD); funding, open interest and liquidations describe the positioning in the coin, the quote currency does not matter.</p>
+</div>
+<div class="tbl wrap1" lang="de"><table><thead><tr><th>Kennzahl</th><th>Bedeutung</th><th>Quelle</th></tr></thead><tbody>
+<tr><td>Funding p.a.</td><td>Stündliche Finanzierungsrate zwischen Long und Short, hochgerechnet aufs Jahr. Hoch und positiv: viele gehebelte Long-Positionen zahlen. Dazu die Einordnung gegen die stündlichen Raten der letzten 30 Tage (σ) und die Prognose für die nächste Stunde.</td><td>Ticker jede Minute; 60 Tage realisierte Raten beim Start</td></tr>
+<tr><td>Open Interest</td><td>Offene Kontrakte (= Coins) und ihre Veränderung über 1 und 24 Stunden. Steigt es mit dem Kurs, kommt frischer Hebel hinzu.</td><td>Ticker jede Minute; 30 Tage stündlich und 26 Stunden in 5 Minuten beim Start</td></tr>
+<tr><td>Liquidationen</td><td>Zwangsweise geschlossene Positionen je Minute, als Coins und USD über 15 und 60 Minuten.</td><td>jede Minute; 7 Tage beim Start</td></tr>
+<tr><td>Basis</td><td>Abstand des Perpetual-Preises zum Index (Spotpreis).</td><td>Ticker jede Minute</td></tr>
+</tbody></table></div>
+<div class="tbl wrap1" lang="en"><table><thead><tr><th>Metric</th><th>Meaning</th><th>Source</th></tr></thead><tbody>
+<tr><td>Funding p.a.</td><td>Hourly financing rate between longs and shorts, annualised. High and positive: many leveraged long positions pay. Plus its rank against the hourly rates of the last 30 days (σ) and the forecast for the next hour.</td><td>ticker every minute; 60 days of realised rates at start</td></tr>
+<tr><td>Open interest</td><td>Open contracts (= coins) and their change over 1 and 24 hours. Rising with the price means fresh leverage.</td><td>ticker every minute; 30 days hourly and 26 hours in 5 minutes at start</td></tr>
+<tr><td>Liquidations</td><td>Positions closed by force per minute, as coins and USD over 15 and 60 minutes.</td><td>every minute; 7 days at start</td></tr>
+<tr><td>Basis</td><td>Distance of the perpetual's price from the index (spot price).</td><td>ticker every minute</td></tr>
+</tbody></table></div>
+<div lang="de">
+<h3>Wofür sie verwendet werden</h3>
+<ul>
+<li><b>Instrumentseite:</b> eigene Zeilen der technischen Lage („Funding (Perpetual)“, „Open Interest“, „Liquidationen“, „Basis Perpetual“).</li>
+<li><b>KI-Prüfung und Signal-Journal:</b> die Kennzahlen zum Entscheidungszeitpunkt stehen in den Fakten der KI-Prüfung und im Merkmalsschnappschuss jedes Kryptosignals. Die Regeln der Engine ändern sie bewusst nicht. Erst wenn das Journal genug Signale hat, lässt sich ehrlich prüfen, ob etwa Long-Signale bei sehr hohem Funding schlechter abschneiden.</li>
+<li><b>Liquidationswelle als Auslöser:</b> Liquidieren die letzten 5 Minuten mindestens zehnmal so viel wie im Mittel der letzten 7 Tage, mehr als 99,9 % aller 5-Minuten-Abschnitte und mindestens 100.000 USD, werden die Meldungen des Coins vorgezogen wie beim <a href="#news-pipeline">Kurs als Auslöser</a>. Im Protokoll steht etwa „Liquidationswelle: BTC-EUR 2,40 BTC (≈ 143.600 USD) in 5 Min, 18-fach üblich – Nachrichten vorgezogen“. In der Abverkaufswoche bis zum 24.11.2026 hätte das über alle zehn Coins etwa 1,7-mal am Tag ausgelöst.</li>
+</ul>
+<p>Beim Start lädt die Plattform die Historie im Hintergrund nach (rund 40 Sekunden für zehn Coins). Nachgeladene Werte gelten erst ab dem Nachladen als bekannt und überschreiben nie einen live gespeicherten Wert. Minutenwerte und Liquidationen werden 90 Tage aufbewahrt, die stündlichen Funding-Raten dauerhaft.</p>
+</div>
+<div lang="en">
+<h3>What they are used for</h3>
+<ul>
+<li><b>Instrument page:</b> rows of their own in the technical readings ('Funding (Perpetual)', 'Open Interest', 'Liquidationen', 'Basis Perpetual').</li>
+<li><b>AI review and signal journal:</b> the metrics at decision time are part of the review facts and of the feature snapshot of every crypto signal. They deliberately do not change the engine's rules. Only once the journal holds enough signals can it be judged honestly whether, say, long signals at very high funding do worse.</li>
+<li><b>Liquidation burst as a trigger:</b> when the last 5 minutes liquidated at least ten times the mean of the last 7 days, more than 99.9 % of all 5-minute stretches and at least 100,000 USD, the coin's items are pulled forward as with the <a href="#news-pipeline">price as a trigger</a>. The log says, for example, 'Liquidationswelle: BTC-EUR 2,40 BTC (≈ 143.600 USD) in 5 Min, 18-fach üblich – Nachrichten vorgezogen'. In the sell-off week up to 24 Nov 2026 this would have triggered about 1.7 times a day over all ten coins.</li>
+</ul>
+<p>At start the platform loads the history in the background (about 40 seconds for ten coins). Backfilled values count as known only from the backfill on and never overwrite a value stored live. Minute values and liquidations are kept for 90 days, the hourly funding rates permanently.</p>
+</div>
 </section>
 
 <section id="ki">
@@ -1384,6 +1542,7 @@ Without <code>uv</code>, <code>python -m venv .venv</code> and <code>.venv\Scrip
 <tr><td>Erwartungswert nach Slippage über 0</td><td>Erwartungswert nach Slippage nicht positiv</td></tr>
 <tr><td>Kein Veto der KI</td><td>Veto der KI-Prüfung</td></tr>
 <tr><td>Ohne KI-Urteil: Score mindestens Schwelle + 0,08 (Standard 0,68)</td><td>KI-Prüfung nicht verfügbar bzw. Score unter der Schwelle</td></tr>
+<tr><td>Kein wichtiger Termin des Werts steht an (Einstellung, siehe <a href="#terminkalender">Terminkalender</a>)</td><td>Wichtiger Termin steht an</td></tr>
 <tr><td>Börse bei der Ausgabe geöffnet</td><td>Börse bei Freigabe geschlossen</td></tr>
 <tr><td>Neueste Kerze nicht älter als Verzögerung + 10 Minuten</td><td>Kursdaten bei Freigabe veraltet</td></tr>
 </tbody></table></div>
@@ -1392,6 +1551,7 @@ Without <code>uv</code>, <code>python -m venv .venv</code> and <code>.venv\Scrip
 <tr><td>Expected value after slippage above 0</td><td>expected value after slippage not positive</td></tr>
 <tr><td>No veto by the AI</td><td>veto of the AI review</td></tr>
 <tr><td>Without an AI verdict: score at least threshold + 0.08 (default 0.68)</td><td>AI review not available, or score below the threshold</td></tr>
+<tr><td>No important event of the instrument is due (preference, see <a href="#terminkalender">agenda pipeline</a>)</td><td>important event due</td></tr>
 <tr><td>Exchange open at issue time</td><td>exchange closed at release</td></tr>
 <tr><td>Newest candle not older than delay + 10 minutes</td><td>price data stale at release</td></tr>
 </tbody></table></div>
@@ -1670,6 +1830,7 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <div class="note warn" lang="en"><p><b>This is a plan, not a feature.</b> Today Trading Local trades on paper only. There is no code that sends orders to Kraken or any other broker, no handling of API keys and no reconciliation with a real account. The Kraken data access uses public market data without a key only; the pair data stored there (minimum sizes, price steps) is merely prepared for later.</p></div>
 <div lang="de">
 <p>Geplant ist, die Kryptosignale nach einer Testphase automatisch mit einem eigenen Kraken-API-Schlüssel zu handeln. Damit daraus kein teurer Irrtum wird, sind die Bedingungen vorab festgelegt.</p>
+<p>Schon heute sammelt die Plattform die <a href="#krypto-derivate">Krypto-Derivate</a> von Kraken Futures (Funding, Open Interest, Liquidationen) und speichert sie mit jedem Kryptosignal. In der Testphase zeigt das Journal so, ob diese Daten die Kryptosignale verbessern würden, bevor sie in eine Regel einfließen.</p>
 <h3>Vorab vereinbarte Kriterien für den Start</h3>
 <ol class="steps">
 <li><b>Dauer:</b> mindestens rund 3 Monate Testphase mit der aktuellen Engine-Version.</li>
@@ -1691,6 +1852,7 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 </div>
 <div lang="en">
 <p>The plan is to trade the crypto signals automatically with your own Kraken API key after a test phase. So that this does not turn into an expensive mistake, the conditions are fixed in advance.</p>
+<p>Already today the platform collects the <a href="#krypto-derivate">crypto derivatives</a> of Kraken Futures (funding, open interest, liquidations) and stores them with every crypto signal. During the test phase the journal therefore shows whether these data would improve the crypto signals before they enter any rule.</p>
 <h3>Go-live criteria agreed in advance</h3>
 <ol class="steps">
 <li><b>Duration:</b> a test phase of at least about 3 months with the current engine version.</li>
@@ -1770,6 +1932,8 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>portfolios</code>, <code>orders</code>, <code>positions</code>, <code>equity_snapshots</code></td><td>die beiden Papierdepots</td><td>bis zum Neustart der Depots</td></tr>
 <tr><td><code>settings</code></td><td>Vorlieben aus der Oberfläche (JSON unter dem Schlüssel <code>runtime</code>) und interner Zustand</td><td>dauerhaft</td></tr>
 <tr><td><code>mail_log</code>, <code>llm_calls</code>, <code>job_runs</code>, <code>activity_log</code></td><td>Betriebsdaten</td><td>30 Tage</td></tr>
+<tr><td><code>agenda_events</code></td><td>Terminkalender: Konjunkturdaten, Notenbank, Quartalszahlen mit Prognose, Istwert, Überraschung, „bekannt seit“</td><td>dauerhaft</td></tr>
+<tr><td><code>deriv_snapshots</code>, <code>deriv_liquidations</code></td><td>Krypto-Derivate je Minute: Funding, Open Interest, Mark- und Indexpreis; Liquidationen</td><td>90 Tage, stündliche Funding-Raten dauerhaft</td></tr>
 <tr><td><code>validation_runs</code></td><td>Validierungsläufe mit Ergebnis</td><td>dauerhaft</td></tr>
 </tbody></table></div>
 <div class="tbl wrap1" lang="en"><table><thead><tr><th>Tables</th><th>Content</th><th>Retention</th></tr></thead><tbody>
@@ -1783,6 +1947,8 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>portfolios</code>, <code>orders</code>, <code>positions</code>, <code>equity_snapshots</code></td><td>The two paper portfolios</td><td>until the portfolios are restarted</td></tr>
 <tr><td><code>settings</code></td><td>Preferences from the interface (JSON under the key <code>runtime</code>) and internal state</td><td>permanent</td></tr>
 <tr><td><code>mail_log</code>, <code>llm_calls</code>, <code>job_runs</code>, <code>activity_log</code></td><td>Operations data</td><td>30 days</td></tr>
+<tr><td><code>agenda_events</code></td><td>Agenda: economic data, central banks, earnings with forecast, actual value, surprise, 'known since'</td><td>permanent</td></tr>
+<tr><td><code>deriv_snapshots</code>, <code>deriv_liquidations</code></td><td>Crypto derivatives per minute: funding, open interest, mark and index price; liquidations</td><td>90 days, hourly funding rates permanent</td></tr>
 <tr><td><code>validation_runs</code></td><td>Validation runs with result</td><td>permanent</td></tr>
 </tbody></table></div>
 <div lang="de">
@@ -1815,6 +1981,7 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>POST /api/analysis/{symbol}/chart</code></td><td>KI-Chartanalyse in die Warteschlange stellen</td></tr>
 <tr><td><code>GET /api/chart-analyses/{symbol}</code></td><td>bisherige Chartanalysen; <code>limit</code></td></tr>
 <tr><td><code>GET /api/news</code></td><td>Meldungen; <code>limit</code> (bis 200), <code>before_id</code>, <code>symbol</code>, <code>min_relevance</code> (1–5), <code>analyzed_only</code></td></tr>
+<tr><td><code>GET /api/agenda</code></td><td>Terminkalender; <code>from_ts</code> (Standard: vor einem Tag), <code>to_ts</code> (Standard: in 7 Tagen, höchstens 120 Tage), <code>min_importance</code> (1–3), <code>kind</code> = macro, central_bank, earnings; <code>symbol</code> (was den Wert betrifft)</td></tr>
 <tr><th colspan="2">Signale</th></tr>
 <tr><td><code>GET /api/signals</code></td><td><code>scope</code> = open, closed, all; <code>actionable</code> = true, false, all; <code>symbol</code>; <code>limit</code> (bis 500); <code>before_id</code></td></tr>
 <tr><td><code>GET /api/signals/stats</code></td><td>Bilanz, Kalibrierung, Aufschlüsselung; <code>since_ts</code></td></tr>
@@ -1851,6 +2018,7 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>POST /api/analysis/{symbol}/chart</code></td><td>Queue an AI chart analysis</td></tr>
 <tr><td><code>GET /api/chart-analyses/{symbol}</code></td><td>Previous chart analyses; <code>limit</code></td></tr>
 <tr><td><code>GET /api/news</code></td><td>News items; <code>limit</code> (up to 200), <code>before_id</code>, <code>symbol</code>, <code>min_relevance</code> (1–5), <code>analyzed_only</code></td></tr>
+<tr><td><code>GET /api/agenda</code></td><td>Agenda; <code>from_ts</code> (default: a day ago), <code>to_ts</code> (default: in 7 days, at most 120 days), <code>min_importance</code> (1–3), <code>kind</code> = macro, central_bank, earnings; <code>symbol</code> (what concerns the instrument)</td></tr>
 <tr><th colspan="2">Signals</th></tr>
 <tr><td><code>GET /api/signals</code></td><td><code>scope</code> = open, closed, all; <code>actionable</code> = true, false, all; <code>symbol</code>; <code>limit</code> (up to 500); <code>before_id</code></td></tr>
 <tr><td><code>GET /api/signals/stats</code></td><td>Track record, calibration, breakdown; <code>since_ts</code></td></tr>
@@ -1977,6 +2145,8 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>llm_review</code></td><td>KI prüft Kandidaten</td><td>an</td><td>Aus: keine Prüfung; Empfehlungen brauchen dann einen um 0,08 höheren Score</td></tr>
 <tr><td><code>llm_review_timeout_s</code></td><td>Wartezeit auf die KI-Prüfung</td><td>45 s</td><td>5 bis 300; länger warten heißt späterer Einstieg</td></tr>
 <tr><td><code>signal_cooldown_min</code></td><td>Pause nach einem Signal</td><td>30 Min</td><td>0 bis 1.440, je Wert und Richtung</td></tr>
+<tr><td><code>event_block_enabled</code></td><td>Keine Einstiege vor wichtigen Terminen</td><td>an</td><td>gesperrte Kandidaten werden mit dem Grund „Termin“ verfolgt (siehe <a href="#terminkalender">Terminkalender</a>)</td></tr>
+<tr><td><code>event_block_before_min</code></td><td>Sperrfrist vor Konjunkturdaten</td><td>30 Min</td><td>0 bis 1.440; vor wichtigen Konjunkturdaten und Notenbankentscheidungen; eigene Quartalszahlen sperren bis zum geplanten Ausstieg</td></tr>
 <tr><th colspan="4">Risiko KI-Depot</th></tr>
 <tr><td><code>risk_per_trade_pct</code></td><td>Risiko je Trade</td><td>0,5 %</td><td>über 0 bis 5</td></tr>
 <tr><td><code>max_position_pct</code></td><td>Höchstens je Position</td><td>10 %</td><td>über 0 bis 100</td></tr>
@@ -1984,6 +2154,7 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>max_gross_leverage</code></td><td>Höchster Hebel (brutto)</td><td>1,0</td><td>über 0 bis 5; gilt für beide Depots</td></tr>
 <tr><th colspan="4">KI-Hintergrundarbeit</th></tr>
 <tr><td><code>news_llm_enabled</code></td><td>Nachrichten analysieren</td><td>an</td><td>Aus: Meldungen erscheinen ohne Bewertung</td></tr>
+<tr><td><code>price_trigger_enabled</code></td><td>Kurs als Auslöser</td><td>an</td><td>ungewöhnliche Bewegungen (Krypto: Liquidationswellen) ziehen die Meldungen des Werts vor</td></tr>
 <tr><td><code>chart_scan_enabled</code></td><td>Regelmäßige Chartanalysen</td><td>an</td><td>für offene Märkte</td></tr>
 <tr><td><code>chart_scan_interval_min</code></td><td>Abstand der Chartanalysen</td><td>30 Min</td><td>5 bis 1.440, je Wert</td></tr>
 <tr><th colspan="4">Vergleich</th></tr>
@@ -2007,6 +2178,8 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>llm_review</code></td><td>KI prüft Kandidaten</td><td>on</td><td>Off: no review; recommendations then need a score 0.08 higher</td></tr>
 <tr><td><code>llm_review_timeout_s</code></td><td>Wartezeit auf die KI-Prüfung</td><td>45 s</td><td>5 to 300; waiting longer means a later entry</td></tr>
 <tr><td><code>signal_cooldown_min</code></td><td>Pause nach einem Signal</td><td>30 min</td><td>0 to 1,440, per instrument and direction</td></tr>
+<tr><td><code>event_block_enabled</code></td><td>Keine Einstiege vor wichtigen Terminen</td><td>on</td><td>Blocked candidates are tracked with the reason 'Termin' (see <a href="#terminkalender">agenda pipeline</a>)</td></tr>
+<tr><td><code>event_block_before_min</code></td><td>Sperrfrist vor Konjunkturdaten</td><td>30 min</td><td>0 to 1,440; before important economic data and central-bank decisions; the company's own earnings block until the planned exit</td></tr>
 <tr><th colspan="4">Risiko KI-Depot (AI portfolio risk)</th></tr>
 <tr><td><code>risk_per_trade_pct</code></td><td>Risiko je Trade</td><td>0.5 %</td><td>above 0 to 5</td></tr>
 <tr><td><code>max_position_pct</code></td><td>Höchstens je Position</td><td>10 %</td><td>above 0 to 100</td></tr>
@@ -2014,6 +2187,7 @@ Alternatively port <code>587</code> with <code>starttls</code>. The user is the 
 <tr><td><code>max_gross_leverage</code></td><td>Höchster Hebel (brutto)</td><td>1.0</td><td>above 0 to 5; applies to both portfolios</td></tr>
 <tr><th colspan="4">KI-Hintergrundarbeit (AI background work)</th></tr>
 <tr><td><code>news_llm_enabled</code></td><td>Nachrichten analysieren</td><td>on</td><td>Off: items appear without rating</td></tr>
+<tr><td><code>price_trigger_enabled</code></td><td>Kurs als Auslöser</td><td>on</td><td>Unusual moves (crypto: liquidation bursts) pull the instrument's items forward</td></tr>
 <tr><td><code>chart_scan_enabled</code></td><td>Regelmäßige Chartanalysen</td><td>on</td><td>For open markets</td></tr>
 <tr><td><code>chart_scan_interval_min</code></td><td>Abstand der Chartanalysen</td><td>30 min</td><td>5 to 1,440, per instrument</td></tr>
 <tr><th colspan="4">Vergleich (comparison)</th></tr>

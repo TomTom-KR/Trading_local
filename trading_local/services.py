@@ -12,6 +12,7 @@ from trading_local.config import CostParams, Settings
 from trading_local.contracts import (
     Broker,
     ChartRenderer,
+    Derivatives,
     Engine,
     FxRates,
     Llm,
@@ -60,3 +61,4 @@ class Services:
     broker: Broker
     engine: Engine
     runtime: RuntimeInfo
+    derivatives: Derivatives | None = None

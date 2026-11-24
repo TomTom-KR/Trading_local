@@ -40,7 +40,8 @@ from trading_local.analysis.setups import SETUPS
 from trading_local.clock import ManualClock, to_ts
 from trading_local.config import DEFAULT_COSTS, Settings
 from trading_local.contracts import Engine, TradeReview, TradeReviewContext
-from trading_local.db import repo_market, repo_news, repo_ops, repo_signals
+from trading_local.db import repo_agenda, repo_market, repo_news, repo_ops, repo_signals
+from trading_local.db.repo_agenda import AgendaEvent
 from trading_local.db.database import Database
 from trading_local.db.repo_market import InstrumentBook
 from trading_local.db.repo_ops import SettingsStore
@@ -738,6 +739,108 @@ async def test_review_context_carries_facts_news_market_note_and_chart(world: Wo
     assert facts["Chance/Risiko"] == 2.0 and facts["Relatives Volumen"] > 1.5
     assert facts["Trend 15 Min"] == "aufwärts" and facts["Vergleichsindex"] == "S&P 500"
     assert all(isinstance(key, str) for key in facts)
+
+
+# ------------------------------------------------------------------------------------------------
+# Agenda: entry block and review facts
+# ------------------------------------------------------------------------------------------------
+def agenda_event(**fields: Any) -> AgendaEvent:
+    values: dict[str, Any] = {
+        "kind": "macro", "source": "test", "title": "CPI m/m", "event_ts": DECISION + 20 * 60,
+        "first_seen_ts": DECISION - 86_400, "updated_ts": DECISION - 86_400, "currency": "USD", "importance": 3,
+    }  # fmt: skip
+    values.update(fields)
+    values.setdefault("uid", f"test:{values['kind']}:{values['title']}:{values['event_ts']}:{values['currency']}")
+    return AgendaEvent(**values)
+
+
+async def test_an_important_release_shortly_after_the_issue_blocks_the_entry(world: World) -> None:
+    repo_agenda.upsert_events(world.db, [agenda_event()])  # US CPI 20 minutes after the decision
+    world.seed_nvda()
+    engine = world.engine()
+    await detect(world, engine)
+
+    signal = world.only_signal()
+    assert signal.llm_verdict == "confirm" and signal.shadow_reason == "termin" and not signal.actionable
+    assert signal.status == "pending_entry"  # tracked like every shadow signal
+    assert world.broker.executed == [] and world.mailer.entries == []
+    assert signal.features["event_block"] == "CPI m/m (USD) heute 17:55 (in 19 Min)"  # Berlin time
+    assert signal.features["event_block_ts"] == DECISION + 1200 and signal.features["event_block_kind"] == "macro"
+    assert world.activity() == [
+        "Kandidat verworfen: LONG NVDA (Ausbruch) – Termin steht an: CPI m/m (USD) heute 17:55 (in 19 Min)"
+    ]
+
+
+@pytest.mark.parametrize(
+    ("fields", "prefs"),
+    [
+        ({"currency": "EUR"}, {}),  # does not concern a US share
+        ({"importance": 2}, {}),  # not important enough
+        ({"time_known": False}, {}),  # no known time
+        ({"event_ts": DECISION + 31 * 60}, {}),  # later than 30 minutes after the issue
+        ({"event_ts": DECISION - 60}, {}),  # released already
+        ({"first_seen_ts": DECISION + 3600}, {}),  # not known at the issue
+        ({}, {"event_block_enabled": False}),  # switched off
+    ],
+)
+async def test_events_that_do_not_block(world: World, fields: dict[str, Any], prefs: dict[str, Any]) -> None:
+    repo_agenda.upsert_events(world.db, [agenda_event(**fields)])
+    world.prefs(**prefs)
+    world.seed_nvda()
+    engine = world.engine()
+    await detect(world, engine)
+    signal = world.only_signal()
+    assert signal.actionable and signal.shadow_reason == ""
+
+
+async def test_a_longer_window_blocks_earlier(world: World) -> None:
+    repo_agenda.upsert_events(world.db, [agenda_event(event_ts=DECISION + 90 * 60)])
+    world.prefs(event_block_before_min=120)
+    world.seed_nvda()
+    engine = world.engine()
+    await detect(world, engine)
+    assert world.only_signal().shadow_reason == "termin"
+
+
+@pytest.mark.parametrize(("release_ts", "blocked"), [(utc(20, 19, 0), True), (utc(20, 21, 5), False)])
+async def test_own_earnings_before_the_planned_exit_block(world: World, release_ts: int, blocked: bool) -> None:
+    # the breakout trade is intraday: flat 5 minutes before the 21:00 close, so a release after it does not block
+    repo_agenda.upsert_events(
+        world.db, [agenda_event(kind="earnings", title="Quartalszahlen", currency="", symbol="NVDA", event_ts=release_ts)]
+    )
+    world.seed_nvda()
+    engine = world.engine()
+    await detect(world, engine)
+    signal = world.only_signal()
+    assert (signal.shadow_reason == "termin") is blocked and signal.actionable is not blocked
+    if blocked:
+        assert signal.features["event_block"].startswith("Quartalszahlen heute 20:00")
+
+
+async def test_the_review_names_the_next_event_and_the_latest_surprise(world: World) -> None:
+    repo_agenda.upsert_events(world.db, [
+        agenda_event(event_ts=DECISION + 2 * 86_400, title="Core PCE Price Index m/m"),
+        agenda_event(kind="earnings", title="Quartalszahlen", currency="", symbol="NVDA", event_ts=DECISION - 3 * 86_400,
+                     forecast=1.98, actual=2.10, forecast_text="1.98", actual_text="2.1", surprise=6.06,
+                     actual_ts=DECISION - 3 * 86_400 + 600),
+        agenda_event(event_ts=DECISION - 3600, title="CB Consumer Confidence", importance=3, forecast_text="92.4",
+                     actual_text="103.3", actual=103.3, surprise=10.9, surprise_z=2.4, actual_ts=DECISION + 3600),
+    ])  # fmt: skip  (the consumer confidence was learned only after the decision: invisible to it)
+    world.seed_nvda()
+    engine = world.engine()
+    await detect(world, engine)
+
+    [(ctx, _)] = world.llm.reviews
+    assert ctx.facts["Nächster Termin"] == "Core PCE Price Index m/m (USD) So 22.11. 17:35 (in 47 Std)"
+    assert ctx.facts["Letzter Termin"] == "Quartalszahlen: EPS 2.1 statt 1.98 (+6,1 %) – über Erwartung"
+    signal = world.only_signal()
+    assert signal.features["event_next_min"] == 2 * 1440 - 1 and signal.features["event_last_surprise"] == 6.06
+
+    world.clock.set(DECISION + 7200)
+    readings = {reading.key: reading for reading in engine.analysis("NVDA").readings}
+    assert readings["event_next"].label_de == "Nächster Termin"
+    assert readings["event_last"].value_de.startswith("CB Consumer Confidence (USD): 103.3 statt 92.4 – über")
+    assert readings["event_last"].value_de.endswith("(+2,4σ)") and readings["event_last"].stance == "neutral"
 
 
 # ------------------------------------------------------------------------------------------------

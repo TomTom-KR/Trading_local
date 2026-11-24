@@ -16,6 +16,7 @@ from trading_local.db.repo_news import FeedState
 from trading_local.db.repo_ops import SettingsStore
 from trading_local.events import TOPIC_ACTIVITY, TOPIC_NEWS, EventBus
 from trading_local.models import Instrument, NewsItem
+from trading_local.news.feeds import Feed
 from trading_local.news import build_news, service as service_module
 from trading_local.news.service import MAX_OUTSTANDING, NewsService
 from trading_local.testing import make_settings
@@ -222,12 +223,13 @@ async def test_llm_switched_off_while_items_wait(
     await service.start()
     await service.poll(NOW)
     await asyncio.sleep(0.02)
-    assert len(llm.calls) == service_module.LLM_DISPATCH_LIMIT
+    limit = service_module.LLM_DISPATCH_LIMIT
+    assert len(llm.calls) == limit
     runtime_settings.update({"news_llm_enabled": False}, NOW_TS)
     llm.gate.set()
     await wait_for_analyses(service)
     reasons = sorted(status for status in statuses(db).values())
-    assert reasons.count(("analyzed", "")) == 8 and reasons.count(("skipped", "llm_aus")) == 2
+    assert reasons.count(("analyzed", "")) == limit and reasons.count(("skipped", "llm_aus")) == 10 - limit
 
 
 # ------------------------------------------------------------------------------------------------
@@ -256,7 +258,8 @@ async def test_back_pressure_drops_the_oldest_waiting_items(
     found = {number[title]: status for title, status in statuses(db).items()}
     assert {i for i, status in found.items() if status == ("skipped", "rueckstau")} == set(range(1, 11))
     assert {i for i, status in found.items() if status == ("queued", "")} == set(range(11, 51))
-    assert [number[item.title] for item, _ in llm.calls] == list(range(50, 42, -1))  # newest first, 8 at a time
+    limit = service_module.LLM_DISPATCH_LIMIT
+    assert [number[item.title] for item, _ in llm.calls] == list(range(50, 50 - limit, -1))  # newest first
     queued_events = [e for e in await drain(subscription) if e.topic == TOPIC_NEWS and e.data["status"] == "queued"]
     assert len(queued_events) == MAX_OUTSTANDING  # only admitted items are announced
 
@@ -272,6 +275,101 @@ async def test_back_pressure_drops_the_oldest_waiting_items(
     found = {number[title]: status for title, status in statuses(db).items()}
     assert {i for i, status in found.items() if status == ("analyzed", "")} == set(range(16, 56))
     assert len(llm.calls) == MAX_OUTSTANDING + 0  # 40 analyses, no dropped item reached the LLM
+
+
+# ------------------------------------------------------------------------------------------------
+# Priority
+# ------------------------------------------------------------------------------------------------
+def disclosure_feed(feed_id: str = "t_adhoc") -> Feed:
+    """An ad-hoc disclosure feed (press releases, quality 5) like finanznachrichten.de Ad-hoc."""
+    host = feed_id.replace("_", "-") + ".test"
+    return Feed(feed_id, "Ad-hoc test", f"https://{host}/{feed_id}.xml", "EU", "de", "press_release", 5, 60)
+
+
+async def test_ad_hoc_disclosure_of_a_tradable_instrument_goes_first(
+    make_service: ServiceFactory, server: FeedServer, llm: FakeLlm
+) -> None:
+    wire, adhoc = make_feed("t_wire", quality=3), disclosure_feed()
+    server.serve(wire, rss(order_titles(range(1, 21))))  # published 180-199 minutes ago
+    server.serve(adhoc, rss([fresh("SAP SE: Prognose für das Geschäftsjahr angehoben", minutes_ago=190)]))
+    llm.gate = asyncio.Event()
+    service = make_service([wire, adhoc], llm)
+    await service.start()
+    await service.poll(NOW)
+    await asyncio.sleep(0.02)
+    # older than half of the wire items, but an ad-hoc disclosure of a tradable instrument
+    assert [item.title[:6] for item, _ in llm.calls] == ["SAP SE", "Nvidia"]
+    assert llm.calls[1][0].title == "Nvidia wins order number 20 from customer 20"  # then the freshest
+    llm.gate.set()
+    await wait_for_analyses(service)
+
+
+async def test_full_queue_drops_the_least_important_item_not_the_oldest(
+    make_service: ServiceFactory, server: FeedServer, llm: FakeLlm, db: Database, now_clock: ManualClock
+) -> None:
+    weak, wire = make_feed("t_weak", quality=2), make_feed("t_wire", quality=3)
+    blog = [fresh(f"Nvidia rumour number {i} from blog {i}", minutes_ago=41 - i) for i in range(1, 41)]
+    server.serve(weak, rss(blog))  # a tradable instrument, but a weak feed: urgency 3
+    server.serve(wire, rss([]))
+    llm.gate = asyncio.Event()
+    service = make_service([weak, wire], llm)
+    await service.start()
+    assert await service.poll(NOW) == 40
+    await asyncio.sleep(0.02)
+
+    now_clock.advance(60)
+    analysts = [f"Analyst desk {i} lifts its Nvidia price target to {100 + 7 * i} dollars" for i in range(1, 6)]
+    server.serve(wire, rss([fresh(title, minutes_ago=200 - i) for i, title in enumerate(analysts)]))  # urgency 2
+    assert await service.poll(now_clock.now()) == 5
+    found = statuses(db)
+    assert all(found[title] == ("queued", "") for title in analysts)  # older than every weak item
+    dropped = {title for title, status in found.items() if status == ("skipped", "rueckstau")}
+    assert dropped == {f"Nvidia rumour number {i} from blog {i}" for i in range(1, 6)}  # the oldest weak items
+    assert service.status().backlog == MAX_OUTSTANDING
+    llm.gate.set()
+    await wait_for_analyses(service)
+
+
+async def test_price_trigger_pulls_the_news_of_the_instrument_forward(
+    make_service: ServiceFactory, server: FeedServer, llm: FakeLlm, db: Database, now_clock: ManualClock
+) -> None:
+    feed = make_feed("t_flood")
+    sap = [fresh(f"SAP signs deal number {i} with partner {i}", minutes_ago=300 - i) for i in range(1, 4)]
+    server.serve(feed, rss([*order_titles(range(1, 51)), *sap]))
+    stale = stored_item("SAP story dropped long ago", minutes_ago=7 * 60, status="skipped", hinted=["SAP.DE"])
+    stale.status_reason = "rueckstau"
+    repo_news.insert_news(db, [stale])
+    llm.gate = asyncio.Event()
+    service = make_service([feed], llm)
+    await service.start()
+    await service.poll(NOW)
+    await asyncio.sleep(0.02)
+    sap_titles = [entry.title for entry in sap]
+    assert {statuses(db)[title] for title in sap_titles} == {("skipped", "rueckstau")}  # the oldest items
+
+    assert await service.prioritize(["SAP.DE", "NO-SUCH-SYMBOL"], now_clock.now()) == 3
+    found = statuses(db)
+    assert {found[title] for title in sap_titles} == {("queued", "")}
+    assert found["SAP story dropped long ago"] == ("skipped", "rueckstau")  # outside the retry window
+    assert service.status().backlog == MAX_OUTSTANDING  # they replaced the three oldest waiting items
+
+    llm.gate.set()
+    await wait_for_analyses(service)
+    order = [item.title for item, _ in llm.calls]
+    # right after the two items that were already with the LLM, freshest first
+    assert order[2:5] == list(reversed(sap_titles))
+    assert all(statuses(db)[title] == ("analyzed", "") for title in sap_titles)
+
+
+async def test_prioritize_without_known_symbols_or_after_stop(
+    make_service: ServiceFactory, llm: FakeLlm, now_clock: ManualClock
+) -> None:
+    service = make_service([make_feed("t_alpha")], llm)
+    await service.start()
+    assert await service.prioritize(["NO-SUCH-SYMBOL"], now_clock.now()) == 0
+    assert await service.prioritize(["NVDA"], now_clock.now()) == 0  # nothing to queue again
+    await service.stop()
+    assert await service.prioritize(["NVDA"], now_clock.now()) == 0
 
 
 # ------------------------------------------------------------------------------------------------

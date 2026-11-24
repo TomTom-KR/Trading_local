@@ -6,7 +6,7 @@ everything else. Public entry point for the runtime: ``build_market_data`` (retu
 
 from trading_local.clock import Clock
 from trading_local.config import Settings
-from trading_local.contracts import MarketCalendar, MarketData
+from trading_local.contracts import Derivatives, MarketCalendar, MarketData, News
 from trading_local.data.kraken import KRAKEN_PAIRS, KRAKEN_VENUES
 from trading_local.data.provider import CandleProvider, Provider, ProviderError, RateLimitError, Tick, TickStream
 from trading_local.data.service import (
@@ -19,6 +19,7 @@ from trading_local.data.service import (
 )
 from trading_local.db.database import Database
 from trading_local.db.repo_market import InstrumentBook
+from trading_local.db.repo_ops import SettingsStore
 from trading_local.events import EventBus
 from trading_local.models import Instrument
 
@@ -68,6 +69,23 @@ def build_market_data(
     )
 
 
+def build_derivatives(
+    *,
+    db: Database,
+    clock: Clock,
+    bus: EventBus,
+    instruments: InstrumentBook,
+    runtime_settings: SettingsStore,
+    news: News,
+) -> Derivatives:
+    """Create the crypto-derivatives service (Kraken Futures). Touches neither network nor disk."""
+    from trading_local.data.derivatives import KrakenDerivatives
+
+    return KrakenDerivatives(
+        db=db, clock=clock, bus=bus, instruments=instruments, runtime_settings=runtime_settings, news=news
+    )
+
+
 __all__ = [
     "CandleProvider",
     "DataOptions",
@@ -81,6 +99,7 @@ __all__ = [
     "RoutedMarketData",
     "Tick",
     "TickStream",
+    "build_derivatives",
     "build_market_data",
     "claims_kraken_symbol",
     "is_kraken",

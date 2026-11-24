@@ -47,6 +47,8 @@ const GROUPS = [
       { key: 'llm_review', kind: 'bool', label: 'KI prüft Kandidaten', help: 'Die lokale KI kann bestätigen, die Größe reduzieren oder ein Veto einlegen. Aus: Signale gehen ohne Prüfung hinaus.' },
       { key: 'llm_review_timeout_s', kind: 'int', min: 5, max: 300, unit: 's', label: 'Wartezeit auf die KI-Prüfung', help: 'Antwortet die KI nicht rechtzeitig, geht das Signal „ohne Prüfung“ weiter. Länger warten heißt späterer Einstieg.' },
       { key: 'signal_cooldown_min', kind: 'int', min: 0, max: 1440, unit: 'Min', label: 'Pause nach einem Signal', help: 'So lange sucht die Engine nach dem Ende eines Signals keinen neuen Einstieg im selben Wert.' },
+      { key: 'event_block_enabled', kind: 'bool', label: 'Keine Einstiege vor wichtigen Terminen', help: 'Steht für den Wert ein wichtiger Termin an (Konjunkturdaten oder Notenbank mit hoher Wichtigkeit in seiner Währung, eigene Quartalszahlen vor dem geplanten Ausstieg), wird der Kandidat nicht ausgegeben, sondern als verworfen verfolgt (Grund „Termin“).' },
+      { key: 'event_block_before_min', kind: 'int', min: 0, max: 1440, unit: 'Min', label: 'Sperrfrist vor Konjunkturdaten', help: 'So lange vor einer wichtigen Veröffentlichung oder Notenbankentscheidung gibt es keinen neuen Einstieg. Quartalszahlen sperren unabhängig davon, wenn sie vor den geplanten Ausstieg fallen.' },
     ],
   },
   {
@@ -61,9 +63,10 @@ const GROUPS = [
   },
   {
     title: 'KI-Hintergrundarbeit',
-    intro: 'Die lokale KI arbeitet eine Anfrage nach der anderen ab; Signalprüfungen haben immer Vorrang.',
+    intro: 'Die lokale KI arbeitet eine Anfrage nach der anderen ab; Signalprüfungen haben immer Vorrang, Nachrichten werden nach Wichtigkeit abgearbeitet.',
     fields: [
-      { key: 'news_llm_enabled', kind: 'bool', label: 'Nachrichten analysieren', help: 'Relevanz, Stimmung und deutsche Zusammenfassung für neue Meldungen. Aus: Meldungen erscheinen ohne Bewertung.' },
+      { key: 'news_llm_enabled', kind: 'bool', label: 'Nachrichten analysieren', help: 'Relevanz, Stimmung und deutsche Zusammenfassung für neue Meldungen. Aus: Meldungen erscheinen ohne Bewertung. Ad-hoc-Meldungen zu handelbaren Werten kommen vor allen anderen dran.' },
+      { key: 'price_trigger_enabled', kind: 'bool', label: 'Kurs als Auslöser', help: 'Bewegt sich ein Wert ungewöhnlich stark bei ungewöhnlich hohem Volumen (oder gibt es bei einer Kryptowährung eine Liquidationswelle), werden seine Meldungen vorgezogen und kürzlich verworfene erneut eingereiht.' },
       { key: 'chart_scan_enabled', kind: 'bool', label: 'Regelmäßige Chartanalysen', help: 'Die KI schaut sich die Charts offener Märkte in festen Abständen an.' },
       { key: 'chart_scan_interval_min', kind: 'int', min: 5, max: 1440, unit: 'Min', label: 'Abstand der Chartanalysen', help: 'Je Wert, solange sein Handelsplatz geöffnet ist. Kürzer heißt mehr Last auf der Grafikkarte.' },
     ],

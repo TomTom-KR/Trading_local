@@ -51,6 +51,7 @@ const SHADOW_REASON_LABELS = {
   llm_nicht_verfuegbar: 'KI-Prüfung nicht verfügbar',
   markt_geschlossen: 'Börse bei Freigabe geschlossen',
   daten_veraltet: 'Kursdaten bei Freigabe veraltet',
+  termin: 'Wichtiger Termin steht an',
 };
 /** German reason of a shadow candidate; '' when there is none. */
 export const shadowReasonLabel = (r) => (r ? pick(SHADOW_REASON_LABELS, r) : '');
@@ -106,6 +107,13 @@ const FEATURE_LABELS = {
   ema_daily_pullback: 'EMA 20 (Tag)', rel_volume: 'Volumen ggü. üblich', atr_pct_rank: 'Rang der Schwankung',
   ret_60: 'Veränderung 60 Min', bench_trend: 'Trend des Vergleichsindex', bench_ret_60: 'Vergleichsindex 60 Min',
   rel_strength_60: 'Relative Stärke 60 Min',
+  event_next: 'Nächster Termin', event_next_min: 'Minuten bis zum nächsten Termin', event_last: 'Letzter Termin',
+  event_last_surprise: 'Überraschung des letzten Termins', event_last_surprise_z: 'Überraschung (σ früherer Termine)',
+  event_block: 'Gesperrt wegen Termin', event_block_ts: 'Zeitpunkt des Termins', event_block_kind: 'Art des Termins',
+  deriv_funding_pa: 'Funding p.a. in %', deriv_funding_pred_pa: 'Funding-Prognose p.a. in %',
+  deriv_funding_z: 'Funding ggü. 30 Tagen (σ)', deriv_oi_1h_pct: 'Open Interest 1 Std in %',
+  deriv_oi_24h_pct: 'Open Interest 24 Std in %', deriv_basis_pct: 'Basis Perpetual in %',
+  deriv_liq_60m_usd: 'Liquidationen 1 Std in USD', deriv_liq_5m_ratio: 'Liquidationen 5 Min ggü. üblich',
 };
 export const featureLabel = (k) => pick(FEATURE_LABELS, k);
 
@@ -131,5 +139,10 @@ export const llmKindLabel = (k) => pick(LLM_KIND_LABELS, k);
 
 const BIAS_LABELS = { bullish: 'steigend', bearish: 'fallend', neutral: 'neutral' };
 export const biasLabel = (b) => pick(BIAS_LABELS, b);
+
+// Agenda (trading_local/agenda: kinds, importance, surprise side)
+export const AGENDA_KIND_LABELS = { macro: 'Konjunkturdaten', central_bank: 'Notenbank', earnings: 'Quartalszahlen' };
+export const IMPORTANCE_LABELS = { 1: 'gering', 2: 'mittel', 3: 'hoch' };
+export const SURPRISE_LABELS = { above: 'über Erwartung', below: 'unter Erwartung', inline: 'wie erwartet' };
 
 export const NEWS_STATUS_PENDING = new Set(['new', 'queued']);

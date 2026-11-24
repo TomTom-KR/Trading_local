@@ -121,6 +121,18 @@ class SessionSegment:
     kind: Literal["regular", "pre", "post"] = "regular"
 
 
+@dataclass(frozen=True, slots=True)
+class EarningsDate:
+    """One earnings release of a company as published by the data source (past and upcoming)."""
+
+    symbol: str
+    ts: int  # release time (UTC); midnight of the venue's local day when the source gives no time
+    time_known: bool
+    eps_estimate: float | None = None  # consensus
+    eps_actual: float | None = None  # reported (None for upcoming releases)
+    surprise_pct: float | None = None  # (reported - estimate) / |estimate| * 100
+
+
 @dataclass(slots=True)
 class NewsItem:
     uid: str

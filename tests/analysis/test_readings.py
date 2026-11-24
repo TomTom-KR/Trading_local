@@ -7,6 +7,7 @@ import pytest
 
 from trading_local.analysis import readings as rd
 from trading_local.analysis.features import FEATURE_COLUMNS
+from trading_local.db.repo_derivs import DerivMetrics
 from trading_local.dto import ChartAnalysisOut
 from trading_local.models import Candidate, Direction, Signal
 from trading_local.testing import SAMPLE_INSTRUMENTS
@@ -283,6 +284,46 @@ def test_review_facts_leave_out_what_is_unknown() -> None:
     inside = rd.review_facts(make_candidate(or_high=102.0, or_low=100.0), instrument=NVDA, minutes_to_close=1,
                              benchmark_name=None, news_score=None)  # fmt: skip
     assert inside["Lage zur Eröffnungsspanne"] == "innerhalb (50 %)"
+
+
+def derivs(**overrides: Any) -> DerivMetrics:
+    values: dict[str, Any] = dict(
+        symbol="BTC-EUR", asof_ts=100, data_ts=60, stale=False, funding_rate=1e-05, funding_pred=1.2e-05,
+        funding_annual_pct=8.76, funding_pred_annual_pct=10.512, funding_z=2.345, open_interest=2080.4,
+        oi_change_1h_pct=0.96, oi_change_24h_pct=-3.21, mark_price=60_000.0, index_price=59_970.0,
+        basis_pct=0.05003, liq_15m=0.15, liq_60m=0.6, liq_60m_usd=36_000.4, liq_5m_ratio=1.04,
+    )  # fmt: skip
+    values.update(overrides)
+    return DerivMetrics(**values)
+
+
+def test_derivative_features_and_review_facts() -> None:
+    features = rd.derivative_features(derivs())
+    assert features == {
+        "deriv_funding_pa": 8.76, "deriv_funding_pred_pa": 10.51, "deriv_funding_z": 2.35, "deriv_oi_1h_pct": 0.96,
+        "deriv_oi_24h_pct": -3.21, "deriv_basis_pct": 0.05, "deriv_liq_60m_usd": 36_000.0, "deriv_liq_5m_ratio": 1.0,
+    }  # fmt: skip
+    assert rd.derivative_features(derivs(stale=True)) == {} and rd.derivative_features(None) == {}
+    assert "deriv_oi_1h_pct" not in rd.derivative_features(derivs(oi_change_1h_pct=None))
+    facts = rd.review_facts(make_candidate(**features), instrument=NVDA, minutes_to_close=None, benchmark_name=None,
+                            news_score=None)  # fmt: skip
+    assert {key: value for key, value in facts.items() if "Funding" in key or "Open" in key or "Liq" in key
+            or "Basis" in key} == {
+        "Funding p.a. %": 8.76, "Funding ggü. 30 Tagen (Sigma)": 2.35, "Open Interest 1 Std %": 0.96,
+        "Open Interest 24 Std %": -3.21, "Basis Perpetual %": 0.05, "Liquidationen 1 Std USD": 36_000,
+    }  # fmt: skip
+
+
+def test_derivative_readings() -> None:
+    found = by_key(rd.derivative_readings(derivs(), "BTC"))
+    assert found["deriv_funding"].value_de == "+8,8 % p.a., ungewöhnlich hoch (+2,3σ ggü. 30 Tagen)"
+    assert found["deriv_open_interest"].value_de == "2.080 BTC, 1 Std +1,0 %, 24 Std -3,2 %"
+    assert found["deriv_liquidations"].value_de == "0,60 BTC in 1 Std (≈ 36.000 USD)"
+    assert found["deriv_basis"].value_de == "+0,050 %"
+    stale = by_key(rd.derivative_readings(derivs(stale=True, funding_z=None, liq_60m=None, basis_pct=None), "BTC"))
+    assert set(stale) == {"deriv_funding", "deriv_open_interest"}
+    assert stale["deriv_funding"].value_de == "+8,8 % p.a. (veraltet)"
+    assert rd.derivative_readings(None, "BTC") == []
 
 
 def test_market_note() -> None:
