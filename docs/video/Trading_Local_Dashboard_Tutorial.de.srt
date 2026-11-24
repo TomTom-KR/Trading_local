@@ -1,0 +1,107 @@
+1
+00:00:01,147 --> 00:00:14,331
+Willkommen bei Trading Local. Dieses Tutorial zeigt, wie Sie das Dashboard einrichten: Ansichten, Einstellungen und das Design in Hell und Dunkel.
+
+2
+00:00:15,453 --> 00:00:23,222
+Wir beginnen auf der Übersicht. Oben links liegt die Hauptnavigation mit sieben Ansichten.
+
+3
+00:00:24,775 --> 00:00:38,625
+Das Band zeigt, welche Börsen gerade offen sind. Darunter folgen Empfehlungen, der Vergleich von KI-Depot und eigenem Depot, die Märkte und Nachrichten.
+
+4
+00:00:38,827 --> 00:00:50,860
+Die drei Ampeln oben rechts melden den Zustand von Daten, KI und Mail. Fahren Sie mit der Maus darüber, sehen Sie die Einzelheiten.
+
+5
+00:00:51,071 --> 00:01:02,292
+Unter Märkte steht die ganze Beobachtungsliste. Ein Klick auf eine Spaltenüberschrift sortiert, zum Beispiel nach der Tagesveränderung.
+
+6
+00:01:02,507 --> 00:01:13,532
+Suche und Filter grenzen die Liste ein. Die Schalter Aktiv und Handelbar bestimmen, welche Werte beobachtet und gehandelt werden.
+
+7
+00:01:13,737 --> 00:01:23,843
+Ein Klick auf einen Wert öffnet Chart, Chartanalyse und Orderticket. Den Zeitrahmen wählen Sie über der Grafik.
+
+8
+00:01:27,967 --> 00:01:38,448
+Signale zeigt alle Empfehlungen. Die Reiter trennen offene und abgeschlossene, ein Klick auf eine Zeile öffnet die Details.
+
+9
+00:01:40,301 --> 00:01:50,562
+Im Depot treten das KI-Depot und Ihr Depot gegeneinander an. Positionen, Orders und Trades haben eigene Reiter.
+
+10
+00:01:51,505 --> 00:02:03,332
+Nachrichten, Validierung und System ergänzen das Bild: bewertete Meldungen, die ehrliche Prüfung der Strategie und der Zustand aller Dienste.
+
+11
+00:02:07,111 --> 00:02:14,702
+Nun zur Konfiguration. Das Regler-Symbol oben rechts öffnet die Einstellungen.
+
+12
+00:02:14,918 --> 00:02:22,449
+Die Einstellungen sind in fünf Gruppen geordnet. Die erste regelt die E-Mail-Alarme.
+
+13
+00:02:22,659 --> 00:02:32,754
+Wählen wir bei den Regionen für Mails Asien ab, bleibt es nachts ruhig. Unten zählt die Leiste die offenen Änderungen.
+
+14
+00:02:32,961 --> 00:02:42,002
+In der Gruppe Signale legen Sie fest, welche Setups gesucht werden und ob Long- und Short-Empfehlungen erlaubt sind.
+
+15
+00:02:42,213 --> 00:02:52,692
+Der Mindestscore bestimmt, ab wann ein Kandidat zur Empfehlung wird. Höher heißt weniger, aber strengere Signale.
+
+16
+00:02:52,908 --> 00:03:04,162
+Bei Risiko KI-Depot steuern Sie die Positionsgröße. Ein unzulässiger Wert wird sofort gemeldet, und Speichern bleibt gesperrt.
+
+17
+00:03:04,383 --> 00:03:08,458
+Mit einem gültigen Wert verschwindet die Warnung.
+
+18
+00:03:08,670 --> 00:03:19,008
+Unter Vergleich wählen Sie Indizes, gegen die sich die Depotkurve messen lässt. Nehmen wir den Nasdaq hundert dazu.
+
+19
+00:03:19,215 --> 00:03:27,304
+Mit Speichern gelten die Änderungen ab dem nächsten Minutentakt. Verwerfen setzt alles zurück.
+
+20
+00:03:27,507 --> 00:03:39,292
+Bewusst nicht einstellbar sind Strategieregeln und Indikatoren. Zugangsdaten, Datenordner und Port stehen in der Datei Punkt env.
+
+21
+00:03:39,503 --> 00:03:51,242
+Jetzt das Design. Der Schalter ganz rechts wechselt zwischen dunkel und hell. Ohne eigene Wahl folgt die Oberfläche Ihrem Betriebssystem.
+
+22
+00:03:51,455 --> 00:04:04,609
+Die Farben haben feste Bedeutungen: Grün für steigend und Long, Rot für fallend und Short, Blauviolett für die KI, Bernstein für Sie selbst.
+
+23
+00:04:04,799 --> 00:04:13,071
+Im hellen Design bleiben Tabellen und Charts gut lesbar. Hier die Märkte und ein Kerzenchart.
+
+24
+00:04:14,511 --> 00:04:21,372
+Und das Depot: Die Kurve zeigt die KI und mich in genau diesen festen Farben.
+
+25
+00:04:21,586 --> 00:04:34,443
+Zurück zum dunklen Design, wieder mit einem Klick. Die Farben passen sich an, ihre Bedeutung bleibt gleich. Der Browser merkt sich die Wahl.
+
+26
+00:04:34,649 --> 00:04:43,381
+Auf schmalen Bildschirmen wie dem Telefon stapeln sich die Bereiche untereinander, und Tabellen werden zu Karten.
+
+27
+00:04:43,595 --> 00:04:55,368
+Das war es: Ansichten über die Kopfleiste, Einstellungen über das Regler-Symbol, das Design über den Schalter. Viel Erfolg!

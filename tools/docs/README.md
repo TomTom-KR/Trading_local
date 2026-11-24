@@ -65,3 +65,25 @@ abgeschlossene Minute. Die Krypto-Ansichten zeigen deshalb den 1-Minuten-Chart (
 vollständig), die Aktie den voreingestellten 15-Minuten-Chart. Fehlerzustände, leere Kurscharts,
 Konsolenfehler, fehlgeschlagene Anfragen oder HTTP-Status ab 400 lassen die Ansicht scheitern: Die Datei wird
 gelöscht, der Fehler ausgegeben, der Exit-Code ist 1.
+
+## Video-Tutorial „Das Dashboard einrichten“
+
+`tutorial.mjs` nimmt das Video-Tutorial reproduzierbar auf (`docs/video/Trading_Local_Dashboard_Tutorial.mp4`
+und die Untertitel `….de.srt`). Das Drehbuch mit dem Sprechertext steht in `tutorial-script.mjs`; gesprochen
+wird er mit der Windows-Stimme „Microsoft Hedda Desktop“ (`tutorial-speak.ps1`). Das Skript bedient die
+Oberfläche im installierten Edge, nimmt den Bildschirm über das DevTools-Protokoll auf und setzt Bild und Ton
+mit **ffmpeg** zusammen (nicht Teil des Projekts: Pfad mit `--ffmpeg=` oder über die Umgebungsvariable `FFMPEG`).
+
+Es klickt „Speichern“ in den Einstellungen und läuft deshalb **nur gegen den Demo-Server**; gegen eine echte
+Plattform bricht es ab. Starten Sie den Demo-Server vor jeder Aufnahme neu, damit die Einstellungen im
+Ausgangszustand sind:
+
+```powershell
+.venv/Scripts/python.exe tools/mock_api.py --port 8765     # eigenes Terminal
+node tools/docs/tutorial.mjs --ffmpeg=C:\Pfad\zu\ffmpeg.exe
+node tools/docs/tutorial.mjs --audio-only --ffmpeg=...      # nur Ton erzeugen, Längen der Abschnitte ausgeben
+```
+
+Die Aufnahme läuft in Echtzeit (rund 5 Minuten). Texte ändern Sie in `tutorial-script.mjs`, Abläufe
+(Mausbewegungen, Klicks) in `tutorial.mjs` unter derselben Abschnitts-ID. Das Video zeigt ausschließlich
+Beispieldaten.
